@@ -646,7 +646,7 @@
     <!-- 01 我 Me -->
     <div class="dim reveal">
       <div class="dim-text">
-        <div class="dim-num">01 &nbsp;·&nbsp; <span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span></div>
+        <div class="dim-num">01 &nbsp;·&nbsp; ME</div>
         <h3>
           <span data-i18n="zh">我</span>
           <span data-i18n="zh-Hant">我</span>
@@ -735,27 +735,6 @@
   </div>
 </section>
 
-<!-- =========== IMMERSIVE QUOTE =========== -->
-<section class="quote">
-  <div class="quote-inner">
-    <div class="quote-big reveal">
-      <span data-i18n="zh">「吾日三省吾身」</span>
-      <span data-i18n="zh-Hant">「吾日三省吾身」</span>
-      <span data-i18n="en">"Three times a day, I examine myself."</span>
-    </div>
-    <p class="quote-small reveal">
-      <span data-i18n="zh">两千年前古人就知道的事，<br/>我们用更简单的方式帮你做到。</span>
-      <span data-i18n="zh-Hant">兩千年前古人就知道的事，<br/>我們用更簡單的方式幫你做到。</span>
-      <span data-i18n="en">A practice two thousand years old.<br/>We just made it easier to keep.</span>
-    </p>
-    <p class="quote-scene reveal">
-      <span data-i18n="zh">迷茫的时候，<br/>不如先整理一下自己。</span>
-      <span data-i18n="zh-Hant">迷茫的時候，<br/>不如先整理一下自己。</span>
-      <span data-i18n="en">When you feel lost,<br/>start by sorting yourself out.</span>
-    </p>
-  </div>
-</section>
-
 <!-- =========== SHOWCASE (real screenshots) =========== -->
 <section class="showcase">
   <div class="wrap">
@@ -805,6 +784,27 @@
   </div>
 </section>
 
+<!-- =========== IMMERSIVE QUOTE =========== -->
+<section class="quote">
+  <div class="quote-inner">
+    <div class="quote-big reveal">
+      <span data-i18n="zh">「吾日三省吾身」</span>
+      <span data-i18n="zh-Hant">「吾日三省吾身」</span>
+      <span data-i18n="en">"Three times a day, I examine myself."</span>
+    </div>
+    <p class="quote-small reveal">
+      <span data-i18n="zh">两千年前古人就知道的事，<br/>我们用更简单的方式帮你做到。</span>
+      <span data-i18n="zh-Hant">兩千年前古人就知道的事，<br/>我們用更簡單的方式幫你做到。</span>
+      <span data-i18n="en">A practice two thousand years old.<br/>We just made it easier to keep.</span>
+    </p>
+    <p class="quote-scene reveal">
+      <span data-i18n="zh">迷茫的时候，<br/>不如先整理一下自己。</span>
+      <span data-i18n="zh-Hant">迷茫的時候，<br/>不如先整理一下自己。</span>
+      <span data-i18n="en">When you feel lost,<br/>start by sorting yourself out.</span>
+    </p>
+  </div>
+</section>
+
 <!-- =========== FEATURES =========== -->
 <section class="features">
   <div class="wrap">
@@ -827,7 +827,7 @@
         <p>
           <span data-i18n="zh">所有记录只在你的设备和 iCloud 里，没人能看到你写了什么。</span>
           <span data-i18n="zh-Hant">所有記錄只在你的裝置和 iCloud 裡，沒人能看到你寫了什麼。</span>
-          <span data-i18n="en">Everything stays on your device and in your iCloud. We will never see what you write.</span>
+          <span data-i18n="en">Everything stays on your device and in your iCloud. No one can see what you write — not even us.</span>
         </p>
       </div>
 
@@ -872,7 +872,7 @@
     <h2 class="reveal">
       <span data-i18n="zh">极简主义者的<br/>天选人生笔记。</span>
       <span data-i18n="zh-Hant">極簡主義者的<br/>天選人生筆記。</span>
-      <span data-i18n="en">The life journal<br/>minimalists were waiting for.</span>
+      <span data-i18n="en">A life journal,<br/>made for minimalists.</span>
     </h2>
     <p class="reveal">
       <span data-i18n="zh">十年后，你会感谢今天的自己。</span>
@@ -1033,16 +1033,17 @@
     host.appendChild(svg);
   })();
 
-  /* 20x20 Life dimension diagram — solid blue past, soft blue now, light future */
+  /* 10x10 Life dimension — icon style: 38 filled cells, last one highlighted */
   (function(){
     const host = document.getElementById('vis-life');
     if (!host) return;
     const birthYear = 1988;
     const nowYear   = 2026;
     const livedCount = nowYear - birthYear; // 38
-    const cols = 20, rows = 20;
+    const cols = 10, rows = 10;
     const pad = 10;
-    const cell = 13.1, pitch = 15.1;
+    const pitch = 30;        // 10 + 9*30 + 26 = 306, centered in 320
+    const cell  = 26;
     const svgNS = 'http://www.w3.org/2000/svg';
     const svg = document.createElementNS(svgNS, 'svg');
     svg.setAttribute('viewBox', '0 0 320 320');
@@ -1055,11 +1056,20 @@
         rect.setAttribute('y', (pad + r * pitch).toString());
         rect.setAttribute('width',  cell.toString());
         rect.setAttribute('height', cell.toString());
-        rect.setAttribute('rx', '1');
-        let fill = '#e8e8ed';               // future
-        if (idx < livedCount)      fill = '#0071e3'; // past
-        else if (idx === livedCount) fill = '#bcd7ff'; // now
-        rect.setAttribute('fill', fill);
+        rect.setAttribute('rx', '3');
+        if (idx < livedCount - 1){
+          // past years
+          rect.setAttribute('fill', '#0071e3');
+          rect.setAttribute('opacity', '0.85');
+        } else if (idx === livedCount - 1){
+          // current (last colored) — highlighted
+          rect.setAttribute('fill', '#0071e3');
+          rect.setAttribute('stroke', '#1d1d1f');
+          rect.setAttribute('stroke-width', '1.6');
+        } else {
+          // future
+          rect.setAttribute('fill', '#e8e8ed');
+        }
         svg.appendChild(rect);
       }
     }
