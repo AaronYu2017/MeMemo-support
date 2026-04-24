@@ -87,7 +87,7 @@
   /* ---------- HERO ---------- */
   .hero{
     min-height:100vh;
-    padding:96px 24px 60px;
+    padding:120px 24px 80px;
     display:flex;
     flex-direction:column;
     align-items:center;
@@ -97,79 +97,22 @@
     overflow:hidden;
     background:var(--bg);
   }
-  .hero-inner{position:relative; z-index:3; max-width:820px;}
-
-  /* ----- LIFE GRID (new centerpiece) ----- */
-  .life-grid-wrap{
-    position:relative;
-    z-index:2;
-    width:min(760px, 94vw);
-    margin:0 auto 32px;
-    padding:clamp(16px, 2vw, 24px);
-  }
-  .life-grid{
-    display:grid;
-    grid-template-columns:repeat(10, 1fr);
-    gap:clamp(4px, .7vw, 7px);
-  }
-  .life-cell{
-    aspect-ratio: 1.9 / 1;
-    border-radius:6px;
+  .hero-grid{
+    position:absolute;
+    inset:0;
     display:flex; align-items:center; justify-content:center;
-    font-family:var(--font-en);
-    font-size:clamp(8px, .95vw, 11px);
-    font-weight:500;
-    letter-spacing:.02em;
-    line-height:1;
-    transition:transform .35s cubic-bezier(.2,.7,.2,1), background .35s, color .35s;
-    cursor:default;
-    position:relative;
+    pointer-events:none;
+    opacity:.6;
+    z-index:1;
   }
-  .life-cell.past{
-    background:#d6e6ff;
-    color:#0058b0;
-    border:1px solid #b8d3ff;
-  }
-  .life-cell.now{
-    background:#ffffff;
-    color:#0058b0;
-    border:1.5px solid #0071e3;
-    box-shadow:0 4px 14px -4px rgba(0,113,227,.35);
-    animation:nowPulse 2.4s ease-in-out infinite;
-  }
-  .life-cell.future{
-    background:#ffffff;
-    color:#b9bbc2;
-    border:1px solid #e8e8ed;
-  }
-  .life-cell:hover{ transform:translateY(-2px) scale(1.04); z-index:2;}
-  @keyframes nowPulse{
-    0%,100%{ box-shadow:0 4px 14px -4px rgba(0,113,227,.35);}
-    50%{ box-shadow:0 4px 20px -2px rgba(0,113,227,.55);}
-  }
+  .hero-grid svg{width:min(720px,82vw); height:auto;}
+  .hero-inner{position:relative; z-index:2; max-width:820px;}
 
-  .life-legend{
-    display:flex; justify-content:center; align-items:center;
-    gap:24px;
-    margin-top:18px;
-    font-family:var(--font-en);
-    font-size:11px;
-    color:var(--muted);
-    letter-spacing:.04em;
-  }
-  .life-legend [data-i18n]{display:none;}
-  html[data-lang="zh"] .life-legend [data-i18n="zh"],
-  html[data-lang="zh-Hant"] .life-legend [data-i18n="zh-Hant"],
-  html[data-lang="en"] .life-legend [data-i18n="en"]{display:inline;}
-  html[data-lang="zh"] .life-legend,
-  html[data-lang="zh-Hant"] .life-legend{ font-family:var(--font-zh); font-size:12px; letter-spacing:.02em;}
-  .life-legend span{ display:inline-flex; align-items:center; gap:7px;}
-  .life-legend i{
-    display:inline-block; width:14px; height:8px; border-radius:2px;
-  }
-  .life-legend .lg-past{ background:#d6e6ff; border:1px solid #b8d3ff;}
-  .life-legend .lg-now{ background:#fff; border:1.5px solid #0071e3;}
-  .life-legend .lg-future{ background:#fff; border:1px solid #e8e8ed;}
+  /* life grid dots */
+  .life-dot{ fill:#d5d7dc; }
+  .life-dot.past{ fill:var(--blue); opacity:.85;}
+  .life-dot.now{ fill:var(--blue); stroke:var(--ink); stroke-width:.6;}
+  .life-dot.future{ fill:#e8e8ed;}
 
   .eyebrow{
     font-family:var(--font-en);
@@ -209,8 +152,8 @@
     font-size:clamp(17px,1.6vw,20px);
     color:var(--ink-2);
     font-weight:300;
-    margin-top:40px;
-    margin-bottom:44px;
+    margin-top:56px;
+    margin-bottom:40px;
     max-width:560px;
     margin-left:auto;margin-right:auto;
     line-height:1.7;
@@ -340,34 +283,102 @@
     max-width:440px;
   }
 
-  /* phone-style screenshot holder */
+  /* abstract diagram holder (square) */
   .dim-vis{
+    aspect-ratio:1/1;
+    max-width:440px;
+    width:100%;
     justify-self:center;
-    width:min(340px, 100%);
-    aspect-ratio: 9 / 19.5;
-    border-radius:40px;
+    border-radius:var(--radius);
     background:#f5f5f7;
     border:1px solid var(--line);
-    padding:10px;
-    box-shadow:
-      0 24px 60px -30px rgba(0,0,0,.18),
-      0 8px 24px -12px rgba(0,0,0,.08);
+    padding:34px;
+    display:flex; align-items:center; justify-content:center;
     position:relative;
     overflow:hidden;
     transition:transform .5s cubic-bezier(.2,.6,.2,1);
   }
-  .dim-vis:hover{ transform:translateY(-6px); }
-  .dim-vis img{
+  .dim-vis:hover{ transform:translateY(-4px); }
+  .dim-vis svg{width:100%; height:100%;}
+
+  /* ---------- SHOWCASE (real phone screenshots) ---------- */
+  .showcase{ background:var(--bg); text-align:center; }
+  .showcase h2{
+    font-size:clamp(36px,5vw,64px);
+    font-weight:300;
+    letter-spacing:-.02em;
+    line-height:1.15;
+    max-width:760px;
+    margin:0 auto 22px;
+    color:var(--ink);
+  }
+  html[data-lang="en"] .showcase h2{ font-weight:500;}
+  .showcase .lede{
+    font-size:clamp(17px,1.6vw,20px);
+    color:var(--muted);
+    font-weight:300;
+    max-width:560px;
+    margin:0 auto clamp(70px,9vw,110px);
+    line-height:1.6;
+  }
+  .showcase-strip{
+    display:flex;
+    gap:clamp(14px, 2vw, 26px);
+    justify-content:center;
+    align-items:flex-end;
+    padding:10px 20px 30px;
+    overflow-x:auto;
+    scroll-snap-type:x mandatory;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  .showcase-strip::-webkit-scrollbar{ display:none; }
+  .sc-phone{
+    flex:0 0 auto;
+    width:clamp(160px, 18vw, 210px);
+    aspect-ratio: 9 / 19.5;
+    border-radius:28px;
+    background:#f5f5f7;
+    border:1px solid var(--line);
+    padding:7px;
+    box-shadow:
+      0 22px 48px -28px rgba(0,0,0,.22),
+      0 8px 20px -12px rgba(0,0,0,.08);
+    scroll-snap-align:center;
+    transition:transform .5s cubic-bezier(.2,.6,.2,1);
+    position:relative;
+  }
+  .sc-phone:hover{ transform:translateY(-6px); }
+  .sc-phone img{
     width:100%; height:100%;
-    object-fit:cover;
-    object-position:top center;
-    border-radius:32px;
+    object-fit:cover; object-position:top center;
+    border-radius:22px;
     display:block;
   }
-  .dim-vis img[data-i18n]{display:none;}
-  html[data-lang="zh"] .dim-vis img[data-i18n="zh"],
-  html[data-lang="zh-Hant"] .dim-vis img[data-i18n="zh-Hant"],
-  html[data-lang="en"] .dim-vis img[data-i18n="en"]{display:block;}
+  .sc-phone img[data-i18n]{display:none;}
+  html[data-lang="zh"] .sc-phone img[data-i18n="zh"],
+  html[data-lang="zh-Hant"] .sc-phone img[data-i18n="zh-Hant"],
+  html[data-lang="en"] .sc-phone img[data-i18n="en"]{display:block;}
+  .sc-caption{
+    position:absolute;
+    bottom:-28px; left:0; right:0;
+    text-align:center;
+    font-size:12px;
+    color:var(--muted);
+    letter-spacing:.04em;
+  }
+  .sc-caption [data-i18n]{display:none;}
+  html[data-lang="zh"] .sc-caption [data-i18n="zh"],
+  html[data-lang="zh-Hant"] .sc-caption [data-i18n="zh-Hant"],
+  html[data-lang="en"] .sc-caption [data-i18n="en"]{display:inline;}
+  @media (max-width:860px){
+    .showcase-strip{
+      justify-content:flex-start;
+      padding-left:max(20px, env(safe-area-inset-left));
+      padding-right:max(20px, env(safe-area-inset-right));
+    }
+    .sc-phone{ width:62vw; max-width:260px; }
+  }
 
   /* ---------- S4: Immersive Quote (dark) ---------- */
   .quote{
@@ -411,46 +422,6 @@
     letter-spacing:.01em;
     line-height:1.5;
   }
-
-  /* ---------- SHARE SECTION ---------- */
-  .share-sec{
-    background:var(--bg);
-    text-align:center;
-  }
-  .share-sec h2{
-    font-size:clamp(36px,5vw,64px);
-    font-weight:300;
-    letter-spacing:-.02em;
-    line-height:1.15;
-    max-width:720px;
-    margin:0 auto 24px;
-  }
-  html[data-lang="en"] .share-sec h2{font-weight:500;}
-  .share-sec p{
-    font-size:clamp(17px,1.6vw,20px);
-    color:var(--muted);
-    font-weight:300;
-    max-width:520px;
-    margin:0 auto clamp(60px,8vw,90px);
-  }
-  .share-phone{
-    margin:0 auto;
-    width:min(300px, 82vw);
-    aspect-ratio: 9 / 19.5;
-    border-radius:40px;
-    background:#f5f5f7;
-    border:1px solid var(--line);
-    padding:10px;
-    box-shadow:
-      0 40px 80px -30px rgba(0,0,0,.22),
-      0 14px 32px -12px rgba(0,0,0,.10);
-    overflow:hidden;
-  }
-  .share-phone img{ width:100%; height:100%; object-fit:cover; object-position:top center; border-radius:32px;}
-  .share-phone img[data-i18n]{display:none;}
-  html[data-lang="zh"] .share-phone img[data-i18n="zh"],
-  html[data-lang="zh-Hant"] .share-phone img[data-i18n="zh-Hant"],
-  html[data-lang="en"] .share-phone img[data-i18n="en"]{display:block;}
 
   /* ---------- S5: Features (3 cards) ---------- */
   .features{ background:var(--bg-alt); }
@@ -611,6 +582,7 @@
 
 <!-- =========== HERO =========== -->
 <section class="hero">
+  <div class="hero-grid" id="heroGrid" aria-hidden="true"></div>
   <div class="hero-inner">
     <div class="eyebrow reveal">MeMemo · Est. 2026</div>
 
@@ -626,15 +598,6 @@
       <span data-i18n="en">My minimalist life journal</span>
     </div>
     <div class="hero-sub-en reveal">My minimalist life journal</div>
-
-    <div class="life-grid-wrap reveal" aria-hidden="true">
-      <div class="life-grid" id="heroLifeGrid"></div>
-      <div class="life-legend">
-        <span><i class="lg-past"></i><span data-i18n="zh">走过</span><span data-i18n="zh-Hant">走過</span><span data-i18n="en">Past</span></span>
-        <span><i class="lg-now"></i><span data-i18n="zh">此刻</span><span data-i18n="zh-Hant">此刻</span><span data-i18n="en">Now</span></span>
-        <span><i class="lg-future"></i><span data-i18n="zh">未来</span><span data-i18n="zh-Hant">未來</span><span data-i18n="en">Future</span></span>
-      </div>
-    </div>
 
     <p class="hero-emotion reveal">
       <span data-i18n="zh">我的自传，从今天开始。</span>
@@ -695,11 +658,7 @@
           <span data-i18n="en">In a finite grid of years, see how far you have come.</span>
         </p>
       </div>
-      <div class="dim-vis">
-        <img data-i18n="zh" src="screens/me-zh.png" alt="我 - 我记" />
-        <img data-i18n="zh-Hant" src="screens/me-zh-Hant.png" alt="我 - 我記" />
-        <img data-i18n="en" src="screens/me-en.png" alt="Me - MeMemo" />
-      </div>
+      <div class="dim-vis" id="vis-life" aria-hidden="true"></div>
     </div>
 
     <!-- 02 年 Year -->
@@ -717,11 +676,7 @@
           <span data-i18n="en">A whole year at a glance — twelve months, one story.</span>
         </p>
       </div>
-      <div class="dim-vis">
-        <img data-i18n="zh" src="screens/year-zh.png" alt="年 - 我记" />
-        <img data-i18n="zh-Hant" src="screens/year-zh-Hant.png" alt="年 - 我記" />
-        <img data-i18n="en" src="screens/year-en.png" alt="Year - MeMemo" />
-      </div>
+      <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="24" y="25.5" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="36.333333333333336" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">01</text><rect x="24" y="48.16666666666667" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="59.00000000000001" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">02</text><rect x="24" y="70.83333333333334" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="81.66666666666667" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">03</text><rect x="24" y="93.5" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="104.33333333333333" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">04</text><rect x="24" y="116.16666666666667" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="127" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">05</text><rect x="24" y="138.83333333333334" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="149.66666666666669" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">06</text><rect x="24" y="161.5" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="172.33333333333334" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">07</text><rect x="24" y="184.16666666666669" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="195.00000000000003" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">08</text><rect x="24" y="206.83333333333334" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="217.66666666666669" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">09</text><rect x="24" y="229.5" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="240.33333333333334" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">10</text><rect x="24" y="252.16666666666669" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="263" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">11</text><rect x="24" y="274.83333333333337" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="285.6666666666667" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">12</text></svg></div>
     </div>
 
     <!-- 03 月 Month -->
@@ -739,11 +694,7 @@
           <span data-i18n="en">How have you been, this month?</span>
         </p>
       </div>
-      <div class="dim-vis">
-        <img data-i18n="zh" src="screens/month-zh.png" alt="月 - 我记" />
-        <img data-i18n="zh-Hant" src="screens/month-zh-Hant.png" alt="月 - 我記" />
-        <img data-i18n="en" src="screens/month-en.png" alt="Month - MeMemo" />
-      </div>
+      <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="22" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="62.285714285714285" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="142.85714285714286" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="183.14285714285714" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="22" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="62.285714285714285" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="102.57142857142857" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="183.14285714285714" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="62.285714285714285" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="102.57142857142857" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="142.85714285714286" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9" stroke="#0071e3" stroke-width="1.6"></rect><rect x="183.14285714285714" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="62.285714285714285" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="183.14285714285714" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="62.285714285714285" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="183.14285714285714" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect></svg></div>
     </div>
 
     <!-- 04 周 Week -->
@@ -761,11 +712,7 @@
           <span data-i18n="en">Seven days come and go. What stays with you?</span>
         </p>
       </div>
-      <div class="dim-vis">
-        <img data-i18n="zh" src="screens/week-zh.png" alt="周 - 我记" />
-        <img data-i18n="zh-Hant" src="screens/week-zh-Hant.png" alt="週 - 我記" />
-        <img data-i18n="en" src="screens/week-en.png" alt="Week - MeMemo" />
-      </div>
+      <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="30" y="160" width="26.857142857142858" height="70" rx="5" fill="#cfd3dc"></rect><text x="43.42857142857143" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">M</text><rect x="68.85714285714286" y="120" width="26.857142857142858" height="110" rx="5" fill="#cfd3dc"></rect><text x="82.28571428571429" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">T</text><rect x="107.71428571428572" y="180" width="26.857142857142858" height="50" rx="5" fill="#cfd3dc"></rect><text x="121.14285714285715" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">W</text><rect x="146.57142857142858" y="70" width="26.857142857142858" height="160" rx="5" fill="#0071e3"></rect><text x="160" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#0071e3">T</text><rect x="185.42857142857144" y="140" width="26.857142857142858" height="90" rx="5" fill="#cfd3dc"></rect><text x="198.85714285714286" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">F</text><rect x="224.2857142857143" y="200" width="26.857142857142858" height="30" rx="5" fill="#cfd3dc"></rect><text x="237.71428571428572" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">S</text><rect x="263.14285714285717" y="224" width="26.857142857142858" height="6" rx="3" fill="#e8e8ed"></rect><text x="276.5714285714286" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">S</text></svg></div>
     </div>
 
     <!-- 05 日 Day -->
@@ -783,11 +730,7 @@
           <span data-i18n="en">Today — write something down.</span>
         </p>
       </div>
-      <div class="dim-vis">
-        <img data-i18n="zh" src="screens/day-zh.png" alt="日 - 我记" />
-        <img data-i18n="zh-Hant" src="screens/day-zh-Hant.png" alt="日 - 我記" />
-        <img data-i18n="en" src="screens/day-en.png" alt="Day - MeMemo" />
-      </div>
+      <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="34" y="34" width="252" height="252" rx="8" fill="#ffffff" stroke="#e8e8ed"></rect><text x="54" y="72" font-family="ui-sans-serif,-apple-system" font-size="18" font-weight="500" fill="#1d1d1f">2026.04.17</text><text x="54" y="92" font-family="ui-monospace" font-size="10" fill="#86868b">FRIDAY</text><rect x="54" y="118" width="200" height="6" rx="3" fill="#1d1d1f" opacity="0.85"></rect><rect x="54" y="136" width="170" height="6" rx="3" fill="#1d1d1f" opacity="0.85"></rect><rect x="54" y="154" width="220" height="6" rx="3" fill="#1d1d1f" opacity="0.85"></rect><rect x="54" y="172" width="140" height="6" rx="3" fill="#d5d7dc" opacity="1"></rect><rect x="54" y="190" width="190" height="6" rx="3" fill="#d5d7dc" opacity="1"></rect><rect x="54" y="208" width="100" height="6" rx="3" fill="#d5d7dc" opacity="1"></rect><rect x="54" y="254" width="38" height="4" rx="2" fill="#0071e3"></rect></svg></div>
     </div>
   </div>
 </section>
@@ -813,21 +756,51 @@
   </div>
 </section>
 
-<!-- SHARE SECTION REMOVED -->
-<section class="share-sec" style="display:none">
+<!-- =========== SHOWCASE (real screenshots) =========== -->
+<section class="showcase">
   <div class="wrap">
     <h2 class="reveal">
-      <span></span>
+      <span data-i18n="zh">也许你好奇，它长什么样。</span>
+      <span data-i18n="zh-Hant">也許你好奇，它長什麼樣。</span>
+      <span data-i18n="en">Maybe you're wondering what it looks like.</span>
     </h2>
-    <p class="reveal">
-      <span data-i18n="zh">一张干净的卡片，没有水印，没有广告。</span>
-      <span data-i18n="zh-Hant">一張乾淨的卡片，沒有浮水印，沒有廣告。</span>
-      <span data-i18n="en">A clean card. No watermark. No ads.</span>
+    <p class="lede reveal">
+      <span data-i18n="zh">五个维度，一个你。</span>
+      <span data-i18n="zh-Hant">五個維度，一個你。</span>
+      <span data-i18n="en">Five dimensions, one you.</span>
     </p>
-    <div class="share-phone reveal">
-      <img data-i18n="zh" src="screens/share-zh.png" alt="分享预览" />
-      <img data-i18n="zh-Hant" src="screens/share-zh-Hant.png" alt="分享預覽" />
-      <img data-i18n="en" src="screens/share-en.png" alt="Share preview" />
+
+    <div class="showcase-strip reveal">
+      <div class="sc-phone">
+        <img data-i18n="zh" src="screens/me-zh.png" alt="我" />
+        <img data-i18n="zh-Hant" src="screens/me-zh-Hant.png" alt="我" />
+        <img data-i18n="en" src="screens/me-en.png" alt="Me" />
+        <div class="sc-caption"><span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span></div>
+      </div>
+      <div class="sc-phone">
+        <img data-i18n="zh" src="screens/year-zh.png" alt="年" />
+        <img data-i18n="zh-Hant" src="screens/year-zh-Hant.png" alt="年" />
+        <img data-i18n="en" src="screens/year-en.png" alt="Year" />
+        <div class="sc-caption"><span data-i18n="zh">年</span><span data-i18n="zh-Hant">年</span><span data-i18n="en">Year</span></div>
+      </div>
+      <div class="sc-phone">
+        <img data-i18n="zh" src="screens/month-zh.png" alt="月" />
+        <img data-i18n="zh-Hant" src="screens/month-zh-Hant.png" alt="月" />
+        <img data-i18n="en" src="screens/month-en.png" alt="Month" />
+        <div class="sc-caption"><span data-i18n="zh">月</span><span data-i18n="zh-Hant">月</span><span data-i18n="en">Month</span></div>
+      </div>
+      <div class="sc-phone">
+        <img data-i18n="zh" src="screens/week-zh.png" alt="周" />
+        <img data-i18n="zh-Hant" src="screens/week-zh-Hant.png" alt="週" />
+        <img data-i18n="en" src="screens/week-en.png" alt="Week" />
+        <div class="sc-caption"><span data-i18n="zh">周</span><span data-i18n="zh-Hant">週</span><span data-i18n="en">Week</span></div>
+      </div>
+      <div class="sc-phone">
+        <img data-i18n="zh" src="screens/day-zh.png" alt="日" />
+        <img data-i18n="zh-Hant" src="screens/day-zh-Hant.png" alt="日" />
+        <img data-i18n="en" src="screens/day-en.png" alt="Day" />
+        <div class="sc-caption"><span data-i18n="zh">日</span><span data-i18n="zh-Hant">日</span><span data-i18n="en">Day</span></div>
+      </div>
     </div>
   </div>
 </section>
@@ -1029,36 +1002,68 @@
   }, { threshold: .12, rootMargin: '0px 0px -40px 0px' });
   document.querySelectorAll('.reveal').forEach(el => io.observe(el));
 
-  /* 10x10 hero life grid — year chips */
+  /* 20x20 hero life grid — abstract background (no labels) */
   (function(){
-    const el = document.getElementById('heroLifeGrid');
-    if (!el) return;
-    const birthYear = 1988;      // matches the app demo
-    const nowYear = 2026;        // ”·” current chip
+    const host = document.getElementById('heroGrid');
+    if (!host) return;
+    const birthYear = 1988;       // matches the app demo
+    const nowYear   = 2026;       // "now" cell
     const livedCount = nowYear - birthYear; // 38
-    const total = 100;           // 10x10
-    let html = '';
-    for (let i=0; i<total; i++){
-      const y = birthYear + i;
-      let cls = 'life-cell future';
-      if (i < livedCount) cls = 'life-cell past';
-      else if (i === livedCount) cls = 'life-cell now';
-      html += `<div class="${cls}">${y}</div>`;
+    const cols = 20, rows = 20;
+    const cell = 18.1, pitch = 20.1;
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 400 400');
+    for (let r = 0; r < rows; r++){
+      for (let c = 0; c < cols; c++){
+        const idx = r * cols + c;
+        const rect = document.createElementNS(svgNS, 'rect');
+        rect.setAttribute('x', (c * pitch).toString());
+        rect.setAttribute('y', (r * pitch).toString());
+        rect.setAttribute('width',  cell.toString());
+        rect.setAttribute('height', cell.toString());
+        rect.setAttribute('rx', '1.2');
+        let cls = 'life-dot future';
+        if (idx < livedCount)  cls = 'life-dot past';
+        else if (idx === livedCount) cls = 'life-dot now';
+        rect.setAttribute('class', cls);
+        svg.appendChild(rect);
+      }
     }
-    el.innerHTML = html;
-    // staggered reveal
-    requestAnimationFrame(() => {
-      const cells = el.querySelectorAll('.life-cell');
-      cells.forEach((c, idx) => {
-        c.style.opacity = '0';
-        c.style.transform = 'translateY(6px)';
-        setTimeout(() => {
-          c.style.transition = 'opacity .5s ease, transform .5s cubic-bezier(.2,.7,.2,1), background .35s, color .35s';
-          c.style.opacity = '1';
-          c.style.transform = 'none';
-        }, 300 + idx*8);
-      });
-    });
+    host.appendChild(svg);
+  })();
+
+  /* 20x20 Life dimension diagram — solid blue past, soft blue now, light future */
+  (function(){
+    const host = document.getElementById('vis-life');
+    if (!host) return;
+    const birthYear = 1988;
+    const nowYear   = 2026;
+    const livedCount = nowYear - birthYear; // 38
+    const cols = 20, rows = 20;
+    const pad = 10;
+    const cell = 13.1, pitch = 15.1;
+    const svgNS = 'http://www.w3.org/2000/svg';
+    const svg = document.createElementNS(svgNS, 'svg');
+    svg.setAttribute('viewBox', '0 0 320 320');
+    svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
+    for (let r = 0; r < rows; r++){
+      for (let c = 0; c < cols; c++){
+        const idx = r * cols + c;
+        const rect = document.createElementNS(svgNS, 'rect');
+        rect.setAttribute('x', (pad + c * pitch).toString());
+        rect.setAttribute('y', (pad + r * pitch).toString());
+        rect.setAttribute('width',  cell.toString());
+        rect.setAttribute('height', cell.toString());
+        rect.setAttribute('rx', '1');
+        let fill = '#e8e8ed';               // future
+        if (idx < livedCount)      fill = '#0071e3'; // past
+        else if (idx === livedCount) fill = '#bcd7ff'; // now
+        rect.setAttribute('fill', fill);
+        svg.appendChild(rect);
+      }
+    }
+    host.appendChild(svg);
   })();
 </script>
 
