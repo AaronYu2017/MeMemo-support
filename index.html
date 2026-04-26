@@ -372,25 +372,17 @@
   html[data-lang="zh-Hant"] .sc-caption [data-i18n="zh-Hant"],
   html[data-lang="en"] .sc-caption [data-i18n="en"]{display:inline;}
   @media (max-width:860px){
-    /* mobile: stack phones vertically — natural for portrait screenshots,
-       and lets lazy-loading work properly (each img enters viewport on scroll) */
+    /* mobile horizontal strip — keep desktop behavior, just tighten paddings */
     .showcase-strip{
-      flex-direction:column;
-      align-items:center;
-      gap:64px;            /* extra room for sc-caption (sits below each phone) */
-      overflow:visible;
-      scroll-snap-type:none;
-      padding:10px 20px 40px;
+      justify-content:flex-start;
+      padding-left:max(20px, env(safe-area-inset-left));
+      padding-right:max(20px, env(safe-area-inset-right));
     }
-    .sc-phone{
-      width:min(280px, 70vw);
-      max-width:none;
-    }
-    /* heading: avoid awkward CJK breaks like "什么 / 样" */
+    .sc-phone{ width:62vw; max-width:260px; }
+    /* heading: shrink so "也许你好奇，它长什么样。" fits on one line on phones */
     .showcase h2{
+      font-size:clamp(22px, 6.2vw, 32px);
       word-break:keep-all;
-      overflow-wrap:anywhere;
-      text-wrap:balance;
     }
   }
 
@@ -771,33 +763,33 @@
 
     <div class="showcase-strip reveal">
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/me-zh.png" alt="我" loading="lazy" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/me-zh-Hant.png" alt="我" loading="lazy" decoding="async" />
-        <img data-i18n="en" src="screens/me-en.png" alt="Me" loading="lazy" decoding="async" />
+        <img data-i18n="zh" src="screens/me-zh.png" alt="我" decoding="async" />
+        <img data-i18n="zh-Hant" src="screens/me-zh-Hant.png" alt="我" decoding="async" />
+        <img data-i18n="en" src="screens/me-en.png" alt="Me" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/year-zh.png" alt="年" loading="lazy" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/year-zh-Hant.png" alt="年" loading="lazy" decoding="async" />
-        <img data-i18n="en" src="screens/year-en.png" alt="Year" loading="lazy" decoding="async" />
+        <img data-i18n="zh" src="screens/year-zh.png" alt="年" decoding="async" />
+        <img data-i18n="zh-Hant" src="screens/year-zh-Hant.png" alt="年" decoding="async" />
+        <img data-i18n="en" src="screens/year-en.png" alt="Year" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">年</span><span data-i18n="zh-Hant">年</span><span data-i18n="en">Year</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/month-zh.png" alt="月" loading="lazy" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/month-zh-Hant.png" alt="月" loading="lazy" decoding="async" />
-        <img data-i18n="en" src="screens/month-en.png" alt="Month" loading="lazy" decoding="async" />
+        <img data-i18n="zh" src="screens/month-zh.png" alt="月" decoding="async" />
+        <img data-i18n="zh-Hant" src="screens/month-zh-Hant.png" alt="月" decoding="async" />
+        <img data-i18n="en" src="screens/month-en.png" alt="Month" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">月</span><span data-i18n="zh-Hant">月</span><span data-i18n="en">Month</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/week-zh.png" alt="周" loading="lazy" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/week-zh-Hant.png" alt="週" loading="lazy" decoding="async" />
-        <img data-i18n="en" src="screens/week-en.png" alt="Week" loading="lazy" decoding="async" />
+        <img data-i18n="zh" src="screens/week-zh.png" alt="周" decoding="async" />
+        <img data-i18n="zh-Hant" src="screens/week-zh-Hant.png" alt="週" decoding="async" />
+        <img data-i18n="en" src="screens/week-en.png" alt="Week" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">周</span><span data-i18n="zh-Hant">週</span><span data-i18n="en">Week</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/day-zh.png" alt="日" loading="lazy" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/day-zh-Hant.png" alt="日" loading="lazy" decoding="async" />
-        <img data-i18n="en" src="screens/day-en.png" alt="Day" loading="lazy" decoding="async" />
+        <img data-i18n="zh" src="screens/day-zh.png" alt="日" decoding="async" />
+        <img data-i18n="zh-Hant" src="screens/day-zh-Hant.png" alt="日" decoding="async" />
+        <img data-i18n="en" src="screens/day-en.png" alt="Day" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">日</span><span data-i18n="zh-Hant">日</span><span data-i18n="en">Day</span></div>
       </div>
     </div>
