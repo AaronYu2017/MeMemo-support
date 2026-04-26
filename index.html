@@ -557,8 +557,16 @@
     .nav{ padding:0 18px; }
     .nav-brand .en{ display:none;}
     section{ padding:110px 20px;}
-    .hero{ padding:100px 20px 70px;}      /* keep 100vh; eyebrow hidden so content centers cleanly */
-    .hero .eyebrow{ display:none;}
+    .hero{ padding:100px 20px 70px;}
+    /* eyebrow: pin to top of hero (out of flex flow) so it sits above the
+       centered grid SVG and doesn't overlap the colored row */
+    .hero .eyebrow{
+      position:absolute;
+      top:84px; left:50%; transform:translateX(-50%);
+      margin:0; z-index:3;
+      font-size:11px; letter-spacing:.24em;
+      white-space:nowrap;
+    }
     .hero-sub-en{ display:none;}
     .hero-emotion{ margin-top:36px; margin-bottom:30px;}
     .hero-grid{ opacity:.4;}
@@ -763,33 +771,33 @@
 
     <div class="showcase-strip reveal">
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/me-zh.png" alt="我" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/me-zh-Hant.png" alt="我" decoding="async" />
-        <img data-i18n="en" src="screens/me-en.png" alt="Me" decoding="async" />
+        <img data-i18n="zh" data-src="screens/me-zh.png"" alt="我" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/me-zh-Hant.png"" alt="我" decoding="async" />
+        <img data-i18n="en" data-src="screens/me-en.png"" alt="Me" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/year-zh.png" alt="年" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/year-zh-Hant.png" alt="年" decoding="async" />
-        <img data-i18n="en" src="screens/year-en.png" alt="Year" decoding="async" />
+        <img data-i18n="zh" data-src="screens/year-zh.png"" alt="年" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/year-zh-Hant.png"" alt="年" decoding="async" />
+        <img data-i18n="en" data-src="screens/year-en.png"" alt="Year" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">年</span><span data-i18n="zh-Hant">年</span><span data-i18n="en">Year</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/month-zh.png" alt="月" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/month-zh-Hant.png" alt="月" decoding="async" />
-        <img data-i18n="en" src="screens/month-en.png" alt="Month" decoding="async" />
+        <img data-i18n="zh" data-src="screens/month-zh.png"" alt="月" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/month-zh-Hant.png"" alt="月" decoding="async" />
+        <img data-i18n="en" data-src="screens/month-en.png"" alt="Month" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">月</span><span data-i18n="zh-Hant">月</span><span data-i18n="en">Month</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/week-zh.png" alt="周" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/week-zh-Hant.png" alt="週" decoding="async" />
-        <img data-i18n="en" src="screens/week-en.png" alt="Week" decoding="async" />
+        <img data-i18n="zh" data-src="screens/week-zh.png"" alt="周" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/week-zh-Hant.png"" alt="週" decoding="async" />
+        <img data-i18n="en" data-src="screens/week-en.png"" alt="Week" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">周</span><span data-i18n="zh-Hant">週</span><span data-i18n="en">Week</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" src="screens/day-zh.png" alt="日" decoding="async" />
-        <img data-i18n="zh-Hant" src="screens/day-zh-Hant.png" alt="日" decoding="async" />
-        <img data-i18n="en" src="screens/day-en.png" alt="Day" decoding="async" />
+        <img data-i18n="zh" data-src="screens/day-zh.png"" alt="日" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/day-zh-Hant.png"" alt="日" decoding="async" />
+        <img data-i18n="en" data-src="screens/day-en.png"" alt="Day" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">日</span><span data-i18n="zh-Hant">日</span><span data-i18n="en">Day</span></div>
       </div>
     </div>
@@ -979,6 +987,16 @@
 </footer>
 
 <script>
+  /* Showcase images: only fetch the active language's 5 images to avoid
+     downloading 15 PNGs upfront. Idempotent — once an <img> has src set,
+     it stays loaded and the browser won't re-fetch. */
+  const loadShowcaseForLang = (lang) => {
+    document.querySelectorAll('.sc-phone img[data-src][data-i18n="' + lang + '"]').forEach(img => {
+      img.src = img.getAttribute('data-src');
+      img.removeAttribute('data-src');
+    });
+  };
+
   const setLang = (lang) => {
     document.documentElement.setAttribute('data-lang', lang);
     document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : (lang === 'zh-Hant' ? 'zh-TW' : 'en'));
@@ -992,6 +1010,7 @@
       'en':'MeMemo · My minimalist life journal'
     };
     document.title = titles[lang];
+    loadShowcaseForLang(lang);
   };
   document.querySelectorAll('[data-lang-btn]').forEach(b => {
     b.addEventListener('click', () => setLang(b.getAttribute('data-lang-btn')));
