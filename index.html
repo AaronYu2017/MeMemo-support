@@ -558,15 +558,9 @@
     .nav-brand .en{ display:none;}
     section{ padding:110px 20px;}
     .hero{ padding:100px 20px 70px;}
-    /* eyebrow: pin to top of hero (out of flex flow) so it sits above the
-       centered grid SVG and doesn't overlap the colored row */
-    .hero .eyebrow{
-      position:absolute;
-      top:84px; left:50%; transform:translateX(-50%);
-      margin:0; z-index:3;
-      font-size:11px; letter-spacing:.24em;
-      white-space:nowrap;
-    }
+    /* eyebrow: stay in flex flow above 我记 (matches desktop) — at hero-grid
+       opacity .4 below, the small text sits comfortably without fighting */
+    .hero .eyebrow{ font-size:11px; letter-spacing:.22em; margin-bottom:20px;}
     .hero-sub-en{ display:none;}
     .hero-emotion{ margin-top:36px; margin-bottom:30px;}
     .hero-grid{ opacity:.4;}
@@ -771,33 +765,33 @@
 
     <div class="showcase-strip reveal">
       <div class="sc-phone">
-        <img data-i18n="zh" data-src="screens/me-zh.png"" alt="我" decoding="async" />
-        <img data-i18n="zh-Hant" data-src="screens/me-zh-Hant.png"" alt="我" decoding="async" />
-        <img data-i18n="en" data-src="screens/me-en.png"" alt="Me" decoding="async" />
+        <img data-i18n="zh" data-src="screens/opt/me-zh.webp"" alt="我" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/opt/me-zh-Hant.webp"" alt="我" decoding="async" />
+        <img data-i18n="en" data-src="screens/opt/me-en.webp"" alt="Me" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" data-src="screens/year-zh.png"" alt="年" decoding="async" />
-        <img data-i18n="zh-Hant" data-src="screens/year-zh-Hant.png"" alt="年" decoding="async" />
-        <img data-i18n="en" data-src="screens/year-en.png"" alt="Year" decoding="async" />
+        <img data-i18n="zh" data-src="screens/opt/year-zh.webp"" alt="年" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/opt/year-zh-Hant.webp"" alt="年" decoding="async" />
+        <img data-i18n="en" data-src="screens/opt/year-en.webp"" alt="Year" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">年</span><span data-i18n="zh-Hant">年</span><span data-i18n="en">Year</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" data-src="screens/month-zh.png"" alt="月" decoding="async" />
-        <img data-i18n="zh-Hant" data-src="screens/month-zh-Hant.png"" alt="月" decoding="async" />
-        <img data-i18n="en" data-src="screens/month-en.png"" alt="Month" decoding="async" />
+        <img data-i18n="zh" data-src="screens/opt/month-zh.webp"" alt="月" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/opt/month-zh-Hant.webp"" alt="月" decoding="async" />
+        <img data-i18n="en" data-src="screens/opt/month-en.webp"" alt="Month" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">月</span><span data-i18n="zh-Hant">月</span><span data-i18n="en">Month</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" data-src="screens/week-zh.png"" alt="周" decoding="async" />
-        <img data-i18n="zh-Hant" data-src="screens/week-zh-Hant.png"" alt="週" decoding="async" />
-        <img data-i18n="en" data-src="screens/week-en.png"" alt="Week" decoding="async" />
+        <img data-i18n="zh" data-src="screens/opt/week-zh.webp"" alt="周" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/opt/week-zh-Hant.webp"" alt="週" decoding="async" />
+        <img data-i18n="en" data-src="screens/opt/week-en.webp"" alt="Week" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">周</span><span data-i18n="zh-Hant">週</span><span data-i18n="en">Week</span></div>
       </div>
       <div class="sc-phone">
-        <img data-i18n="zh" data-src="screens/day-zh.png"" alt="日" decoding="async" />
-        <img data-i18n="zh-Hant" data-src="screens/day-zh-Hant.png"" alt="日" decoding="async" />
-        <img data-i18n="en" data-src="screens/day-en.png"" alt="Day" decoding="async" />
+        <img data-i18n="zh" data-src="screens/opt/day-zh.webp"" alt="日" decoding="async" />
+        <img data-i18n="zh-Hant" data-src="screens/opt/day-zh-Hant.webp"" alt="日" decoding="async" />
+        <img data-i18n="en" data-src="screens/opt/day-en.webp"" alt="Day" decoding="async" />
         <div class="sc-caption"><span data-i18n="zh">日</span><span data-i18n="zh-Hant">日</span><span data-i18n="en">Day</span></div>
       </div>
     </div>
