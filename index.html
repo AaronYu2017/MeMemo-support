@@ -372,12 +372,26 @@
   html[data-lang="zh-Hant"] .sc-caption [data-i18n="zh-Hant"],
   html[data-lang="en"] .sc-caption [data-i18n="en"]{display:inline;}
   @media (max-width:860px){
+    /* mobile: stack phones vertically — natural for portrait screenshots,
+       and lets lazy-loading work properly (each img enters viewport on scroll) */
     .showcase-strip{
-      justify-content:flex-start;
-      padding-left:max(20px, env(safe-area-inset-left));
-      padding-right:max(20px, env(safe-area-inset-right));
+      flex-direction:column;
+      align-items:center;
+      gap:64px;            /* extra room for sc-caption (sits below each phone) */
+      overflow:visible;
+      scroll-snap-type:none;
+      padding:10px 20px 40px;
     }
-    .sc-phone{ width:62vw; max-width:260px; }
+    .sc-phone{
+      width:min(280px, 70vw);
+      max-width:none;
+    }
+    /* heading: avoid awkward CJK breaks like "什么 / 样" */
+    .showcase h2{
+      word-break:keep-all;
+      overflow-wrap:anywhere;
+      text-wrap:balance;
+    }
   }
 
   /* ---------- S4: Immersive Quote (dark) ---------- */
