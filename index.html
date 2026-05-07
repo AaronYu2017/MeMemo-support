@@ -1015,7 +1015,17 @@
   });
   try {
     const saved = localStorage.getItem('mememo-lang');
-    if (saved) setLang(saved); else setLang('zh');
+    if (saved) {
+      setLang(saved);
+    } else {
+      // First visit — pick default from browser locale.
+      // localStorage from a previous manual switch always wins.
+      const bcp = (navigator.language || 'zh').toLowerCase();
+      let initial = 'zh';
+      if (bcp.startsWith('en')) initial = 'en';
+      else if (bcp.startsWith('zh-tw') || bcp.startsWith('zh-hk') || bcp.startsWith('zh-hant')) initial = 'zh-Hant';
+      setLang(initial);
+    }
   } catch(e){ setLang('zh'); }
 
   const io = new IntersectionObserver(entries => {
