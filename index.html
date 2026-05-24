@@ -325,6 +325,7 @@
     display:flex;
     gap:clamp(14px, 2vw, 26px);
     justify-content:center;
+    justify-content:safe center; /* Chrome fix: overflow starts from left, not both sides */
     align-items:flex-end;
     padding:10px 20px 30px;
     overflow-x:auto;
