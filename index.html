@@ -45,7 +45,13 @@
   [data-i18n]{display:none;}
   html[data-lang="zh"] [data-i18n="zh"],
   html[data-lang="zh-Hant"] [data-i18n="zh-Hant"],
+  html[data-lang="ja"] [data-i18n="ja"],
+  html[data-lang="ko"] [data-i18n="ko"],
   html[data-lang="en"] [data-i18n="en"]{display:revert;}
+
+  /* ja/ko native CJK font stacks (zh PingFang is the default body font) */
+  html[data-lang="ja"] body{ font-family:-apple-system,BlinkMacSystemFont,"Hiragino Sans","Hiragino Kaku Gothic ProN","Yu Gothic",Meiryo,sans-serif; letter-spacing:.005em; }
+  html[data-lang="ko"] body{ font-family:-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Noto Sans KR","Malgun Gothic",sans-serif; letter-spacing:.005em; }
 
   /* ---------- NAV ---------- */
   .nav{
@@ -175,6 +181,8 @@
   .appstore .as-big{font-size:19px; font-weight:500; letter-spacing:-.01em;}
   html[data-lang="zh"] .appstore{ font-family:var(--font-zh);}
   html[data-lang="zh-Hant"] .appstore{ font-family:var(--font-zh);}
+  html[data-lang="ja"] .appstore,
+  html[data-lang="ko"] .appstore{ font-family:inherit;}
   html[data-lang="zh"] .appstore .as-big,
   html[data-lang="zh-Hant"] .appstore .as-big{ font-size:17px; letter-spacing:.01em;}
 
@@ -356,6 +364,8 @@
   .sc-phone img[data-i18n]{display:none;}
   html[data-lang="zh"] .sc-phone img[data-i18n="zh"],
   html[data-lang="zh-Hant"] .sc-phone img[data-i18n="zh-Hant"],
+  html[data-lang="ja"] .sc-phone img[data-i18n="ja"],
+  html[data-lang="ko"] .sc-phone img[data-i18n="ko"],
   html[data-lang="en"] .sc-phone img[data-i18n="en"]{display:block;}
   .sc-caption{
     position:absolute;
@@ -368,6 +378,8 @@
   .sc-caption [data-i18n]{display:none;}
   html[data-lang="zh"] .sc-caption [data-i18n="zh"],
   html[data-lang="zh-Hant"] .sc-caption [data-i18n="zh-Hant"],
+  html[data-lang="ja"] .sc-caption [data-i18n="ja"],
+  html[data-lang="ko"] .sc-caption [data-i18n="ko"],
   html[data-lang="en"] .sc-caption [data-i18n="en"]{display:inline;}
   @media (max-width:860px){
     /* mobile horizontal strip — keep desktop behavior, just tighten paddings */
@@ -594,12 +606,16 @@
     <span data-i18n="zh">我记</span>
     <span data-i18n="zh-Hant">我記</span>
     <span data-i18n="en">MeMemo</span>
+    <span data-i18n="ja">MeMemo</span>
+    <span data-i18n="ko">MeMemo</span>
     <span class="en" data-i18n="zh">MeMemo</span>
     <span class="en" data-i18n="zh-Hant">MeMemo</span>
   </div>
   <div class="lang" role="tablist">
     <button data-lang-btn="zh">简体</button>
     <button data-lang-btn="zh-Hant">繁體</button>
+    <button data-lang-btn="ja">日本語</button>
+    <button data-lang-btn="ko">한국어</button>
     <button data-lang-btn="en">EN</button>
   </div>
 </nav>
@@ -614,12 +630,16 @@
       <span data-i18n="zh">我记</span>
       <span data-i18n="zh-Hant">我記</span>
       <span data-i18n="en">MeMemo</span>
+      <span data-i18n="ja">MeMemo</span>
+      <span data-i18n="ko">MeMemo</span>
     </h1>
 
     <div class="hero-sub reveal">
       <span data-i18n="zh">我的极简人生笔记</span>
       <span data-i18n="zh-Hant">我的極簡人生筆記</span>
       <span data-i18n="en">My minimalist life journal</span>
+      <span data-i18n="ja">ミニマルな人生の記録</span>
+      <span data-i18n="ko">미니멀한 인생 기록</span>
     </div>
     <div class="hero-sub-en reveal">My minimalist life journal</div>
 
@@ -627,6 +647,8 @@
       <span data-i18n="zh">我的自传，从今天开始。</span>
       <span data-i18n="zh-Hant">我的自傳，從今天開始。</span>
       <span data-i18n="en">My autobiography, starting today.</span>
+      <span data-i18n="ja">私の自伝は、今日から始まる。</span>
+      <span data-i18n="ko">나의 자서전, 오늘부터 시작.</span>
     </p>
 
     <a href="https://apps.apple.com/us/app/%E6%88%91%E8%AE%B0/id6760353728" class="appstore reveal" target="_blank" rel="noopener">
@@ -637,9 +659,13 @@
         <span class="as-small" data-i18n="zh">在以下平台下载</span>
         <span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
         <span class="as-small" data-i18n="en">Download on the</span>
+        <span class="as-small" data-i18n="ja">ダウンロード</span>
+        <span class="as-small" data-i18n="ko">다운로드</span>
         <span class="as-big" data-i18n="zh">App Store</span>
         <span class="as-big" data-i18n="zh-Hant">App Store</span>
         <span class="as-big" data-i18n="en">App Store</span>
+        <span class="as-big" data-i18n="ja">App Store</span>
+        <span class="as-big" data-i18n="ko">App Store</span>
       </span>
     </a>
   </div>
@@ -648,6 +674,8 @@
     <span data-i18n="zh">向下</span>
     <span data-i18n="zh-Hant">向下</span>
     <span data-i18n="en">Scroll</span>
+    <span data-i18n="ja">下へ</span>
+    <span data-i18n="ko">아래로</span>
   </div>
 </section>
 
@@ -659,11 +687,15 @@
         <span data-i18n="zh">记录自己，<br/>就是整理自己。</span>
         <span data-i18n="zh-Hant">記錄自己，<br/>就是整理自己。</span>
         <span data-i18n="en">To record yourself<br/>is to understand yourself.</span>
+        <span data-i18n="ja">自分を記録することは、<br/>自分を整理すること。</span>
+        <span data-i18n="ko">나를 기록하는 것은,<br/>나를 정리하는 것.</span>
       </h2>
       <p class="five-sub">
         <span data-i18n="zh">不是日记，不是日历，是你的所有经历，是你。</span>
         <span data-i18n="zh-Hant">不是日記，不是日曆，是你的所有經歷，是你。</span>
         <span data-i18n="en">Not a diary. Not a calendar. Everything you've lived — that is you.</span>
+        <span data-i18n="ja">日記でも、カレンダーでもない。あなたが歩んできたすべて、それがあなた。</span>
+        <span data-i18n="ko">일기도, 달력도 아니다. 당신이 살아온 모든 것, 그것이 당신.</span>
       </p>
     </div>
 
@@ -675,11 +707,15 @@
           <span data-i18n="zh">我</span>
           <span data-i18n="zh-Hant">我</span>
           <span data-i18n="en">Me</span>
+          <span data-i18n="ja">自分</span>
+          <span data-i18n="ko">나</span>
         </h3>
         <p>
           <span data-i18n="zh">在有限的格子里，看见自己走过了多远。</span>
           <span data-i18n="zh-Hant">在有限的格子裡，看見自己走過了多遠。</span>
           <span data-i18n="en">In a finite grid of years, see how far you have come.</span>
+          <span data-i18n="ja">限られた年月のマスの中で、自分がどれだけ歩んできたかが見える。</span>
+          <span data-i18n="ko">한정된 세월의 칸 속에서, 내가 얼마나 걸어왔는지 보인다.</span>
         </p>
       </div>
       <div class="dim-vis" id="vis-life" aria-hidden="true"></div>
@@ -693,11 +729,15 @@
           <span data-i18n="zh">年</span>
           <span data-i18n="zh-Hant">年</span>
           <span data-i18n="en">A Year</span>
+          <span data-i18n="ja">一年</span>
+          <span data-i18n="ko">한 해</span>
         </h3>
         <p>
           <span data-i18n="zh">一整年发生了什么，一眼望尽。</span>
           <span data-i18n="zh-Hant">一整年發生了什麼，一眼望盡。</span>
           <span data-i18n="en">A whole year at a glance — twelve months, one story.</span>
+          <span data-i18n="ja">一年に何があったか、ひと目で。十二か月、ひとつの物語。</span>
+          <span data-i18n="ko">한 해에 무슨 일이 있었는지 한눈에. 열두 달, 하나의 이야기.</span>
         </p>
       </div>
       <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="24" y="25.5" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="36.333333333333336" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">01</text><rect x="24" y="48.16666666666667" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="59.00000000000001" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">02</text><rect x="24" y="70.83333333333334" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="81.66666666666667" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">03</text><rect x="24" y="93.5" width="272" height="19.666666666666668" rx="6" fill="#0071e3" opacity="0.9"></rect><text x="38" y="104.33333333333333" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#ffffff" dominant-baseline="middle">04</text><rect x="24" y="116.16666666666667" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="127" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">05</text><rect x="24" y="138.83333333333334" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="149.66666666666669" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">06</text><rect x="24" y="161.5" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="172.33333333333334" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">07</text><rect x="24" y="184.16666666666669" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="195.00000000000003" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">08</text><rect x="24" y="206.83333333333334" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="217.66666666666669" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">09</text><rect x="24" y="229.5" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="240.33333333333334" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">10</text><rect x="24" y="252.16666666666669" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="263" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">11</text><rect x="24" y="274.83333333333337" width="272" height="19.666666666666668" rx="6" fill="#f2f2f5" opacity="1"></rect><text x="38" y="285.6666666666667" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad" dominant-baseline="middle">12</text></svg></div>
@@ -711,11 +751,15 @@
           <span data-i18n="zh">月</span>
           <span data-i18n="zh-Hant">月</span>
           <span data-i18n="en">A Month</span>
+          <span data-i18n="ja">一か月</span>
+          <span data-i18n="ko">한 달</span>
         </h3>
         <p>
           <span data-i18n="zh">这个月，你过得怎么样。</span>
           <span data-i18n="zh-Hant">這個月，你過得怎麼樣。</span>
           <span data-i18n="en">How have you been, this month?</span>
+          <span data-i18n="ja">今月、どう過ごせましたか？</span>
+          <span data-i18n="ko">이번 달, 어떻게 지냈나요?</span>
         </p>
       </div>
       <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="22.0" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="62.285714285714285" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="183.14285714285714" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="263.7142857142857" y="22.0" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22.0" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="62.285714285714285" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="102.57142857142857" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="183.14285714285714" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="223.42857142857142" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="78.4" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22.0" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="62.285714285714285" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="142.85714285714286" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="183.14285714285714" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="134.8" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="22.0" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="62.285714285714285" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#0071e3" opacity="0.9"></rect><rect x="183.14285714285714" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="191.2" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="22.0" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="62.285714285714285" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="102.57142857142857" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="142.85714285714286" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="183.14285714285714" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="223.42857142857142" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect><rect x="263.7142857142857" y="247.6" width="34.285714285714285" height="50.4" rx="4" fill="#f2f2f5" opacity="1"></rect></svg></div>
@@ -729,11 +773,15 @@
           <span data-i18n="zh">周</span>
           <span data-i18n="zh-Hant">週</span>
           <span data-i18n="en">A Week</span>
+          <span data-i18n="ja">一週間</span>
+          <span data-i18n="ko">한 주</span>
         </h3>
         <p>
           <span data-i18n="zh">七天的轮回，你留下了什么。</span>
           <span data-i18n="zh-Hant">七天的輪迴，你留下了什麼。</span>
           <span data-i18n="en">Seven days come and go. What stays with you?</span>
+          <span data-i18n="ja">七日間がめぐる。あなたに何が残りましたか？</span>
+          <span data-i18n="ko">이레가 지나간다. 당신에게 무엇이 남았나요?</span>
         </p>
       </div>
       <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="30" y="160" width="26.857142857142858" height="70" rx="5" fill="#cfd3dc"></rect><text x="43.42857142857143" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">M</text><rect x="68.85714285714286" y="120" width="26.857142857142858" height="110" rx="5" fill="#cfd3dc"></rect><text x="82.28571428571429" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">T</text><rect x="107.71428571428572" y="180" width="26.857142857142858" height="50" rx="5" fill="#cfd3dc"></rect><text x="121.14285714285715" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">W</text><rect x="146.57142857142858" y="70" width="26.857142857142858" height="160" rx="5" fill="#0071e3"></rect><text x="160" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#0071e3">T</text><rect x="185.42857142857144" y="140" width="26.857142857142858" height="90" rx="5" fill="#cfd3dc"></rect><text x="198.85714285714286" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">F</text><rect x="224.2857142857143" y="200" width="26.857142857142858" height="30" rx="5" fill="#cfd3dc"></rect><text x="237.71428571428572" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">S</text><rect x="263.14285714285717" y="224" width="26.857142857142858" height="6" rx="3" fill="#e8e8ed"></rect><text x="276.5714285714286" y="256" text-anchor="middle" font-family="ui-monospace,SFMono-Regular,Menlo,monospace" font-size="11" fill="#a7a7ad">S</text></svg></div>
@@ -747,11 +795,15 @@
           <span data-i18n="zh">日</span>
           <span data-i18n="zh-Hant">日</span>
           <span data-i18n="en">A Day</span>
+          <span data-i18n="ja">一日</span>
+          <span data-i18n="ko">하루</span>
         </h3>
         <p>
           <span data-i18n="zh">今天，写点什么。</span>
           <span data-i18n="zh-Hant">今天，寫點什麼。</span>
           <span data-i18n="en">Today — write something down.</span>
+          <span data-i18n="ja">今日、何か書いてみよう。</span>
+          <span data-i18n="ko">오늘, 무언가 적어 보자.</span>
         </p>
       </div>
       <div class="dim-vis" aria-hidden="true"><svg viewBox="0 0 320 320" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet"><rect x="34" y="34" width="252" height="252" rx="8" fill="#ffffff" stroke="#e8e8ed"></rect><text x="54" y="72" font-family="ui-sans-serif,-apple-system" font-size="18" font-weight="500" fill="#1d1d1f">2026.04.17</text><text x="54" y="92" font-family="ui-monospace" font-size="10" fill="#86868b">FRIDAY</text><rect x="54" y="118" width="200" height="6" rx="3" fill="#1d1d1f" opacity="0.85"></rect><rect x="54" y="136" width="170" height="6" rx="3" fill="#1d1d1f" opacity="0.85"></rect><rect x="54" y="154" width="220" height="6" rx="3" fill="#1d1d1f" opacity="0.85"></rect><rect x="54" y="172" width="140" height="6" rx="3" fill="#d5d7dc" opacity="1"></rect><rect x="54" y="190" width="190" height="6" rx="3" fill="#d5d7dc" opacity="1"></rect><rect x="54" y="208" width="100" height="6" rx="3" fill="#d5d7dc" opacity="1"></rect><rect x="54" y="254" width="38" height="4" rx="2" fill="#0071e3"></rect></svg></div>
@@ -766,11 +818,15 @@
       <span data-i18n="zh">也许你好奇，它长什么样。</span>
       <span data-i18n="zh-Hant">也許你好奇，它長什麼樣。</span>
       <span data-i18n="en">Maybe you're wondering what it looks like.</span>
+      <span data-i18n="ja">どんな見た目か、気になるかもしれません。</span>
+      <span data-i18n="ko">어떤 모습일지 궁금할지도 모릅니다.</span>
     </h2>
     <p class="lede reveal">
       <span data-i18n="zh">五个维度，一个你。</span>
       <span data-i18n="zh-Hant">五個維度，一個你。</span>
       <span data-i18n="en">Five dimensions, one you.</span>
+      <span data-i18n="ja">五つの視点、ひとりのあなた。</span>
+      <span data-i18n="ko">다섯 가지 차원, 하나의 당신.</span>
     </p>
 
     <div class="showcase-strip reveal">
@@ -778,31 +834,41 @@
         <img data-i18n="zh" data-src="screens/opt/me-zh.webp"" alt="我" decoding="async" />
         <img data-i18n="zh-Hant" data-src="screens/opt/me-zh-Hant.webp"" alt="我" decoding="async" />
         <img data-i18n="en" data-src="screens/opt/me-en.webp"" alt="Me" decoding="async" />
-        <div class="sc-caption"><span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span></div>
+        <img data-i18n="ja" data-src="screens/opt/me-en.webp"" alt="Me" decoding="async" />
+        <img data-i18n="ko" data-src="screens/opt/me-en.webp"" alt="Me" decoding="async" />
+        <div class="sc-caption"><span data-i18n="zh">我</span><span data-i18n="zh-Hant">我</span><span data-i18n="en">Me</span><span data-i18n="ja">自分</span><span data-i18n="ko">나</span></div>
       </div>
       <div class="sc-phone">
         <img data-i18n="zh" data-src="screens/opt/year-zh.webp"" alt="年" decoding="async" />
         <img data-i18n="zh-Hant" data-src="screens/opt/year-zh-Hant.webp"" alt="年" decoding="async" />
         <img data-i18n="en" data-src="screens/opt/year-en.webp"" alt="Year" decoding="async" />
-        <div class="sc-caption"><span data-i18n="zh">年</span><span data-i18n="zh-Hant">年</span><span data-i18n="en">Year</span></div>
+        <img data-i18n="ja" data-src="screens/opt/year-en.webp"" alt="Year" decoding="async" />
+        <img data-i18n="ko" data-src="screens/opt/year-en.webp"" alt="Year" decoding="async" />
+        <div class="sc-caption"><span data-i18n="zh">年</span><span data-i18n="zh-Hant">年</span><span data-i18n="en">Year</span><span data-i18n="ja">年</span><span data-i18n="ko">해</span></div>
       </div>
       <div class="sc-phone">
         <img data-i18n="zh" data-src="screens/opt/month-zh.webp"" alt="月" decoding="async" />
         <img data-i18n="zh-Hant" data-src="screens/opt/month-zh-Hant.webp"" alt="月" decoding="async" />
         <img data-i18n="en" data-src="screens/opt/month-en.webp"" alt="Month" decoding="async" />
-        <div class="sc-caption"><span data-i18n="zh">月</span><span data-i18n="zh-Hant">月</span><span data-i18n="en">Month</span></div>
+        <img data-i18n="ja" data-src="screens/opt/month-en.webp"" alt="Month" decoding="async" />
+        <img data-i18n="ko" data-src="screens/opt/month-en.webp"" alt="Month" decoding="async" />
+        <div class="sc-caption"><span data-i18n="zh">月</span><span data-i18n="zh-Hant">月</span><span data-i18n="en">Month</span><span data-i18n="ja">月</span><span data-i18n="ko">달</span></div>
       </div>
       <div class="sc-phone">
         <img data-i18n="zh" data-src="screens/opt/week-zh.webp"" alt="周" decoding="async" />
         <img data-i18n="zh-Hant" data-src="screens/opt/week-zh-Hant.webp"" alt="週" decoding="async" />
         <img data-i18n="en" data-src="screens/opt/week-en.webp"" alt="Week" decoding="async" />
-        <div class="sc-caption"><span data-i18n="zh">周</span><span data-i18n="zh-Hant">週</span><span data-i18n="en">Week</span></div>
+        <img data-i18n="ja" data-src="screens/opt/week-en.webp"" alt="Week" decoding="async" />
+        <img data-i18n="ko" data-src="screens/opt/week-en.webp"" alt="Week" decoding="async" />
+        <div class="sc-caption"><span data-i18n="zh">周</span><span data-i18n="zh-Hant">週</span><span data-i18n="en">Week</span><span data-i18n="ja">週</span><span data-i18n="ko">주</span></div>
       </div>
       <div class="sc-phone">
         <img data-i18n="zh" data-src="screens/opt/day-zh.webp"" alt="日" decoding="async" />
         <img data-i18n="zh-Hant" data-src="screens/opt/day-zh-Hant.webp"" alt="日" decoding="async" />
         <img data-i18n="en" data-src="screens/opt/day-en.webp"" alt="Day" decoding="async" />
-        <div class="sc-caption"><span data-i18n="zh">日</span><span data-i18n="zh-Hant">日</span><span data-i18n="en">Day</span></div>
+        <img data-i18n="ja" data-src="screens/opt/day-en.webp"" alt="Day" decoding="async" />
+        <img data-i18n="ko" data-src="screens/opt/day-en.webp"" alt="Day" decoding="async" />
+        <div class="sc-caption"><span data-i18n="zh">日</span><span data-i18n="zh-Hant">日</span><span data-i18n="en">Day</span><span data-i18n="ja">日</span><span data-i18n="ko">일</span></div>
       </div>
     </div>
   </div>
@@ -815,16 +881,22 @@
       <span data-i18n="zh">「吾日三省吾身」</span>
       <span data-i18n="zh-Hant">「吾日三省吾身」</span>
       <span data-i18n="en">"Three times a day, I examine myself."</span>
+      <span data-i18n="ja">「日に三たび、わが身を省みる」</span>
+      <span data-i18n="ko">"하루에 세 번 나를 돌아본다"</span>
     </div>
     <p class="quote-small reveal">
       <span data-i18n="zh">两千年前古人就知道的事，<br/>我们用更简单的方式帮你做到。</span>
       <span data-i18n="zh-Hant">兩千年前古人就知道的事，<br/>我們用更簡單的方式幫你做到。</span>
       <span data-i18n="en">A practice two thousand years old.<br/>We just made it easier to keep.</span>
+      <span data-i18n="ja">二千年前の人々が知っていたこと。<br/>それを、もっと簡単に続けられるように。</span>
+      <span data-i18n="ko">이천 년 전 사람들이 알던 것.<br/>더 쉽게 이어갈 수 있도록.</span>
     </p>
     <p class="quote-scene reveal">
       <span data-i18n="zh">迷茫的时候，<br/>不如先整理一下自己。</span>
       <span data-i18n="zh-Hant">迷茫的時候，<br/>不如先整理一下自己。</span>
       <span data-i18n="en">When you feel lost,<br/>start by sorting yourself out.</span>
+      <span data-i18n="ja">迷ったときは、<br/>まず自分を整理してみよう。</span>
+      <span data-i18n="ko">길을 잃었을 때,<br/>먼저 자신을 정리해 보자.</span>
     </p>
   </div>
 </section>
@@ -836,6 +908,8 @@
       <span data-i18n="zh">只和你自己有关。</span>
       <span data-i18n="zh-Hant">只和你自己有關。</span>
       <span data-i18n="en">About you. Only you.</span>
+      <span data-i18n="ja">あなただけのために。</span>
+      <span data-i18n="ko">오직 당신만을 위해.</span>
     </h2>
 
     <div class="feat-grid">
@@ -847,11 +921,15 @@
           <span data-i18n="zh">本地优先 · 隐私安全</span>
           <span data-i18n="zh-Hant">本地優先 · 隱私安全</span>
           <span data-i18n="en">Local-first · Private by design</span>
+          <span data-i18n="ja">ローカル優先 · プライバシー保護</span>
+          <span data-i18n="ko">로컬 우선 · 프라이버시 보호</span>
         </h3>
         <p>
           <span data-i18n="zh">所有记录只在你的设备和 iCloud 里，没人能看到你写了什么。</span>
           <span data-i18n="zh-Hant">所有記錄只在你的裝置和 iCloud 裡，沒人能看到你寫了什麼。</span>
           <span data-i18n="en">Everything stays on your device and in your iCloud. No one can see what you write.</span>
+          <span data-i18n="ja">すべての記録は、あなたの端末とiCloudの中だけ。何を書いたか、誰にも見えません。</span>
+          <span data-i18n="ko">모든 기록은 당신의 기기와 iCloud 안에만. 무엇을 썼는지 아무도 볼 수 없습니다.</span>
         </p>
       </div>
 
@@ -863,11 +941,15 @@
           <span data-i18n="zh">无需注册账号</span>
           <span data-i18n="zh-Hant">無需註冊帳號</span>
           <span data-i18n="en">No account required</span>
+          <span data-i18n="ja">アカウント登録不要</span>
+          <span data-i18n="ko">계정 가입 불필요</span>
         </h3>
         <p>
           <span data-i18n="zh">打开即用，不绑定任何平台。</span>
           <span data-i18n="zh-Hant">打開即用，不綁定任何平台。</span>
           <span data-i18n="en">Open it and start writing. No sign-up. No lock-in.</span>
+          <span data-i18n="ja">開いてすぐ使える。サインアップ不要、プラットフォームに縛られません。</span>
+          <span data-i18n="ko">열면 바로 사용. 회원가입 없이, 어떤 플랫폼에도 묶이지 않습니다.</span>
         </p>
       </div>
 
@@ -879,11 +961,15 @@
           <span data-i18n="zh">极简无打扰</span>
           <span data-i18n="zh-Hant">極簡無打擾</span>
           <span data-i18n="en">Quiet. No noise.</span>
+          <span data-i18n="ja">ミニマルで、邪魔をしない。</span>
+          <span data-i18n="ko">미니멀하고, 방해하지 않는.</span>
         </h3>
         <p>
           <span data-i18n="zh">没有社交，没有广告。只有你和你自己。</span>
           <span data-i18n="zh-Hant">沒有社交，沒有廣告。只有你和你自己。</span>
           <span data-i18n="en">No social feed. No ads. Just you, and you.</span>
+          <span data-i18n="ja">SNSも広告もなし。あるのは、あなたと、あなた自身だけ。</span>
+          <span data-i18n="ko">SNS도 광고도 없이. 오직 당신과 당신 자신뿐.</span>
         </p>
       </div>
     </div>
@@ -897,11 +983,15 @@
       <span data-i18n="zh">极简主义者的<br/>天选人生笔记。</span>
       <span data-i18n="zh-Hant">極簡主義者的<br/>天選人生筆記。</span>
       <span data-i18n="en">A life journal,<br/>made for minimalists.</span>
+      <span data-i18n="ja">ミニマリストのための、<br/>人生の記録。</span>
+      <span data-i18n="ko">미니멀리스트를 위한,<br/>인생 기록.</span>
     </h2>
     <p class="reveal">
       <span data-i18n="zh">十年后，你会感谢今天的自己。</span>
       <span data-i18n="zh-Hant">十年後，你會感謝今天的自己。</span>
       <span data-i18n="en">Ten years from now, you will thank today's you.</span>
+      <span data-i18n="ja">十年後、あなたは今日の自分に感謝する。</span>
+      <span data-i18n="ko">십 년 후, 당신은 오늘의 자신에게 감사할 것이다.</span>
     </p>
     <a href="https://apps.apple.com/us/app/%E6%88%91%E8%AE%B0/id6760353728" class="appstore reveal" target="_blank" rel="noopener">
       <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
@@ -911,6 +1001,8 @@
         <span class="as-small" data-i18n="zh">在以下平台下载</span>
         <span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
         <span class="as-small" data-i18n="en">Download on the</span>
+        <span class="as-small" data-i18n="ja">ダウンロード</span>
+        <span class="as-small" data-i18n="ko">다운로드</span>
         <span class="as-big">App Store</span>
       </span>
     </a>
@@ -927,12 +1019,16 @@
           <span data-i18n="zh">我记 · MeMemo</span>
           <span data-i18n="zh-Hant">我記 · MeMemo</span>
           <span data-i18n="en">MeMemo</span>
+          <span data-i18n="ja">MeMemo</span>
+          <span data-i18n="ko">MeMemo</span>
         </strong>
       </div>
       <p style="margin-top:14px; max-width:280px; line-height:1.65; font-size:12.5px;">
         <span data-i18n="zh">我的极简人生笔记</span>
         <span data-i18n="zh-Hant">我的極簡人生筆記</span>
         <span data-i18n="en">My minimalist life journal</span>
+        <span data-i18n="ja">ミニマルな人生の記録</span>
+        <span data-i18n="ko">미니멀한 인생 기록</span>
       </p>
       <div class="foot-social">
         <!-- 小红书 -->
@@ -962,11 +1058,15 @@
         <span data-i18n="zh">关于</span>
         <span data-i18n="zh-Hant">關於</span>
         <span data-i18n="en">About</span>
+        <span data-i18n="ja">概要</span>
+        <span data-i18n="ko">소개</span>
       </h4>
       <div class="foot-links">
         <a data-i18n="zh" href="support-zh.html">支持</a>
         <a data-i18n="zh-Hant" href="support-zh-Hant.html">支援</a>
         <a data-i18n="en" href="support.html">Support</a>
+        <a data-i18n="ja" href="support-ja.html">サポート</a>
+        <a data-i18n="ko" href="support-ko.html">지원</a>
       </div>
     </div>
 
@@ -975,15 +1075,21 @@
         <span data-i18n="zh">法律</span>
         <span data-i18n="zh-Hant">法律</span>
         <span data-i18n="en">Legal</span>
+        <span data-i18n="ja">法的事項</span>
+        <span data-i18n="ko">법적 고지</span>
       </h4>
       <div class="foot-links">
         <a data-i18n="zh" href="privacy-zh.html">隐私政策</a>
         <a data-i18n="zh-Hant" href="privacy-zh-Hant.html">隱私政策</a>
         <a data-i18n="en" href="privacy.html">Privacy Policy</a>
+        <a data-i18n="ja" href="privacy-ja.html">プライバシーポリシー</a>
+        <a data-i18n="ko" href="privacy-ko.html">개인정보 처리방침</a>
 
         <a data-i18n="zh" href="terms-zh.html">服务条款</a>
         <a data-i18n="zh-Hant" href="terms-zh-Hant.html">使用條款</a>
         <a data-i18n="en" href="terms.html">Terms of Use</a>
+        <a data-i18n="ja" href="terms-ja.html">利用規約</a>
+        <a data-i18n="ko" href="terms-ko.html">이용약관</a>
       </div>
     </div>
 
@@ -992,10 +1098,14 @@
         <span data-i18n="zh">语言</span>
         <span data-i18n="zh-Hant">語言</span>
         <span data-i18n="en">Language</span>
+        <span data-i18n="ja">言語</span>
+        <span data-i18n="ko">언어</span>
       </h4>
       <div class="foot-links">
         <a href="#" data-lang-link="zh">简体中文</a>
         <a href="#" data-lang-link="zh-Hant">繁體中文</a>
+        <a href="#" data-lang-link="ja">日本語</a>
+        <a href="#" data-lang-link="ko">한국어</a>
         <a href="#" data-lang-link="en">English</a>
       </div>
     </div>
@@ -1007,6 +1117,8 @@
       <span data-i18n="zh">以敬畏之心，记录一生。</span>
       <span data-i18n="zh-Hant">以敬畏之心，記錄一生。</span>
       <span data-i18n="en">Record a life. With care.</span>
+      <span data-i18n="ja">敬意をこめて、一生を記録する。</span>
+      <span data-i18n="ko">경외하는 마음으로, 일생을 기록하다.</span>
     </span>
     <a data-i18n="zh" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">我记 App 备案号：沪ICP备2026017841号-1A</a>
   </div>
@@ -1025,7 +1137,8 @@
 
   const setLang = (lang) => {
     document.documentElement.setAttribute('data-lang', lang);
-    document.documentElement.setAttribute('lang', lang === 'zh' ? 'zh-CN' : (lang === 'zh-Hant' ? 'zh-TW' : 'en'));
+    const htmlLang = {'zh':'zh-CN','zh-Hant':'zh-TW','ja':'ja','ko':'ko','en':'en'}[lang] || 'en';
+    document.documentElement.setAttribute('lang', htmlLang);
     document.querySelectorAll('[data-lang-btn]').forEach(b => {
       b.classList.toggle('active', b.getAttribute('data-lang-btn') === lang);
     });
@@ -1033,6 +1146,8 @@
     const titles = {
       'zh':'我记 MeMemo · 我的极简人生笔记',
       'zh-Hant':'我記 MeMemo · 我的極簡人生筆記',
+      'ja':'MeMemo · ミニマルな人生の記録',
+      'ko':'MeMemo · 미니멀한 인생 기록',
       'en':'MeMemo · My minimalist life journal'
     };
     document.title = titles[lang];
@@ -1054,6 +1169,8 @@
       const bcp = (navigator.language || 'zh').toLowerCase();
       let initial = 'zh';
       if (bcp.startsWith('en')) initial = 'en';
+      else if (bcp.startsWith('ja')) initial = 'ja';
+      else if (bcp.startsWith('ko')) initial = 'ko';
       else if (bcp.startsWith('zh-tw') || bcp.startsWith('zh-hk') || bcp.startsWith('zh-hant')) initial = 'zh-Hant';
       setLang(initial);
     }
