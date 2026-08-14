@@ -33,6 +33,13 @@ KEEP_LANG = "zh"
 ICP_WEBSITE = "沪ICP备2026035044号-2"
 ICP_URL = "https://beian.miit.gov.cn/"
 
+# 单位性质备案的网站，页脚标明运营单位是通行做法，也让网站自身的主体陈述与
+# 网站备案（主体＝上海于马科技）保持一致。与备案号排在同一处：主体和备案号
+# 本来就是一组信息，另起一项会把页脚的四个元素挤在一行里。
+# 刻意只注入内地站：mememo.life 面向海外，且其隐私政策以 Aaron Yu 个人作为
+# GDPR 数据控制者，挂中文公司全称会与那句话打架。
+OPERATOR = "上海于马科技有限公司"
+
 # 简体单语站的干净 URL：privacy-zh.html -> privacy.html
 PAGE_RENAME = {
     "privacy-zh.html": "privacy.html",
@@ -174,14 +181,18 @@ def simplify_lang_css(soup: BeautifulSoup) -> None:
 
 
 def set_icp_footer(soup: BeautifulSoup) -> None:
-    """把页脚备案号换成本站的网站备案号。"""
+    """把页脚换成「运营单位 · 网站备案号」，备案号链到工信部。"""
     replaced = False
     for a in soup.find_all("a", href=re.compile("beian.miit.gov.cn")):
         a.attrs = {"href": ICP_URL, "target": "_blank", "rel": "noopener"}
         a.string = ICP_WEBSITE
+        wrapper = soup.new_tag("span")
+        a.insert_before(wrapper)
+        wrapper.append(f"{OPERATOR} · ")
+        wrapper.append(a.extract())
         replaced = True
     if replaced:
-        note(f"页脚备案号 -> {ICP_WEBSITE}")
+        note(f"页脚 -> {OPERATOR} · {ICP_WEBSITE}")
     else:
         note("⚠️ 页脚未找到备案号链接")
 
@@ -250,8 +261,12 @@ def verify() -> list[str]:
         problems.append("仍残留 Cloudflare 脚本")
     if "navigator.language" in index:
         problems.append("语言自动切换未移除（会白屏）")
-    if ICP_WEBSITE not in index:
-        problems.append("首页缺少网站备案号")
+    for page in ["index.html", *PAGE_RENAME.values()]:
+        html = (DIST / page).read_text(encoding="utf-8")
+        if ICP_WEBSITE not in html:
+            problems.append(f"{page} 缺少网站备案号")
+        if OPERATOR not in html:
+            problems.append(f"{page} 缺少运营单位署名")
     if "2026017841" in index:
         problems.append("残留 iOS App 备案号（不应出现在本站）")
     for page in ["index.html", *PAGE_RENAME.values()]:
