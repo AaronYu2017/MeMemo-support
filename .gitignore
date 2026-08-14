@@ -6,3 +6,6 @@
 # 产物随时可由 `python3 cn/build.py` 重新生成，无需备份。
 dist-cn/
 __pycache__/
+
+# 部署目标（服务器地址 / 网站根路径）。本仓库公开，不进 git。
+cn/deploy.env

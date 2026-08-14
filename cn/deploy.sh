@@ -7,12 +7,22 @@
 #   3. bash cn/deploy.sh         -> mememo.com.cn 更新
 #
 # 只想改内地站专属内容时跳过第 2 步即可。
+#
+# 服务器地址读自 cn/deploy.env（不进 git）。本仓库是公开的，
+# 部署目标不该写在任何人都能浏览的文件里。
 set -euo pipefail
 
 cd "$(dirname "$0")/.."
 
-SERVER="root@47.116.184.7"
-WEBROOT="/var/www/mememo/"
+CONF="cn/deploy.env"
+if [[ ! -f "$CONF" ]]; then
+  echo "缺少 $CONF —— 复制 cn/deploy.env.example 并填入真实值（该文件不进 git）" >&2
+  exit 1
+fi
+# shellcheck source=/dev/null
+source "$CONF"
+: "${SERVER:?cn/deploy.env 里缺少 SERVER}"
+: "${WEBROOT:?cn/deploy.env 里缺少 WEBROOT}"
 
 python3 cn/build.py
 
