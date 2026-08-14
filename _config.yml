@@ -1,0 +1,6 @@
+# GitHub Pages 把本仓库根目录当作 mememo.life 的网站根目录发布。
+# 下面这些属于内地站 mememo.com.cn 的构建工具与产物，不是 mememo.life 的内容，
+# 也不该能被公开下载（deploy.sh 里有服务器地址和网站根路径）。
+exclude:
+  - cn
+  - dist-cn

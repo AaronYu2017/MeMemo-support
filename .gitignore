@@ -1,2 +1,8 @@
 .DS_Store
 **/.DS_Store
+
+# 内地站构建产物。刻意不提交：仓库根目录就是 GitHub Pages 的网站根目录，
+# 提交产物会把内地站副本发布到未备案的 mememo.life 上。
+# 产物随时可由 `python3 cn/build.py` 重新生成，无需备份。
+dist-cn/
+__pycache__/
