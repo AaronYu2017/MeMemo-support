@@ -21,6 +21,7 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
+from PIL import Image
 
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist-cn"
@@ -225,9 +226,24 @@ def build_page(src: Path, dest_name: str) -> None:
     note(f"写出 {dest_name}（{len(html) // 1024} KB）")
 
 
+def make_favicon() -> None:
+    """在默认路径 /favicon.ico 也放一份图标。
+
+    页面里已经声明了 <link rel="icon" href="icon.png">，正常浏览器够用；
+    但搜索引擎爬虫（百度）和微信 / 小红书的链接预览会直接去要 /favicon.ico，
+    不一定回落到声明的那个。多这一个文件，两条发现路径都通。
+
+    多尺寸而非单纯改扩展名：.ico 是容器格式，直接把 PNG 改名在部分环境下不认。
+    """
+    im = Image.open(ROOT / "icon.png").convert("RGBA")
+    im.save(DIST / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
+    note("生成 favicon.ico（16/32/48/64 四个尺寸）")
+
+
 def copy_assets() -> None:
     shutil.copy2(ROOT / "icon.png", DIST / "icon.png")
     shutil.copy2(ROOT / "legal-style.css", DIST / "legal-style.css")
+    make_favicon()
 
     opt = DIST / "screens" / "opt"
     opt.mkdir(parents=True, exist_ok=True)
@@ -292,6 +308,18 @@ def verify() -> list[str]:
     for page in PAGE_RENAME.values():
         if not (DIST / page).exists():
             problems.append(f"缺少页面：{page}")
+
+    ico = DIST / "favicon.ico"
+    if not ico.exists():
+        problems.append("缺少 favicon.ico")
+    else:
+        with Image.open(ico) as im:
+            if len(getattr(im, "ico", im).sizes()) < 2:
+                problems.append("favicon.ico 不是多尺寸（部分环境不认单尺寸 ico）")
+    for page in ["index.html", *PAGE_RENAME.values()]:
+        page_soup = BeautifulSoup((DIST / page).read_text(encoding="utf-8"), "html.parser")
+        if not page_soup.select('link[rel~="icon"]'):
+            problems.append(f"{page} 没有声明站点图标")
     return problems
 
 
