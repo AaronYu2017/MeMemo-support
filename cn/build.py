@@ -18,6 +18,7 @@ import re
 import shutil
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 from bs4 import BeautifulSoup
 
@@ -40,6 +41,17 @@ PAGE_RENAME = {
 }
 
 SHOWCASE = ["day", "me", "month", "week", "year"]
+
+# 内地访问不到的站点。链接留在内地站上不只是"点不开"：浏览器会一直等到超时，
+# 用户看到的是页面卡住而不是一个坏链接。国际站保留它们，只在本构建里摘掉。
+BLOCKED_IN_CN = (
+    "x.com",
+    "twitter.com",
+    "facebook.com",
+    "instagram.com",
+    "youtube.com",
+    "t.me",
+)
 
 log: list[str] = []
 
@@ -122,6 +134,20 @@ def pin_language_to_zh(soup: BeautifulSoup) -> None:
     note("⚠️ 未找到语言切换脚本，跳过")
 
 
+def strip_blocked_links(soup: BeautifulSoup) -> None:
+    """摘掉指向内地访问不到的站点的链接（目前只有页脚的 X）。
+
+    刻意做在构建步骤里、不改真源：mememo.life 面向海外，X 在那边是有效入口。
+    这正是"内地专属差异只在构建时注入、绝不写回真源"的用法。
+    """
+    for a in list(soup.find_all("a", href=True)):
+        host = urlparse(a["href"]).netloc.lower()
+        if any(host == d or host.endswith("." + d) for d in BLOCKED_IN_CN):
+            label = a.get("aria-label") or host
+            a.decompose()
+            note(f"移除内地不可达链接：{label}")
+
+
 def simplify_lang_css(soup: BeautifulSoup) -> None:
     """把五语言的显隐规则收敛成简体一条。
 
@@ -176,6 +202,7 @@ def build_page(src: Path, dest_name: str) -> None:
         note(f"{src.name}: 移除 {removed} 个非简体内容块")
     strip_language_switchers(soup)
     strip_cloudflare(soup)
+    strip_blocked_links(soup)
     if src.name == "index.html":
         simplify_lang_css(soup)
         pin_language_to_zh(soup)
@@ -227,6 +254,11 @@ def verify() -> list[str]:
         problems.append("首页缺少网站备案号")
     if "2026017841" in index:
         problems.append("残留 iOS App 备案号（不应出现在本站）")
+    for page in ["index.html", *PAGE_RENAME.values()]:
+        html = (DIST / page).read_text(encoding="utf-8")
+        for domain in BLOCKED_IN_CN:
+            if f"//{domain}" in html or f".{domain}/" in html:
+                problems.append(f"{page} 残留内地不可达链接：{domain}")
 
     # 每个被引用的本地文件都要真的存在（死链在浏览器里才暴露，构建时先挡掉）
     local_refs = set()
