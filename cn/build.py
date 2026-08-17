@@ -48,6 +48,8 @@ PAGE_RENAME = {
     "support-zh.html": "support.html",
 }
 
+ICON_VERSION = "2"
+
 SHOWCASE = ["day", "me", "month", "week", "year"]
 
 # 内地访问不到的站点。链接留在内地站上不只是"点不开"：浏览器会一直等到超时，
@@ -218,6 +220,7 @@ def build_page(src: Path, dest_name: str) -> None:
     if src.name == "index.html":
         simplify_lang_css(soup)
         pin_language_to_zh(soup)
+    set_icons(soup)
     set_icp_footer(soup)
     rewrite_links(soup)
 
@@ -227,17 +230,47 @@ def build_page(src: Path, dest_name: str) -> None:
 
 
 def make_favicon() -> None:
-    """在默认路径 /favicon.ico 也放一份图标。
+    """生成浏览器会主动去要、但源站没有的图标文件。
 
-    页面里已经声明了 <link rel="icon" href="icon.png">，正常浏览器够用；
-    但搜索引擎爬虫（百度）和微信 / 小红书的链接预览会直接去要 /favicon.ico，
-    不一定回落到声明的那个。多这一个文件，两条发现路径都通。
+    /favicon.ico —— 页面里虽然已声明 <link rel="icon" href="icon.png">，
+    但搜索引擎爬虫（百度）和微信 / 小红书的链接预览会直接去要这个默认路径。
+    用多尺寸真 ico 容器而不是把 PNG 改扩展名：.ico 是容器格式，改名部分环境不认。
 
-    多尺寸而非单纯改扩展名：.ico 是容器格式，直接把 PNG 改名在部分环境下不认。
+    /apple-touch-icon*.png —— nginx 日志显示 macOS Safari 的图标抓取器每次都
+    请求这两个路径并拿到 404。iOS「添加到主屏幕」用的也是它。180×180 是 Apple
+    的规格；两个文件名都给，老版本 Safari 只认 -precomposed 那个。
     """
-    im = Image.open(ROOT / "icon.png").convert("RGBA")
-    im.save(DIST / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)])
-    note("生成 favicon.ico（16/32/48/64 四个尺寸）")
+    src = Image.open(ROOT / "icon.png")
+    src.convert("RGBA").save(
+        DIST / "favicon.ico", sizes=[(16, 16), (32, 32), (48, 48), (64, 64)]
+    )
+    touch = src.convert("RGB").resize((180, 180), Image.LANCZOS)
+    touch.save(DIST / "apple-touch-icon.png")
+    touch.save(DIST / "apple-touch-icon-precomposed.png")
+    note("生成 favicon.ico + apple-touch-icon（180×180，含 -precomposed）")
+
+
+def set_icons(soup: BeautifulSoup) -> None:
+    """声明 apple-touch-icon，并给图标 URL 挂版本号。
+
+    版本号是为了绕开 Safari 的图标库：它按 URL 记住"这个站的图标长什么样"，
+    而且不随设置里的「移除网站数据」一起清掉。换一个它没见过的 URL，
+    才会真正重新抓取。
+    """
+    icon_links = soup.select('link[rel~="icon"]')
+    if not icon_links:
+        return
+    for link in icon_links:
+        href = link.get("href", "")
+        if href and "?" not in href:
+            link["href"] = f"{href}?v={ICON_VERSION}"
+    if not soup.select('link[rel="apple-touch-icon"]'):
+        tag = soup.new_tag("link")
+        tag.attrs = {
+            "rel": "apple-touch-icon",
+            "href": f"apple-touch-icon.png?v={ICON_VERSION}",
+        }
+        icon_links[0].insert_after(tag)
 
 
 def copy_assets() -> None:
@@ -309,10 +342,11 @@ def verify() -> list[str]:
         if not (DIST / page).exists():
             problems.append(f"缺少页面：{page}")
 
+    for name in ("favicon.ico", "apple-touch-icon.png", "apple-touch-icon-precomposed.png"):
+        if not (DIST / name).exists():
+            problems.append(f"缺少 {name}")
     ico = DIST / "favicon.ico"
-    if not ico.exists():
-        problems.append("缺少 favicon.ico")
-    else:
+    if ico.exists():
         with Image.open(ico) as im:
             if len(getattr(im, "ico", im).sizes()) < 2:
                 problems.append("favicon.ico 不是多尺寸（部分环境不认单尺寸 ico）")
