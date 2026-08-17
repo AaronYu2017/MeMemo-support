@@ -1,0 +1,81 @@
+# www.mememo.com.cn 的 nginx 站点配置（唯一真源）。
+#
+# 这台 ECS 锚着两个备案（网站 沪ICP备2026035044号-2 + 安卓 App 号-1A），
+# 实例不能释放、坏了不能重建，所以配置必须在仓库里有一份可重放的记录。
+#
+# 用 bash cn/deploy-nginx.sh 部署：__WEBROOT__ 由 cn/deploy.env 填入，
+# 上线前自动备份旧配置，nginx -t 不通过就回滚。
+#
+# 配置做的四件事：
+#   1. 未匹配任何域名的请求（含直接用 IP 访问）一律断开。内地网站应通过
+#      备案域名访问，也防止别人把自己的域名解析到这台机器蹭站。
+#   2. HTTP 全部跳 HTTPS，但放行 ACME 校验路径，否则证书续期会失败。
+#   3. 裸域 301 到 www：备案登记的首页 URL 就是 www.mememo.com.cn。
+#   4. HTML 回源校验、静态资源长缓存。
+
+# 未匹配任何域名的请求（含直接用 IP 访问）一律断开
+server {
+    listen 80 default_server;
+    listen [::]:80 default_server;
+    listen 443 ssl default_server;
+    listen [::]:443 ssl default_server;
+    server_name _;
+    ssl_certificate     /etc/letsencrypt/live/www.mememo.com.cn/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.mememo.com.cn/privkey.pem;
+    return 444;
+}
+
+# HTTP：放行证书续期校验，其余全部跳 HTTPS
+server {
+    listen 80;
+    listen [::]:80;
+    server_name www.mememo.com.cn mememo.com.cn;
+
+    location /.well-known/acme-challenge/ { root /var/www/html; }
+    location / { return 301 https://www.mememo.com.cn$request_uri; }
+}
+
+# HTTPS 裸域 -> www
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name mememo.com.cn;
+
+    ssl_certificate     /etc/letsencrypt/live/www.mememo.com.cn/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.mememo.com.cn/privkey.pem;
+
+    return 301 https://www.mememo.com.cn$request_uri;
+}
+
+# HTTPS www：正式站点
+server {
+    listen 443 ssl http2;
+    listen [::]:443 ssl http2;
+    server_name www.mememo.com.cn;
+
+    ssl_certificate     /etc/letsencrypt/live/www.mememo.com.cn/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/www.mememo.com.cn/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+    ssl_session_cache   shared:SSL:10m;
+    ssl_session_timeout 1d;
+
+    root  __WEBROOT__;
+    index index.html;
+    charset utf-8;
+
+    gzip            on;
+    gzip_vary       on;
+    gzip_min_length 1024;
+    gzip_types      text/plain text/css application/javascript application/json image/svg+xml;
+
+    location / {
+        try_files $uri $uri/ =404;
+        # HTML 总是回源校验：带 ETag，命中就是 304，几乎零开销，
+        # 但内容一改立刻可见，不会出现"改了却看不到"。
+        add_header Cache-Control "no-cache";
+    }
+
+    location ~* \.(webp|png|jpg|jpeg|gif|ico|svg|css|js|woff2)$ {
+        expires 30d;
+    }
+}
