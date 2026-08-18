@@ -29,8 +29,13 @@
   .faq-item[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
   .faq-item summary:hover{color:var(--blue,#0071e3);}
   .faq-a{padding:0 32px 20px 0;color:var(--ink-2,#424245);line-height:1.85;}
-  /* 从 #anchor 跳进来时，标题不被上边缘裁掉 */
-  .faq-item{scroll-margin-top:24px;}
+  /* 顶栏是 position:sticky、高 52px（+1px 下边框）。锚点跳转必须把这段让出来，
+     否则目标标题正好钻到顶栏底下——这一点在页面顶部看不出来，只有真的点跳转才暴露。
+     取值让目标最终停在顶栏下方约 30px：
+       板块 56 + section 自带 28px 内边距 = 84
+       问答 68 + summary 自带 16px 内边距 = 84  （两者视觉位置一致） */
+  .content section[id]{scroll-margin-top:56px;}
+  .faq-item{scroll-margin-top:68px;}
 </style>
 <script type="application/ld+json">
 {
