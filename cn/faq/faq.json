@@ -1,0 +1,559 @@
+{
+  "_note": "FAQ 五语言唯一真源。改这里，跑 python3 cn/faq/build_faq.py 生成 5 个页面。术语跟 App 内既有译法（Localizable.xcstrings）。刻意不写具体价格：Apple 按汇率税率自动调整各区价格，写死会静默过期。刻意不写「没有内购道具」：后续可能上线装饰性内购。",
+  "page": {
+    "eyebrow": "FAQ",
+    "title": {
+      "zh": "常见问题",
+      "zh-Hant": "常見問題",
+      "en": "FAQ",
+      "ja": "よくある質問",
+      "ko": "자주 묻는 질문"
+    },
+    "sub": {
+      "zh": "关于我记的常见疑问，都在这里。",
+      "zh-Hant": "關於我記的常見疑問，都在這裡。",
+      "en": "Common questions about MeMemo, answered.",
+      "ja": "MeMemo についてよくいただく質問をまとめました。",
+      "ko": "MeMemo에 대해 자주 묻는 질문을 모았습니다."
+    },
+    "nav_faq": {
+      "zh": "常见问题",
+      "zh-Hant": "常見問題",
+      "en": "FAQ",
+      "ja": "よくある質問",
+      "ko": "자주 묻는 질문"
+    },
+    "nav_support": {
+      "zh": "支持",
+      "zh-Hant": "支援",
+      "en": "Support",
+      "ja": "サポート",
+      "ko": "지원"
+    },
+    "nav_privacy": {
+      "zh": "隐私政策",
+      "zh-Hant": "隱私政策",
+      "en": "Privacy Policy",
+      "ja": "プライバシーポリシー",
+      "ko": "개인정보 처리방침"
+    },
+    "nav_terms": {
+      "zh": "服务条款",
+      "zh-Hant": "使用條款",
+      "en": "Terms of Use",
+      "ja": "利用規約",
+      "ko": "이용약관"
+    },
+    "back": {
+      "zh": "← 返回首页",
+      "zh-Hant": "← 返回首頁",
+      "en": "← Back to home",
+      "ja": "← ホームに戻る",
+      "ko": "← 홈으로"
+    }
+  },
+  "sections": [
+    {
+      "id": "buy",
+      "title": {
+        "zh": "购买与试用",
+        "zh-Hant": "購買與試用",
+        "en": "Pricing & trial",
+        "ja": "購入と試用",
+        "ko": "구매와 체험"
+      },
+      "items": [
+        {
+          "id": "pricing",
+          "q": {
+            "zh": "我记怎么收费？",
+            "zh-Hant": "我記怎麼收費？",
+            "en": "How much does MeMemo cost?",
+            "ja": "MeMemo の料金体系は？",
+            "ko": "MeMemo는 어떻게 과금되나요?"
+          },
+          "a": {
+            "zh": "下载后有 7 天免费试用，期间所有功能都可以用。试用结束后一次性买断，解锁全部功能，永久有效。没有订阅，不会自动续费。",
+            "zh-Hant": "下載後有 7 天免費試用，期間所有功能都可以使用。試用結束後一次性買斷，解鎖全部功能，永久有效。沒有訂閱，不會自動續費。",
+            "en": "You get a 7 day free trial with every feature unlocked. After that, a single one time purchase unlocks everything for good. No subscription, no auto renewal.",
+            "ja": "ダウンロード後 7 日間は、すべての機能を無料でお試しいただけます。試用期間が終わったあとは、買い切りの一度きりのお支払いですべての機能が永続的に使えます。サブスクリプションではなく、自動更新もありません。",
+            "ko": "내려받은 뒤 7일 동안 모든 기능을 무료로 사용할 수 있습니다. 체험이 끝나면 한 번의 결제로 모든 기능이 영구히 열립니다. 구독이 아니며 자동 결제도 없습니다."
+          }
+        },
+        {
+          "id": "after-trial",
+          "q": {
+            "zh": "7 天试用结束后，不付费还能做什么？",
+            "zh-Hant": "7 天試用結束後，不付費還能做什麼？",
+            "en": "What can I still do after the trial if I do not buy?",
+            "ja": "試用期間が終わって購入しない場合、何ができますか？",
+            "ko": "체험이 끝난 뒤 구매하지 않으면 무엇을 할 수 있나요?"
+          },
+          "a": {
+            "zh": "你的数据不会丢，随时可以打开查看。免费状态下仍然可以编辑「我」页面的年度关键词，以及完整导出全部数据。新增和编辑笔记内容需要解锁。",
+            "zh-Hant": "你的資料不會遺失，隨時可以打開查看。免費狀態下仍然可以編輯「我」頁面的年度關鍵詞，以及完整匯出全部資料。新增和編輯筆記內容需要解鎖。",
+            "en": "Nothing is lost. You can still open the app and read everything you have written. You can also still edit the year keywords on the Me page and export all of your data. Creating and editing note content is what requires unlocking.",
+            "ja": "データが消えることはなく、いつでも開いて読み返せます。「私」ページの年のキーワードの編集と、全データの書き出しは無料のままご利用いただけます。ロック解除が必要なのは、ノートの新規作成と編集です。",
+            "ko": "데이터는 사라지지 않으며 언제든 열어 볼 수 있습니다. 「나」 페이지의 올해의 키워드 편집과 전체 데이터 내보내기는 무료로 계속 사용할 수 있습니다. 잠금 해제가 필요한 것은 노트 작성과 편집입니다."
+          }
+        },
+        {
+          "id": "discount",
+          "q": {
+            "zh": "以后会有折扣活动吗？",
+            "zh-Hant": "以後會有折扣活動嗎？",
+            "en": "Will there be discounts later?",
+            "ja": "今後、割引はありますか？",
+            "ko": "나중에 할인 행사가 있나요?"
+          },
+          "a": {
+            "zh": "不会。为了对已经付费的用户公平，我记不做限时折扣。",
+            "zh-Hant": "不會。為了對已經付費的使用者公平，我記不做限時折扣。",
+            "en": "No. Out of fairness to everyone who has already paid, MeMemo does not run limited time discounts.",
+            "ja": "ありません。すでにご購入いただいた方に対して公平であるため、MeMemo は期間限定の割引を行いません。",
+            "ko": "없습니다. 이미 구매하신 분들에 대한 공정함을 위해 MeMemo는 기간 한정 할인을 하지 않습니다."
+          }
+        },
+        {
+          "id": "restore",
+          "q": {
+            "zh": "换了手机或者重装了 App，需要重新付费吗？",
+            "zh-Hant": "換了手機或者重新安裝 App，需要重新付費嗎？",
+            "en": "Do I need to pay again on a new phone or after reinstalling?",
+            "ja": "機種変更や再インストールのとき、もう一度支払いが必要ですか？",
+            "ko": "기기를 바꾸거나 앱을 다시 설치하면 또 결제해야 하나요?"
+          },
+          "a": {
+            "zh": "不需要。买断绑定的是你的 Apple ID，在设置页点「恢复购买」即可。同一个 Apple ID 下的 iPhone、iPad、Mac 都可以使用。",
+            "zh-Hant": "不需要。買斷綁定的是你的 Apple ID，在設定頁點「恢復購買」即可。同一個 Apple ID 下的 iPhone、iPad、Mac 都可以使用。",
+            "en": "No. Your purchase is tied to your Apple ID. Just tap Restore purchase in Settings. The same Apple ID works across iPhone, iPad and Mac.",
+            "ja": "必要ありません。購入は Apple ID に紐づいています。設定画面で「購入を復元」をタップしてください。同じ Apple ID なら iPhone、iPad、Mac のいずれでもご利用いただけます。",
+            "ko": "필요 없습니다. 구매는 Apple ID에 연결되어 있습니다. 설정에서 「구매 복원」을 누르면 됩니다. 같은 Apple ID라면 iPhone, iPad, Mac에서 모두 사용할 수 있습니다."
+          }
+        }
+      ]
+    },
+    {
+      "id": "privacy",
+      "title": {
+        "zh": "数据与隐私",
+        "zh-Hant": "資料與隱私",
+        "en": "Data & privacy",
+        "ja": "データとプライバシー",
+        "ko": "데이터와 개인정보"
+      },
+      "items": [
+        {
+          "id": "where",
+          "q": {
+            "zh": "我的数据存在哪里？",
+            "zh-Hant": "我的資料存在哪裡？",
+            "en": "Where is my data stored?",
+            "ja": "データはどこに保存されますか？",
+            "ko": "제 데이터는 어디에 저장되나요?"
+          },
+          "a": {
+            "zh": "全部存在你自己的设备和你私人的 iCloud 里。我记没有服务器，也不需要注册账号，我们看不到你写的任何内容。",
+            "zh-Hant": "全部存在你自己的裝置和你私人的 iCloud 裡。我記沒有伺服器，也不需要註冊帳號，我們看不到你寫的任何內容。",
+            "en": "Entirely on your own device and in your personal iCloud. MeMemo has no server and requires no account, so we cannot see anything you write.",
+            "ja": "すべてお使いの端末と、あなた個人の iCloud に保存されます。MeMemo にはサーバーがなく、アカウント登録も不要なので、書かれた内容を私たちが見ることはできません。",
+            "ko": "전부 사용자의 기기와 개인 iCloud에 저장됩니다. MeMemo는 서버가 없고 계정 가입도 필요 없으므로, 작성하신 내용을 저희가 볼 수 없습니다."
+          }
+        },
+        {
+          "id": "icloud",
+          "q": {
+            "zh": "需要开启 iCloud 同步吗？",
+            "zh-Hant": "需要開啟 iCloud 同步嗎？",
+            "en": "Should I turn on iCloud sync?",
+            "ja": "iCloud 同期はオンにすべきですか？",
+            "ko": "iCloud 동기화를 켜는 게 좋나요?"
+          },
+          "a": {
+            "zh": "建议开启。开启后，换手机、手机丢失或误删 App，数据都能自动恢复，多台设备之间也会保持同步。如果关闭，数据就只存在当前这一台设备上。",
+            "zh-Hant": "建議開啟。開啟後，換手機、手機遺失或誤刪 App，資料都能自動恢復，多台裝置之間也會保持同步。如果關閉，資料就只存在目前這一台裝置上。",
+            "en": "We recommend it. With sync on, your data comes back automatically when you switch phones, lose a device or delete the app by mistake, and it stays in sync across your devices. With sync off, your data lives only on this one device.",
+            "ja": "オンにすることをおすすめします。オンにしておくと、機種変更や端末の紛失、誤ってアプリを削除した場合でもデータが自動的に戻り、複数の端末間でも同期されます。オフの場合、データはこの端末にしか残りません。",
+            "ko": "켜시길 권합니다. 켜 두면 기기를 바꾸거나 분실했을 때, 실수로 앱을 지웠을 때도 데이터가 자동으로 복구되고 여러 기기 간에도 동기화됩니다. 끄면 데이터는 이 기기에만 남습니다."
+          }
+        },
+        {
+          "id": "migrate",
+          "q": {
+            "zh": "换新手机怎么迁移数据？",
+            "zh-Hant": "換新手機怎麼移轉資料？",
+            "en": "How do I move my data to a new phone?",
+            "ja": "新しい端末へのデータ移行はどうしますか？",
+            "ko": "새 기기로 데이터를 어떻게 옮기나요?"
+          },
+          "a": {
+            "zh": "只要开着 iCloud 同步，在新手机上装好我记、登录同一个 Apple ID，数据会自动同步回来，不需要手动操作。",
+            "zh-Hant": "只要開著 iCloud 同步，在新手機上安裝我記、登入同一個 Apple ID，資料會自動同步回來，不需要手動操作。",
+            "en": "As long as iCloud sync is on, install MeMemo on the new phone and sign in with the same Apple ID. Your data syncs back on its own, with nothing to do manually.",
+            "ja": "iCloud 同期がオンであれば、新しい端末に MeMemo をインストールし、同じ Apple ID でサインインするだけです。データは自動的に戻り、手動での操作は必要ありません。",
+            "ko": "iCloud 동기화가 켜져 있다면, 새 기기에 MeMemo를 설치하고 같은 Apple ID로 로그인하기만 하면 됩니다. 데이터는 자동으로 복구되며 따로 할 일은 없습니다."
+          }
+        },
+        {
+          "id": "ads-ai",
+          "q": {
+            "zh": "我写的内容会被用来投放广告或训练 AI 吗？",
+            "zh-Hant": "我寫的內容會被用來投放廣告或訓練 AI 嗎？",
+            "en": "Will my writing be used for ads or to train AI?",
+            "ja": "書いた内容が広告や AI の学習に使われますか？",
+            "ko": "제가 쓴 내용이 광고나 AI 학습에 쓰이나요?"
+          },
+          "a": {
+            "zh": "不会。我记没有广告、没有第三方统计、没有任何数据分析组件，也不会把你的内容传给我们，因为我们根本没有服务器。",
+            "zh-Hant": "不會。我記沒有廣告、沒有第三方統計、沒有任何資料分析元件，也不會把你的內容傳給我們，因為我們根本沒有伺服器。",
+            "en": "No. MeMemo has no ads, no third party analytics and no tracking of any kind. Your writing is never sent to us, because there is no server for it to be sent to.",
+            "ja": "使われません。MeMemo には広告も、第三者の解析ツールも、分析用の仕組みも一切ありません。そもそもサーバーがないため、書かれた内容が私たちに送られることはありません。",
+            "ko": "아닙니다. MeMemo에는 광고도, 서드파티 분석 도구도, 어떤 추적 기능도 없습니다. 애초에 서버가 없기 때문에 작성하신 내용이 저희에게 전송되지 않습니다."
+          }
+        },
+        {
+          "id": "export",
+          "q": {
+            "zh": "数据可以导出吗？",
+            "zh-Hant": "資料可以匯出嗎？",
+            "en": "Can I export my data?",
+            "ja": "データを書き出せますか？",
+            "ko": "데이터를 내보낼 수 있나요?"
+          },
+          "a": {
+            "zh": "可以。支持 Markdown、TXT、PDF 三种格式，PDF 还能排版成书。范围可以选全部，也可以按年、按月、按周，或者自定义时间段。",
+            "zh-Hant": "可以。支援 Markdown、TXT、PDF 三種格式，PDF 還能排版成書。範圍可以選全部，也可以按年、按月、按週，或者自訂時間範圍。",
+            "en": "Yes. Markdown, TXT and PDF are all supported, and PDF can be laid out as a book. You can export everything, or filter by year, month, week or a custom date range.",
+            "ja": "できます。Markdown、TXT、PDF の 3 形式に対応しており、PDF は本のようなレイアウトでも書き出せます。範囲は全体のほか、年ごと、月ごと、週ごと、任意の期間を指定できます。",
+            "ko": "가능합니다. Markdown, TXT, PDF 세 가지 형식을 지원하며 PDF는 책 형태로도 만들 수 있습니다. 전체를 내보내거나 연, 월, 주, 원하는 기간을 지정해 내보낼 수 있습니다."
+          }
+        },
+        {
+          "id": "import",
+          "q": {
+            "zh": "可以导入数据吗？",
+            "zh-Hant": "可以匯入資料嗎？",
+            "en": "Can I import data?",
+            "ja": "データを読み込めますか？",
+            "ko": "데이터를 가져올 수 있나요?"
+          },
+          "a": {
+            "zh": "目前还不支持，计划和安卓版一起做。",
+            "zh-Hant": "目前還不支援，計畫和 Android 版一起做。",
+            "en": "Not yet. Import is planned alongside the Android version.",
+            "ja": "現在は未対応です。Android 版と合わせて対応する予定です。",
+            "ko": "아직 지원하지 않습니다. Android 버전과 함께 준비하고 있습니다."
+          }
+        },
+        {
+          "id": "delete",
+          "q": {
+            "zh": "不想用了，怎么彻底删除我的所有数据？",
+            "zh-Hant": "不想用了，怎麼徹底刪除我的所有資料？",
+            "en": "How do I permanently delete all of my data?",
+            "ja": "利用をやめる場合、データを完全に削除するには？",
+            "ko": "그만 쓰려면 모든 데이터를 어떻게 완전히 지우나요?"
+          },
+          "a": {
+            "zh": "删掉 App，本机数据即被清除；再到系统「设置 → Apple ID → iCloud → 管理账户存储」里删掉我记的备份，数据就被彻底删除。删除后无法找回，操作前建议先导出一份留存。",
+            "zh-Hant": "刪掉 App，本機資料即被清除；再到系統「設定 → Apple ID → iCloud → 管理帳戶儲存空間」裡刪掉我記的備份，資料就被徹底刪除。刪除後無法復原，操作前建議先匯出一份留存。",
+            "en": "Delete the app and the local data is gone. Then open Settings, tap your Apple ID, go to iCloud and Manage Account Storage, and remove MeMemo's backup. That erases everything for good. Deleted data cannot be recovered, so consider exporting a copy first.",
+            "ja": "アプリを削除すると端末内のデータは消えます。さらに「設定 → Apple ID → iCloud → アカウントのストレージを管理」から MeMemo のバックアップを削除すると、データは完全に消去されます。削除したデータは復元できませんので、事前に書き出して保存しておくことをおすすめします。",
+            "ko": "앱을 삭제하면 기기 안의 데이터가 지워집니다. 이어서 「설정 → Apple ID → iCloud → 계정 저장 공간 관리」에서 MeMemo 백업을 삭제하면 데이터가 완전히 사라집니다. 삭제한 데이터는 복구할 수 없으니 미리 내보내 두시길 권합니다."
+          }
+        }
+      ]
+    },
+    {
+      "id": "platform",
+      "title": {
+        "zh": "设备与平台",
+        "zh-Hant": "裝置與平台",
+        "en": "Devices & platforms",
+        "ja": "対応デバイス",
+        "ko": "기기와 플랫폼"
+      },
+      "items": [
+        {
+          "id": "ios-version",
+          "q": {
+            "zh": "支持哪些 iOS 版本？",
+            "zh-Hant": "支援哪些 iOS 版本？",
+            "en": "Which iOS versions are supported?",
+            "ja": "対応している iOS のバージョンは？",
+            "ko": "어떤 iOS 버전을 지원하나요?"
+          },
+          "a": {
+            "zh": "iOS 17 及以上。",
+            "zh-Hant": "iOS 17 以上。",
+            "en": "iOS 17 and later.",
+            "ja": "iOS 17 以降に対応しています。",
+            "ko": "iOS 17 이상을 지원합니다."
+          }
+        },
+        {
+          "id": "ipad",
+          "q": {
+            "zh": "iPad 能用吗？",
+            "zh-Hant": "iPad 能用嗎？",
+            "en": "Does it work on iPad?",
+            "ja": "iPad でも使えますか？",
+            "ko": "iPad에서도 쓸 수 있나요?"
+          },
+          "a": {
+            "zh": "能，完整支持。",
+            "zh-Hant": "能，完整支援。",
+            "en": "Yes, fully supported.",
+            "ja": "はい、完全に対応しています。",
+            "ko": "네, 완전히 지원합니다."
+          }
+        },
+        {
+          "id": "mac",
+          "q": {
+            "zh": "Mac 能用吗？",
+            "zh-Hant": "Mac 能用嗎？",
+            "en": "Does it work on Mac?",
+            "ja": "Mac でも使えますか？",
+            "ko": "Mac에서도 쓸 수 있나요?"
+          },
+          "a": {
+            "zh": "能，支持搭载 Apple 芯片（M 系列）的 Mac。",
+            "zh-Hant": "能，支援搭載 Apple 晶片（M 系列）的 Mac。",
+            "en": "Yes, on Macs with Apple silicon (M series chips).",
+            "ja": "はい、Apple シリコン（M シリーズ）搭載の Mac でご利用いただけます。",
+            "ko": "네, Apple 실리콘(M 시리즈) 칩을 탑재한 Mac에서 사용할 수 있습니다."
+          }
+        },
+        {
+          "id": "android",
+          "q": {
+            "zh": "有安卓版吗？",
+            "zh-Hant": "有 Android 版嗎？",
+            "en": "Is there an Android version?",
+            "ja": "Android 版はありますか？",
+            "ko": "Android 버전이 있나요?"
+          },
+          "a": {
+            "zh": "正在做，开发已完成大半，目前在等软件著作权审批。上线时间会在官网和小红书第一时间公布。",
+            "zh-Hant": "正在做，開發已完成大半，目前在等軟體著作權審批。上線時間會在官網與小紅書第一時間公布。",
+            "en": "It is in development and well past the halfway point. We will announce the release date on this site and on our social channels as soon as it is confirmed.",
+            "ja": "開発中で、すでに大半が完成しています。公開時期が決まり次第、本サイトと各 SNS でお知らせします。",
+            "ko": "개발 중이며 이미 상당 부분 완성되었습니다. 출시 시점이 정해지면 이 사이트와 SNS를 통해 바로 알려 드리겠습니다."
+          }
+        },
+        {
+          "id": "harmony",
+          "q": {
+            "zh": "有鸿蒙版吗？",
+            "zh-Hant": "有鴻蒙版嗎？",
+            "en": "Is there a HarmonyOS version?",
+            "ja": "HarmonyOS 版はありますか？",
+            "ko": "HarmonyOS 버전이 있나요?"
+          },
+          "a": {
+            "zh": "暂时还没有。",
+            "zh-Hant": "暫時還沒有。",
+            "en": "Not at the moment.",
+            "ja": "現時点ではありません。",
+            "ko": "아직 없습니다."
+          }
+        },
+        {
+          "id": "cross-platform",
+          "q": {
+            "zh": "以后 iOS 和安卓的数据能互通吗？",
+            "zh-Hant": "以後 iOS 和 Android 的資料能互通嗎？",
+            "en": "Will iOS and Android share data?",
+            "ja": "iOS と Android のデータは共有できますか？",
+            "ko": "iOS와 Android 데이터가 서로 연동되나요?"
+          },
+          "a": {
+            "zh": "计划通过「一端导出、另一端导入」实现，导入功能会随安卓版一起做。两个平台之间不会做实时同步，因为那需要我们自己搭服务器保存你的内容，与我记不碰用户数据的原则冲突。",
+            "zh-Hant": "計畫透過「一端匯出、另一端匯入」實現，匯入功能會隨 Android 版一起做。兩個平台之間不會做即時同步，因為那需要我們自己架伺服器保存你的內容，與我記不碰使用者資料的原則衝突。",
+            "en": "The plan is to export on one side and import on the other, with import arriving alongside the Android version. There will be no live sync between the two platforms, because that would require us to run a server holding your writing, which goes against the principle of never touching your data.",
+            "ja": "「片方で書き出し、もう片方で読み込む」という形を予定しており、読み込み機能は Android 版と同時に対応します。両プラットフォーム間のリアルタイム同期は行いません。それには私たちがサーバーを用意して内容をお預かりする必要があり、ユーザーのデータに触れないという原則に反するためです。",
+            "ko": "한쪽에서 내보내고 다른 쪽에서 가져오는 방식으로 준비하고 있으며, 가져오기 기능은 Android 버전과 함께 제공됩니다. 두 플랫폼 간 실시간 동기화는 하지 않습니다. 그러려면 저희가 서버를 두고 내용을 보관해야 하는데, 사용자 데이터를 만지지 않는다는 원칙에 어긋나기 때문입니다."
+          }
+        },
+        {
+          "id": "languages",
+          "q": {
+            "zh": "支持哪些语言？",
+            "zh-Hant": "支援哪些語言？",
+            "en": "Which languages are supported?",
+            "ja": "対応言語は？",
+            "ko": "어떤 언어를 지원하나요?"
+          },
+          "a": {
+            "zh": "简体中文、繁体中文、英文、日文、韩文，跟随系统语言自动切换。",
+            "zh-Hant": "簡體中文、繁體中文、英文、日文、韓文，跟隨系統語言自動切換。",
+            "en": "Simplified Chinese, Traditional Chinese, English, Japanese and Korean. The app follows your system language.",
+            "ja": "簡体字中国語、繁体字中国語、英語、日本語、韓国語に対応しており、端末の言語設定に従って切り替わります。",
+            "ko": "간체 중국어, 번체 중국어, 영어, 일본어, 한국어를 지원하며 기기의 언어 설정에 따라 자동으로 바뀝니다."
+          }
+        }
+      ]
+    },
+    {
+      "id": "features",
+      "title": {
+        "zh": "功能",
+        "zh-Hant": "功能",
+        "en": "Features",
+        "ja": "機能",
+        "ko": "기능"
+      },
+      "items": [
+        {
+          "id": "widgets",
+          "q": {
+            "zh": "有桌面小组件吗？",
+            "zh-Hant": "有桌面小工具嗎？",
+            "en": "Are there home screen widgets?",
+            "ja": "ウィジェットはありますか？",
+            "ko": "홈 화면 위젯이 있나요?"
+          },
+          "a": {
+            "zh": "有。5 款小组件，共 9 种尺寸规格：今日、本周、本周计划、周概览、最近几天。",
+            "zh-Hant": "有。5 款小工具，共 9 種尺寸規格：今日、本週、本週計畫、週概覽、最近幾天。",
+            "en": "Yes. Five widgets in nine size variants: Today, This week, This week's plans, Week overview and Recent days.",
+            "ja": "あります。今日、今週、今週の計画、週の概要、最近の日々の 5 種類、サイズ違いを含めて 9 通りご用意しています。",
+            "ko": "있습니다. 오늘, 이번 주, 이번 주 계획, 주간 개요, 최근 며칠까지 5종이며 크기까지 포함하면 9가지입니다."
+          }
+        },
+        {
+          "id": "backfill",
+          "q": {
+            "zh": "可以补记过去的日期吗？",
+            "zh-Hant": "可以補記過去的日期嗎？",
+            "en": "Can I write entries for past dates?",
+            "ja": "過去の日付にあとから書けますか？",
+            "ko": "지난 날짜를 나중에 기록할 수 있나요?"
+          },
+          "a": {
+            "zh": "可以。任何一天、一周、一月、一年都能随时回去补写，没有时间限制。",
+            "zh-Hant": "可以。任何一天、一週、一月、一年都能隨時回去補寫，沒有時間限制。",
+            "en": "Yes. You can go back to any day, week, month or year and write at any time, with no cutoff.",
+            "ja": "できます。どの日、週、月、年にもいつでも戻って書き足せます。期限はありません。",
+            "ko": "가능합니다. 어떤 날, 주, 월, 해로든 언제든 돌아가 기록할 수 있으며 기한 제한은 없습니다."
+          }
+        },
+        {
+          "id": "reminder",
+          "q": {
+            "zh": "能设置提醒吗？",
+            "zh-Hant": "能設定提醒嗎？",
+            "en": "Can I set a reminder?",
+            "ja": "リマインダーを設定できますか？",
+            "ko": "알림을 설정할 수 있나요?"
+          },
+          "a": {
+            "zh": "可以。在设置里打开每日提醒，选一个你习惯记录的时间。",
+            "zh-Hant": "可以。在設定裡打開每日提醒，選一個你習慣記錄的時間。",
+            "en": "Yes. Turn on the daily reminder in Settings and pick the time you usually write.",
+            "ja": "できます。設定から毎日のリマインダーをオンにし、書き慣れた時間を選んでください。",
+            "ko": "가능합니다. 설정에서 매일 알림을 켜고 기록하기 좋은 시간을 고르세요."
+          }
+        },
+        {
+          "id": "images",
+          "q": {
+            "zh": "能上传图片吗？",
+            "zh-Hant": "能上傳圖片嗎？",
+            "en": "Can I add photos?",
+            "ja": "写真を追加できますか？",
+            "ko": "사진을 넣을 수 있나요?"
+          },
+          "a": {
+            "zh": "目前不支持。我记的整个框架是围绕纯文字设计的，这样才能保持轻快和克制。",
+            "zh-Hant": "目前不支援。我記的整個框架是圍繞純文字設計的，這樣才能保持輕快與克制。",
+            "en": "Not at the moment. MeMemo is built around plain text from the ground up, which is what keeps it fast and restrained.",
+            "ja": "現在は対応していません。MeMemo はテキストだけを前提に設計されており、それが軽さと簡潔さを保つ理由です。",
+            "ko": "지원하지 않습니다. MeMemo는 처음부터 순수한 텍스트를 전제로 설계되었고, 그래서 가볍고 절제된 상태를 유지할 수 있습니다."
+          }
+        },
+        {
+          "id": "calendar",
+          "q": {
+            "zh": "会和系统的日历、提醒事项联动吗？",
+            "zh-Hant": "會和系統的行事曆、提醒事項連動嗎？",
+            "en": "Does it connect to Calendar or Reminders?",
+            "ja": "カレンダーやリマインダーと連携しますか？",
+            "ko": "캘린더나 미리 알림과 연동되나요?"
+          },
+          "a": {
+            "zh": "不会。我记是一个独立的记录空间，刻意不与日程类 App 打通。",
+            "zh-Hant": "不會。我記是一個獨立的記錄空間，刻意不與行程類 App 打通。",
+            "en": "No. MeMemo is a separate space for writing, deliberately kept apart from scheduling apps.",
+            "ja": "連携しません。MeMemo は独立した記録の場所であり、予定管理アプリとはあえてつなげていません。",
+            "ko": "연동하지 않습니다. MeMemo는 독립된 기록 공간이며, 일정 관리 앱과는 의도적으로 연결하지 않았습니다."
+          }
+        },
+        {
+          "id": "size",
+          "q": {
+            "zh": "App 占多少空间？",
+            "zh-Hant": "App 占多少空間？",
+            "en": "How much space does it take?",
+            "ja": "アプリの容量はどのくらいですか？",
+            "ko": "용량은 얼마나 차지하나요?"
+          },
+          "a": {
+            "zh": "很小。iOS 1.6.0 安装包约 12 MB，差不多是一首歌。就算写满一百年的笔记，也只会再多出几首歌的体积。",
+            "zh-Hant": "很小。iOS 1.6.0 安裝檔約 12 MB，差不多是一首歌。就算寫滿一百年的筆記，也只會再多出幾首歌的體積。",
+            "en": "Very little. The iOS 1.6.0 download is around 12 MB, about the size of one song. Even a hundred years of writing would only add a few more songs' worth.",
+            "ja": "ごくわずかです。iOS 1.6.0 のダウンロードサイズは約 12 MB、曲 1 曲分ほどです。100 年分書き続けても、増えるのは数曲分程度です。",
+            "ko": "아주 작습니다. iOS 1.6.0 설치 용량은 약 12 MB로 노래 한 곡 정도입니다. 100년치를 기록해도 노래 몇 곡 분량만 늘어납니다."
+          }
+        }
+      ]
+    },
+    {
+      "id": "about",
+      "title": {
+        "zh": "关于我记",
+        "zh-Hant": "關於我記",
+        "en": "About MeMemo",
+        "ja": "MeMemo について",
+        "ko": "MeMemo 소개"
+      },
+      "items": [
+        {
+          "id": "longevity",
+          "q": {
+            "zh": "如果哪天 App 不做了怎么办？",
+            "zh-Hant": "如果哪天 App 不做了怎麼辦？",
+            "en": "What if the app is discontinued one day?",
+            "ja": "いつかアプリが終了したらどうなりますか？",
+            "ko": "언젠가 앱이 종료되면 어떻게 되나요?"
+          },
+          "a": {
+            "zh": "首先，作者自己每天都在用，会认真维护下去。其次，我记已经有完整的导出功能，你的数据随时可以完整带走，不依赖我们。万一真有那一天，也会提前充分告知。",
+            "zh-Hant": "首先，作者自己每天都在用，會認真維護下去。其次，我記已經有完整的匯出功能，你的資料隨時可以完整帶走，不依賴我們。萬一真有那一天，也會提前充分告知。",
+            "en": "First, the developer uses MeMemo every day and intends to keep maintaining it. Second, export is already complete, so your data can leave with you at any time and does not depend on us. And if that day ever came, there would be plenty of notice.",
+            "ja": "まず、開発者自身が毎日使っており、責任をもって手を入れ続けます。そして書き出し機能はすでに完成しているため、データはいつでも丸ごと持ち出せ、私たちに依存しません。万一そうなった場合も、十分に余裕をもってお知らせします。",
+            "ko": "우선 개발자 본인이 매일 쓰고 있으며 꾸준히 관리할 생각입니다. 또한 내보내기 기능이 이미 완성되어 있어 데이터를 언제든 그대로 가져갈 수 있고 저희에게 의존하지 않습니다. 혹시 그런 날이 오더라도 충분히 미리 알려 드리겠습니다."
+          }
+        },
+        {
+          "id": "contact",
+          "q": {
+            "zh": "怎么联系你们？",
+            "zh-Hant": "怎麼聯絡你們？",
+            "en": "How do I get in touch?",
+            "ja": "問い合わせ先は？",
+            "ko": "어떻게 연락하나요?"
+          },
+          "a": {
+            "zh": "发邮件到 aaron@mememo.life，也可以在小红书、抖音找到我们。",
+            "zh-Hant": "寄信到 aaron@mememo.life，也可以在小紅書、抖音找到我們。",
+            "en": "Email aaron@mememo.life. You can also find us through the social links at the bottom of this page.",
+            "ja": "aaron@mememo.life までメールでご連絡ください。ページ下部の各 SNS からもご連絡いただけます。",
+            "ko": "aaron@mememo.life 로 메일 주세요. 페이지 하단의 SNS 링크로도 연락하실 수 있습니다."
+          }
+        }
+      ]
+    }
+  ]
+}

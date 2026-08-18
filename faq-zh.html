@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我记 · 常见问题</title>
+<meta name="description" content="关于我记的常见疑问，都在这里。" />
+<link rel="icon" href="icon.png" />
+<link rel="stylesheet" href="legal-style.css" />
+<style>
+  .faq-jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;}
+  .faq-jump a{
+    font-size:13px;padding:6px 12px;border:1px solid var(--line,#e8e8ed);
+    border-radius:999px;color:var(--muted,#86868b);text-decoration:none;
+    transition:background .15s,color .15s,border-color .15s;
+  }
+  .faq-jump a:hover{background:var(--ink,#1d1d1f);color:#fff;border-color:var(--ink,#1d1d1f);}
+  .faq-item{border-bottom:1px solid var(--line,#e8e8ed);}
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:16px 32px 16px 0;position:relative;
+    font-size:16px;font-weight:500;line-height:1.5;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"";position:absolute;right:8px;top:50%;width:8px;height:8px;
+    border-right:1.6px solid var(--muted,#86868b);border-bottom:1.6px solid var(--muted,#86868b);
+    transform:translateY(-70%) rotate(45deg);transition:transform .2s;
+  }
+  .faq-item[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+  .faq-item summary:hover{color:var(--blue,#0071e3);}
+  .faq-a{padding:0 32px 20px 0;color:var(--ink-2,#424245);line-height:1.85;}
+  /* 从 #anchor 跳进来时，标题不被上边缘裁掉 */
+  .faq-item{scroll-margin-top:24px;}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "inLanguage": "zh-CN",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "我记怎么收费？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "下载后有 7 天免费试用，期间所有功能都可以用。试用结束后一次性买断，解锁全部功能，永久有效。没有订阅，不会自动续费。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "7 天试用结束后，不付费还能做什么？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "你的数据不会丢，随时可以打开查看。免费状态下仍然可以编辑「我」页面的年度关键词，以及完整导出全部数据。新增和编辑笔记内容需要解锁。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "以后会有折扣活动吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "不会。为了对已经付费的用户公平，我记不做限时折扣。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "换了手机或者重装了 App，需要重新付费吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "不需要。买断绑定的是你的 Apple ID，在设置页点「恢复购买」即可。同一个 Apple ID 下的 iPhone、iPad、Mac 都可以使用。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "我的数据存在哪里？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "全部存在你自己的设备和你私人的 iCloud 里。我记没有服务器，也不需要注册账号，我们看不到你写的任何内容。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "需要开启 iCloud 同步吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "建议开启。开启后，换手机、手机丢失或误删 App，数据都能自动恢复，多台设备之间也会保持同步。如果关闭，数据就只存在当前这一台设备上。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "换新手机怎么迁移数据？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "只要开着 iCloud 同步，在新手机上装好我记、登录同一个 Apple ID，数据会自动同步回来，不需要手动操作。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "我写的内容会被用来投放广告或训练 AI 吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "不会。我记没有广告、没有第三方统计、没有任何数据分析组件，也不会把你的内容传给我们，因为我们根本没有服务器。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "数据可以导出吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "可以。支持 Markdown、TXT、PDF 三种格式，PDF 还能排版成书。范围可以选全部，也可以按年、按月、按周，或者自定义时间段。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "可以导入数据吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "目前还不支持，计划和安卓版一起做。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "不想用了，怎么彻底删除我的所有数据？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "删掉 App，本机数据即被清除；再到系统「设置 → Apple ID → iCloud → 管理账户存储」里删掉我记的备份，数据就被彻底删除。删除后无法找回，操作前建议先导出一份留存。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "支持哪些 iOS 版本？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "iOS 17 及以上。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "iPad 能用吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "能，完整支持。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Mac 能用吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "能，支持搭载 Apple 芯片（M 系列）的 Mac。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "有安卓版吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "正在做，开发已完成大半，目前在等软件著作权审批。上线时间会在官网和小红书第一时间公布。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "有鸿蒙版吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "暂时还没有。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "以后 iOS 和安卓的数据能互通吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "计划通过「一端导出、另一端导入」实现，导入功能会随安卓版一起做。两个平台之间不会做实时同步，因为那需要我们自己搭服务器保存你的内容，与我记不碰用户数据的原则冲突。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "支持哪些语言？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "简体中文、繁体中文、英文、日文、韩文，跟随系统语言自动切换。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "有桌面小组件吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "有。5 款小组件，共 9 种尺寸规格：今日、本周、本周计划、周概览、最近几天。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "可以补记过去的日期吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "可以。任何一天、一周、一月、一年都能随时回去补写，没有时间限制。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "能设置提醒吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "可以。在设置里打开每日提醒，选一个你习惯记录的时间。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "能上传图片吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "目前不支持。我记的整个框架是围绕纯文字设计的，这样才能保持轻快和克制。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "会和系统的日历、提醒事项联动吗？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "不会。我记是一个独立的记录空间，刻意不与日程类 App 打通。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "App 占多少空间？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "很小。iOS 1.6.0 安装包约 12 MB，差不多是一首歌。就算写满一百年的笔记，也只会再多出几首歌的体积。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "如果哪天 App 不做了怎么办？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "首先，作者自己每天都在用，会认真维护下去。其次，我记已经有完整的导出功能，你的数据随时可以完整带走，不依赖我们。万一真有那一天，也会提前充分告知。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "怎么联系你们？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "发邮件到 aaron@mememo.life，也可以在小红书、抖音找到我们。"
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html">
+    <img src="icon.png" alt="MeMemo" />
+    <span>我记</span>
+    <span class="en">MeMemo</span>
+  </a>
+  <div class="nav-langs">
+    <a href="faq-zh.html" class="active">简体</a>
+    <a href="faq-zh-Hant.html" class="">繁體</a>
+    <a href="faq.html" class="">EN</a>
+    <a href="faq-ja.html" class="">日本語</a>
+    <a href="faq-ko.html" class="">한국어</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="eyebrow">FAQ</div>
+  <h1>常见问题</h1>
+  <p class="sub">关于我记的常见疑问，都在这里。</p>
+</header>
+
+<nav class="subnav">
+  <a href="faq-zh.html" class="active">常见问题</a>
+  <a href="support-zh.html" class="">支持</a>
+  <a href="privacy-zh.html" class="">隐私政策</a>
+  <a href="terms-zh.html" class="">服务条款</a>
+</nav>
+
+<main class="content">
+
+<div class="faq-jump">
+  <a href="#sec-buy">购买与试用</a>
+  <a href="#sec-privacy">数据与隐私</a>
+  <a href="#sec-platform">设备与平台</a>
+  <a href="#sec-features">功能</a>
+  <a href="#sec-about">关于我记</a>
+</div>
+
+<section id="sec-buy">
+  <h2>购买与试用</h2>
+  <details class="faq-item" id="faq-pricing">
+    <summary>我记怎么收费？</summary>
+    <div class="faq-a">下载后有 7 天免费试用，期间所有功能都可以用。试用结束后一次性买断，解锁全部功能，永久有效。没有订阅，不会自动续费。</div>
+  </details>
+  <details class="faq-item" id="faq-after-trial">
+    <summary>7 天试用结束后，不付费还能做什么？</summary>
+    <div class="faq-a">你的数据不会丢，随时可以打开查看。免费状态下仍然可以编辑「我」页面的年度关键词，以及完整导出全部数据。新增和编辑笔记内容需要解锁。</div>
+  </details>
+  <details class="faq-item" id="faq-discount">
+    <summary>以后会有折扣活动吗？</summary>
+    <div class="faq-a">不会。为了对已经付费的用户公平，我记不做限时折扣。</div>
+  </details>
+  <details class="faq-item" id="faq-restore">
+    <summary>换了手机或者重装了 App，需要重新付费吗？</summary>
+    <div class="faq-a">不需要。买断绑定的是你的 Apple ID，在设置页点「恢复购买」即可。同一个 Apple ID 下的 iPhone、iPad、Mac 都可以使用。</div>
+  </details>
+</section>
+
+<section id="sec-privacy">
+  <h2>数据与隐私</h2>
+  <details class="faq-item" id="faq-where">
+    <summary>我的数据存在哪里？</summary>
+    <div class="faq-a">全部存在你自己的设备和你私人的 iCloud 里。我记没有服务器，也不需要注册账号，我们看不到你写的任何内容。</div>
+  </details>
+  <details class="faq-item" id="faq-icloud">
+    <summary>需要开启 iCloud 同步吗？</summary>
+    <div class="faq-a">建议开启。开启后，换手机、手机丢失或误删 App，数据都能自动恢复，多台设备之间也会保持同步。如果关闭，数据就只存在当前这一台设备上。</div>
+  </details>
+  <details class="faq-item" id="faq-migrate">
+    <summary>换新手机怎么迁移数据？</summary>
+    <div class="faq-a">只要开着 iCloud 同步，在新手机上装好我记、登录同一个 Apple ID，数据会自动同步回来，不需要手动操作。</div>
+  </details>
+  <details class="faq-item" id="faq-ads-ai">
+    <summary>我写的内容会被用来投放广告或训练 AI 吗？</summary>
+    <div class="faq-a">不会。我记没有广告、没有第三方统计、没有任何数据分析组件，也不会把你的内容传给我们，因为我们根本没有服务器。</div>
+  </details>
+  <details class="faq-item" id="faq-export">
+    <summary>数据可以导出吗？</summary>
+    <div class="faq-a">可以。支持 Markdown、TXT、PDF 三种格式，PDF 还能排版成书。范围可以选全部，也可以按年、按月、按周，或者自定义时间段。</div>
+  </details>
+  <details class="faq-item" id="faq-import">
+    <summary>可以导入数据吗？</summary>
+    <div class="faq-a">目前还不支持，计划和安卓版一起做。</div>
+  </details>
+  <details class="faq-item" id="faq-delete">
+    <summary>不想用了，怎么彻底删除我的所有数据？</summary>
+    <div class="faq-a">删掉 App，本机数据即被清除；再到系统「设置 → Apple ID → iCloud → 管理账户存储」里删掉我记的备份，数据就被彻底删除。删除后无法找回，操作前建议先导出一份留存。</div>
+  </details>
+</section>
+
+<section id="sec-platform">
+  <h2>设备与平台</h2>
+  <details class="faq-item" id="faq-ios-version">
+    <summary>支持哪些 iOS 版本？</summary>
+    <div class="faq-a">iOS 17 及以上。</div>
+  </details>
+  <details class="faq-item" id="faq-ipad">
+    <summary>iPad 能用吗？</summary>
+    <div class="faq-a">能，完整支持。</div>
+  </details>
+  <details class="faq-item" id="faq-mac">
+    <summary>Mac 能用吗？</summary>
+    <div class="faq-a">能，支持搭载 Apple 芯片（M 系列）的 Mac。</div>
+  </details>
+  <details class="faq-item" id="faq-android">
+    <summary>有安卓版吗？</summary>
+    <div class="faq-a">正在做，开发已完成大半，目前在等软件著作权审批。上线时间会在官网和小红书第一时间公布。</div>
+  </details>
+  <details class="faq-item" id="faq-harmony">
+    <summary>有鸿蒙版吗？</summary>
+    <div class="faq-a">暂时还没有。</div>
+  </details>
+  <details class="faq-item" id="faq-cross-platform">
+    <summary>以后 iOS 和安卓的数据能互通吗？</summary>
+    <div class="faq-a">计划通过「一端导出、另一端导入」实现，导入功能会随安卓版一起做。两个平台之间不会做实时同步，因为那需要我们自己搭服务器保存你的内容，与我记不碰用户数据的原则冲突。</div>
+  </details>
+  <details class="faq-item" id="faq-languages">
+    <summary>支持哪些语言？</summary>
+    <div class="faq-a">简体中文、繁体中文、英文、日文、韩文，跟随系统语言自动切换。</div>
+  </details>
+</section>
+
+<section id="sec-features">
+  <h2>功能</h2>
+  <details class="faq-item" id="faq-widgets">
+    <summary>有桌面小组件吗？</summary>
+    <div class="faq-a">有。5 款小组件，共 9 种尺寸规格：今日、本周、本周计划、周概览、最近几天。</div>
+  </details>
+  <details class="faq-item" id="faq-backfill">
+    <summary>可以补记过去的日期吗？</summary>
+    <div class="faq-a">可以。任何一天、一周、一月、一年都能随时回去补写，没有时间限制。</div>
+  </details>
+  <details class="faq-item" id="faq-reminder">
+    <summary>能设置提醒吗？</summary>
+    <div class="faq-a">可以。在设置里打开每日提醒，选一个你习惯记录的时间。</div>
+  </details>
+  <details class="faq-item" id="faq-images">
+    <summary>能上传图片吗？</summary>
+    <div class="faq-a">目前不支持。我记的整个框架是围绕纯文字设计的，这样才能保持轻快和克制。</div>
+  </details>
+  <details class="faq-item" id="faq-calendar">
+    <summary>会和系统的日历、提醒事项联动吗？</summary>
+    <div class="faq-a">不会。我记是一个独立的记录空间，刻意不与日程类 App 打通。</div>
+  </details>
+  <details class="faq-item" id="faq-size">
+    <summary>App 占多少空间？</summary>
+    <div class="faq-a">很小。iOS 1.6.0 安装包约 12 MB，差不多是一首歌。就算写满一百年的笔记，也只会再多出几首歌的体积。</div>
+  </details>
+</section>
+
+<section id="sec-about">
+  <h2>关于我记</h2>
+  <details class="faq-item" id="faq-longevity">
+    <summary>如果哪天 App 不做了怎么办？</summary>
+    <div class="faq-a">首先，作者自己每天都在用，会认真维护下去。其次，我记已经有完整的导出功能，你的数据随时可以完整带走，不依赖我们。万一真有那一天，也会提前充分告知。</div>
+  </details>
+  <details class="faq-item" id="faq-contact">
+    <summary>怎么联系你们？</summary>
+    <div class="faq-a">发邮件到 aaron@mememo.life，也可以在小红书、抖音找到我们。</div>
+  </details>
+</section>
+
+</main>
+
+<footer class="page-foot">
+  <div class="foot-links">
+    <a href="index.html">← 返回首页</a>
+    <a href="mailto:aaron@mememo.life">aaron@mememo.life</a>
+  </div>
+  <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>
+<div><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">我记 App 备案号：沪ICP备2026017841号-1A</a></div>
+</footer>
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

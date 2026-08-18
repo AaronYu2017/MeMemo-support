@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我记 · よくある質問</title>
+<meta name="description" content="MeMemo についてよくいただく質問をまとめました。" />
+<link rel="icon" href="icon.png" />
+<link rel="stylesheet" href="legal-style.css" />
+<style>
+  .faq-jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;}
+  .faq-jump a{
+    font-size:13px;padding:6px 12px;border:1px solid var(--line,#e8e8ed);
+    border-radius:999px;color:var(--muted,#86868b);text-decoration:none;
+    transition:background .15s,color .15s,border-color .15s;
+  }
+  .faq-jump a:hover{background:var(--ink,#1d1d1f);color:#fff;border-color:var(--ink,#1d1d1f);}
+  .faq-item{border-bottom:1px solid var(--line,#e8e8ed);}
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:16px 32px 16px 0;position:relative;
+    font-size:16px;font-weight:500;line-height:1.5;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"";position:absolute;right:8px;top:50%;width:8px;height:8px;
+    border-right:1.6px solid var(--muted,#86868b);border-bottom:1.6px solid var(--muted,#86868b);
+    transform:translateY(-70%) rotate(45deg);transition:transform .2s;
+  }
+  .faq-item[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+  .faq-item summary:hover{color:var(--blue,#0071e3);}
+  .faq-a{padding:0 32px 20px 0;color:var(--ink-2,#424245);line-height:1.85;}
+  /* 从 #anchor 跳进来时，标题不被上边缘裁掉 */
+  .faq-item{scroll-margin-top:24px;}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "inLanguage": "ja",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "MeMemo の料金体系は？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "ダウンロード後 7 日間は、すべての機能を無料でお試しいただけます。試用期間が終わったあとは、買い切りの一度きりのお支払いですべての機能が永続的に使えます。サブスクリプションではなく、自動更新もありません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "試用期間が終わって購入しない場合、何ができますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "データが消えることはなく、いつでも開いて読み返せます。「私」ページの年のキーワードの編集と、全データの書き出しは無料のままご利用いただけます。ロック解除が必要なのは、ノートの新規作成と編集です。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "今後、割引はありますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "ありません。すでにご購入いただいた方に対して公平であるため、MeMemo は期間限定の割引を行いません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "機種変更や再インストールのとき、もう一度支払いが必要ですか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "必要ありません。購入は Apple ID に紐づいています。設定画面で「購入を復元」をタップしてください。同じ Apple ID なら iPhone、iPad、Mac のいずれでもご利用いただけます。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "データはどこに保存されますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "すべてお使いの端末と、あなた個人の iCloud に保存されます。MeMemo にはサーバーがなく、アカウント登録も不要なので、書かれた内容を私たちが見ることはできません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "iCloud 同期はオンにすべきですか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "オンにすることをおすすめします。オンにしておくと、機種変更や端末の紛失、誤ってアプリを削除した場合でもデータが自動的に戻り、複数の端末間でも同期されます。オフの場合、データはこの端末にしか残りません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "新しい端末へのデータ移行はどうしますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "iCloud 同期がオンであれば、新しい端末に MeMemo をインストールし、同じ Apple ID でサインインするだけです。データは自動的に戻り、手動での操作は必要ありません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "書いた内容が広告や AI の学習に使われますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "使われません。MeMemo には広告も、第三者の解析ツールも、分析用の仕組みも一切ありません。そもそもサーバーがないため、書かれた内容が私たちに送られることはありません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "データを書き出せますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "できます。Markdown、TXT、PDF の 3 形式に対応しており、PDF は本のようなレイアウトでも書き出せます。範囲は全体のほか、年ごと、月ごと、週ごと、任意の期間を指定できます。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "データを読み込めますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "現在は未対応です。Android 版と合わせて対応する予定です。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "利用をやめる場合、データを完全に削除するには？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "アプリを削除すると端末内のデータは消えます。さらに「設定 → Apple ID → iCloud → アカウントのストレージを管理」から MeMemo のバックアップを削除すると、データは完全に消去されます。削除したデータは復元できませんので、事前に書き出して保存しておくことをおすすめします。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "対応している iOS のバージョンは？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "iOS 17 以降に対応しています。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "iPad でも使えますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "はい、完全に対応しています。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Mac でも使えますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "はい、Apple シリコン（M シリーズ）搭載の Mac でご利用いただけます。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Android 版はありますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "開発中で、すでに大半が完成しています。公開時期が決まり次第、本サイトと各 SNS でお知らせします。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "HarmonyOS 版はありますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "現時点ではありません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "iOS と Android のデータは共有できますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "「片方で書き出し、もう片方で読み込む」という形を予定しており、読み込み機能は Android 版と同時に対応します。両プラットフォーム間のリアルタイム同期は行いません。それには私たちがサーバーを用意して内容をお預かりする必要があり、ユーザーのデータに触れないという原則に反するためです。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "対応言語は？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "簡体字中国語、繁体字中国語、英語、日本語、韓国語に対応しており、端末の言語設定に従って切り替わります。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "ウィジェットはありますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "あります。今日、今週、今週の計画、週の概要、最近の日々の 5 種類、サイズ違いを含めて 9 通りご用意しています。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "過去の日付にあとから書けますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "できます。どの日、週、月、年にもいつでも戻って書き足せます。期限はありません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "リマインダーを設定できますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "できます。設定から毎日のリマインダーをオンにし、書き慣れた時間を選んでください。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "写真を追加できますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "現在は対応していません。MeMemo はテキストだけを前提に設計されており、それが軽さと簡潔さを保つ理由です。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "カレンダーやリマインダーと連携しますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "連携しません。MeMemo は独立した記録の場所であり、予定管理アプリとはあえてつなげていません。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "アプリの容量はどのくらいですか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "ごくわずかです。iOS 1.6.0 のダウンロードサイズは約 12 MB、曲 1 曲分ほどです。100 年分書き続けても、増えるのは数曲分程度です。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "いつかアプリが終了したらどうなりますか？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "まず、開発者自身が毎日使っており、責任をもって手を入れ続けます。そして書き出し機能はすでに完成しているため、データはいつでも丸ごと持ち出せ、私たちに依存しません。万一そうなった場合も、十分に余裕をもってお知らせします。"
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "問い合わせ先は？",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "aaron@mememo.life までメールでご連絡ください。ページ下部の各 SNS からもご連絡いただけます。"
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html">
+    <img src="icon.png" alt="MeMemo" />
+    <span>我记</span>
+    <span class="en">MeMemo</span>
+  </a>
+  <div class="nav-langs">
+    <a href="faq-zh.html" class="">简体</a>
+    <a href="faq-zh-Hant.html" class="">繁體</a>
+    <a href="faq.html" class="">EN</a>
+    <a href="faq-ja.html" class="active">日本語</a>
+    <a href="faq-ko.html" class="">한국어</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="eyebrow">FAQ</div>
+  <h1>よくある質問</h1>
+  <p class="sub">MeMemo についてよくいただく質問をまとめました。</p>
+</header>
+
+<nav class="subnav">
+  <a href="faq-ja.html" class="active">よくある質問</a>
+  <a href="support-ja.html" class="">サポート</a>
+  <a href="privacy-ja.html" class="">プライバシーポリシー</a>
+  <a href="terms-ja.html" class="">利用規約</a>
+</nav>
+
+<main class="content">
+
+<div class="faq-jump">
+  <a href="#sec-buy">購入と試用</a>
+  <a href="#sec-privacy">データとプライバシー</a>
+  <a href="#sec-platform">対応デバイス</a>
+  <a href="#sec-features">機能</a>
+  <a href="#sec-about">MeMemo について</a>
+</div>
+
+<section id="sec-buy">
+  <h2>購入と試用</h2>
+  <details class="faq-item" id="faq-pricing">
+    <summary>MeMemo の料金体系は？</summary>
+    <div class="faq-a">ダウンロード後 7 日間は、すべての機能を無料でお試しいただけます。試用期間が終わったあとは、買い切りの一度きりのお支払いですべての機能が永続的に使えます。サブスクリプションではなく、自動更新もありません。</div>
+  </details>
+  <details class="faq-item" id="faq-after-trial">
+    <summary>試用期間が終わって購入しない場合、何ができますか？</summary>
+    <div class="faq-a">データが消えることはなく、いつでも開いて読み返せます。「私」ページの年のキーワードの編集と、全データの書き出しは無料のままご利用いただけます。ロック解除が必要なのは、ノートの新規作成と編集です。</div>
+  </details>
+  <details class="faq-item" id="faq-discount">
+    <summary>今後、割引はありますか？</summary>
+    <div class="faq-a">ありません。すでにご購入いただいた方に対して公平であるため、MeMemo は期間限定の割引を行いません。</div>
+  </details>
+  <details class="faq-item" id="faq-restore">
+    <summary>機種変更や再インストールのとき、もう一度支払いが必要ですか？</summary>
+    <div class="faq-a">必要ありません。購入は Apple ID に紐づいています。設定画面で「購入を復元」をタップしてください。同じ Apple ID なら iPhone、iPad、Mac のいずれでもご利用いただけます。</div>
+  </details>
+</section>
+
+<section id="sec-privacy">
+  <h2>データとプライバシー</h2>
+  <details class="faq-item" id="faq-where">
+    <summary>データはどこに保存されますか？</summary>
+    <div class="faq-a">すべてお使いの端末と、あなた個人の iCloud に保存されます。MeMemo にはサーバーがなく、アカウント登録も不要なので、書かれた内容を私たちが見ることはできません。</div>
+  </details>
+  <details class="faq-item" id="faq-icloud">
+    <summary>iCloud 同期はオンにすべきですか？</summary>
+    <div class="faq-a">オンにすることをおすすめします。オンにしておくと、機種変更や端末の紛失、誤ってアプリを削除した場合でもデータが自動的に戻り、複数の端末間でも同期されます。オフの場合、データはこの端末にしか残りません。</div>
+  </details>
+  <details class="faq-item" id="faq-migrate">
+    <summary>新しい端末へのデータ移行はどうしますか？</summary>
+    <div class="faq-a">iCloud 同期がオンであれば、新しい端末に MeMemo をインストールし、同じ Apple ID でサインインするだけです。データは自動的に戻り、手動での操作は必要ありません。</div>
+  </details>
+  <details class="faq-item" id="faq-ads-ai">
+    <summary>書いた内容が広告や AI の学習に使われますか？</summary>
+    <div class="faq-a">使われません。MeMemo には広告も、第三者の解析ツールも、分析用の仕組みも一切ありません。そもそもサーバーがないため、書かれた内容が私たちに送られることはありません。</div>
+  </details>
+  <details class="faq-item" id="faq-export">
+    <summary>データを書き出せますか？</summary>
+    <div class="faq-a">できます。Markdown、TXT、PDF の 3 形式に対応しており、PDF は本のようなレイアウトでも書き出せます。範囲は全体のほか、年ごと、月ごと、週ごと、任意の期間を指定できます。</div>
+  </details>
+  <details class="faq-item" id="faq-import">
+    <summary>データを読み込めますか？</summary>
+    <div class="faq-a">現在は未対応です。Android 版と合わせて対応する予定です。</div>
+  </details>
+  <details class="faq-item" id="faq-delete">
+    <summary>利用をやめる場合、データを完全に削除するには？</summary>
+    <div class="faq-a">アプリを削除すると端末内のデータは消えます。さらに「設定 → Apple ID → iCloud → アカウントのストレージを管理」から MeMemo のバックアップを削除すると、データは完全に消去されます。削除したデータは復元できませんので、事前に書き出して保存しておくことをおすすめします。</div>
+  </details>
+</section>
+
+<section id="sec-platform">
+  <h2>対応デバイス</h2>
+  <details class="faq-item" id="faq-ios-version">
+    <summary>対応している iOS のバージョンは？</summary>
+    <div class="faq-a">iOS 17 以降に対応しています。</div>
+  </details>
+  <details class="faq-item" id="faq-ipad">
+    <summary>iPad でも使えますか？</summary>
+    <div class="faq-a">はい、完全に対応しています。</div>
+  </details>
+  <details class="faq-item" id="faq-mac">
+    <summary>Mac でも使えますか？</summary>
+    <div class="faq-a">はい、Apple シリコン（M シリーズ）搭載の Mac でご利用いただけます。</div>
+  </details>
+  <details class="faq-item" id="faq-android">
+    <summary>Android 版はありますか？</summary>
+    <div class="faq-a">開発中で、すでに大半が完成しています。公開時期が決まり次第、本サイトと各 SNS でお知らせします。</div>
+  </details>
+  <details class="faq-item" id="faq-harmony">
+    <summary>HarmonyOS 版はありますか？</summary>
+    <div class="faq-a">現時点ではありません。</div>
+  </details>
+  <details class="faq-item" id="faq-cross-platform">
+    <summary>iOS と Android のデータは共有できますか？</summary>
+    <div class="faq-a">「片方で書き出し、もう片方で読み込む」という形を予定しており、読み込み機能は Android 版と同時に対応します。両プラットフォーム間のリアルタイム同期は行いません。それには私たちがサーバーを用意して内容をお預かりする必要があり、ユーザーのデータに触れないという原則に反するためです。</div>
+  </details>
+  <details class="faq-item" id="faq-languages">
+    <summary>対応言語は？</summary>
+    <div class="faq-a">簡体字中国語、繁体字中国語、英語、日本語、韓国語に対応しており、端末の言語設定に従って切り替わります。</div>
+  </details>
+</section>
+
+<section id="sec-features">
+  <h2>機能</h2>
+  <details class="faq-item" id="faq-widgets">
+    <summary>ウィジェットはありますか？</summary>
+    <div class="faq-a">あります。今日、今週、今週の計画、週の概要、最近の日々の 5 種類、サイズ違いを含めて 9 通りご用意しています。</div>
+  </details>
+  <details class="faq-item" id="faq-backfill">
+    <summary>過去の日付にあとから書けますか？</summary>
+    <div class="faq-a">できます。どの日、週、月、年にもいつでも戻って書き足せます。期限はありません。</div>
+  </details>
+  <details class="faq-item" id="faq-reminder">
+    <summary>リマインダーを設定できますか？</summary>
+    <div class="faq-a">できます。設定から毎日のリマインダーをオンにし、書き慣れた時間を選んでください。</div>
+  </details>
+  <details class="faq-item" id="faq-images">
+    <summary>写真を追加できますか？</summary>
+    <div class="faq-a">現在は対応していません。MeMemo はテキストだけを前提に設計されており、それが軽さと簡潔さを保つ理由です。</div>
+  </details>
+  <details class="faq-item" id="faq-calendar">
+    <summary>カレンダーやリマインダーと連携しますか？</summary>
+    <div class="faq-a">連携しません。MeMemo は独立した記録の場所であり、予定管理アプリとはあえてつなげていません。</div>
+  </details>
+  <details class="faq-item" id="faq-size">
+    <summary>アプリの容量はどのくらいですか？</summary>
+    <div class="faq-a">ごくわずかです。iOS 1.6.0 のダウンロードサイズは約 12 MB、曲 1 曲分ほどです。100 年分書き続けても、増えるのは数曲分程度です。</div>
+  </details>
+</section>
+
+<section id="sec-about">
+  <h2>MeMemo について</h2>
+  <details class="faq-item" id="faq-longevity">
+    <summary>いつかアプリが終了したらどうなりますか？</summary>
+    <div class="faq-a">まず、開発者自身が毎日使っており、責任をもって手を入れ続けます。そして書き出し機能はすでに完成しているため、データはいつでも丸ごと持ち出せ、私たちに依存しません。万一そうなった場合も、十分に余裕をもってお知らせします。</div>
+  </details>
+  <details class="faq-item" id="faq-contact">
+    <summary>問い合わせ先は？</summary>
+    <div class="faq-a">aaron@mememo.life までメールでご連絡ください。ページ下部の各 SNS からもご連絡いただけます。</div>
+  </details>
+</section>
+
+</main>
+
+<footer class="page-foot">
+  <div class="foot-links">
+    <a href="index.html">← ホームに戻る</a>
+    <a href="mailto:aaron@mememo.life">aaron@mememo.life</a>
+  </div>
+  <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>
+
+</footer>
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

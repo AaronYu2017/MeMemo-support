@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我记 · FAQ</title>
+<meta name="description" content="Common questions about MeMemo, answered." />
+<link rel="icon" href="icon.png" />
+<link rel="stylesheet" href="legal-style.css" />
+<style>
+  .faq-jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;}
+  .faq-jump a{
+    font-size:13px;padding:6px 12px;border:1px solid var(--line,#e8e8ed);
+    border-radius:999px;color:var(--muted,#86868b);text-decoration:none;
+    transition:background .15s,color .15s,border-color .15s;
+  }
+  .faq-jump a:hover{background:var(--ink,#1d1d1f);color:#fff;border-color:var(--ink,#1d1d1f);}
+  .faq-item{border-bottom:1px solid var(--line,#e8e8ed);}
+  .faq-item summary{
+    list-style:none;cursor:pointer;padding:16px 32px 16px 0;position:relative;
+    font-size:16px;font-weight:500;line-height:1.5;
+  }
+  .faq-item summary::-webkit-details-marker{display:none;}
+  .faq-item summary::after{
+    content:"";position:absolute;right:8px;top:50%;width:8px;height:8px;
+    border-right:1.6px solid var(--muted,#86868b);border-bottom:1.6px solid var(--muted,#86868b);
+    transform:translateY(-70%) rotate(45deg);transition:transform .2s;
+  }
+  .faq-item[open] summary::after{transform:translateY(-30%) rotate(-135deg);}
+  .faq-item summary:hover{color:var(--blue,#0071e3);}
+  .faq-a{padding:0 32px 20px 0;color:var(--ink-2,#424245);line-height:1.85;}
+  /* 从 #anchor 跳进来时，标题不被上边缘裁掉 */
+  .faq-item{scroll-margin-top:24px;}
+</style>
+<script type="application/ld+json">
+{
+ "@context": "https://schema.org",
+ "@type": "FAQPage",
+ "inLanguage": "en",
+ "mainEntity": [
+  {
+   "@type": "Question",
+   "name": "How much does MeMemo cost?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "You get a 7 day free trial with every feature unlocked. After that, a single one time purchase unlocks everything for good. No subscription, no auto renewal."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What can I still do after the trial if I do not buy?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Nothing is lost. You can still open the app and read everything you have written. You can also still edit the year keywords on the Me page and export all of your data. Creating and editing note content is what requires unlocking."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Will there be discounts later?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. Out of fairness to everyone who has already paid, MeMemo does not run limited time discounts."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Do I need to pay again on a new phone or after reinstalling?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. Your purchase is tied to your Apple ID. Just tap Restore purchase in Settings. The same Apple ID works across iPhone, iPad and Mac."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Where is my data stored?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Entirely on your own device and in your personal iCloud. MeMemo has no server and requires no account, so we cannot see anything you write."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Should I turn on iCloud sync?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "We recommend it. With sync on, your data comes back automatically when you switch phones, lose a device or delete the app by mistake, and it stays in sync across your devices. With sync off, your data lives only on this one device."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I move my data to a new phone?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "As long as iCloud sync is on, install MeMemo on the new phone and sign in with the same Apple ID. Your data syncs back on its own, with nothing to do manually."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Will my writing be used for ads or to train AI?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. MeMemo has no ads, no third party analytics and no tracking of any kind. Your writing is never sent to us, because there is no server for it to be sent to."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I export my data?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. Markdown, TXT and PDF are all supported, and PDF can be laid out as a book. You can export everything, or filter by year, month, week or a custom date range."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I import data?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Not yet. Import is planned alongside the Android version."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I permanently delete all of my data?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Delete the app and the local data is gone. Then open Settings, tap your Apple ID, go to iCloud and Manage Account Storage, and remove MeMemo's backup. That erases everything for good. Deleted data cannot be recovered, so consider exporting a copy first."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Which iOS versions are supported?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "iOS 17 and later."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does it work on iPad?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes, fully supported."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does it work on Mac?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes, on Macs with Apple silicon (M series chips)."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is there an Android version?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "It is in development and well past the halfway point. We will announce the release date on this site and on our social channels as soon as it is confirmed."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Is there a HarmonyOS version?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Not at the moment."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Will iOS and Android share data?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "The plan is to export on one side and import on the other, with import arriving alongside the Android version. There will be no live sync between the two platforms, because that would require us to run a server holding your writing, which goes against the principle of never touching your data."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Which languages are supported?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Simplified Chinese, Traditional Chinese, English, Japanese and Korean. The app follows your system language."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Are there home screen widgets?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. Five widgets in nine size variants: Today, This week, This week's plans, Week overview and Recent days."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I write entries for past dates?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. You can go back to any day, week, month or year and write at any time, with no cutoff."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I set a reminder?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Yes. Turn on the daily reminder in Settings and pick the time you usually write."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Can I add photos?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Not at the moment. MeMemo is built around plain text from the ground up, which is what keeps it fast and restrained."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "Does it connect to Calendar or Reminders?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "No. MeMemo is a separate space for writing, deliberately kept apart from scheduling apps."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How much space does it take?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Very little. The iOS 1.6.0 download is around 12 MB, about the size of one song. Even a hundred years of writing would only add a few more songs' worth."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "What if the app is discontinued one day?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "First, the developer uses MeMemo every day and intends to keep maintaining it. Second, export is already complete, so your data can leave with you at any time and does not depend on us. And if that day ever came, there would be plenty of notice."
+   }
+  },
+  {
+   "@type": "Question",
+   "name": "How do I get in touch?",
+   "acceptedAnswer": {
+    "@type": "Answer",
+    "text": "Email aaron@mememo.life. You can also find us through the social links at the bottom of this page."
+   }
+  }
+ ]
+}
+</script>
+</head>
+<body>
+
+<nav class="nav">
+  <a class="nav-brand" href="index.html">
+    <img src="icon.png" alt="MeMemo" />
+    <span>我记</span>
+    <span class="en">MeMemo</span>
+  </a>
+  <div class="nav-langs">
+    <a href="faq-zh.html" class="">简体</a>
+    <a href="faq-zh-Hant.html" class="">繁體</a>
+    <a href="faq.html" class="active">EN</a>
+    <a href="faq-ja.html" class="">日本語</a>
+    <a href="faq-ko.html" class="">한국어</a>
+  </div>
+</nav>
+
+<header class="page-head">
+  <div class="eyebrow">FAQ</div>
+  <h1>FAQ</h1>
+  <p class="sub">Common questions about MeMemo, answered.</p>
+</header>
+
+<nav class="subnav">
+  <a href="faq.html" class="active">FAQ</a>
+  <a href="support.html" class="">Support</a>
+  <a href="privacy.html" class="">Privacy Policy</a>
+  <a href="terms.html" class="">Terms of Use</a>
+</nav>
+
+<main class="content">
+
+<div class="faq-jump">
+  <a href="#sec-buy">Pricing &amp; trial</a>
+  <a href="#sec-privacy">Data &amp; privacy</a>
+  <a href="#sec-platform">Devices &amp; platforms</a>
+  <a href="#sec-features">Features</a>
+  <a href="#sec-about">About MeMemo</a>
+</div>
+
+<section id="sec-buy">
+  <h2>Pricing &amp; trial</h2>
+  <details class="faq-item" id="faq-pricing">
+    <summary>How much does MeMemo cost?</summary>
+    <div class="faq-a">You get a 7 day free trial with every feature unlocked. After that, a single one time purchase unlocks everything for good. No subscription, no auto renewal.</div>
+  </details>
+  <details class="faq-item" id="faq-after-trial">
+    <summary>What can I still do after the trial if I do not buy?</summary>
+    <div class="faq-a">Nothing is lost. You can still open the app and read everything you have written. You can also still edit the year keywords on the Me page and export all of your data. Creating and editing note content is what requires unlocking.</div>
+  </details>
+  <details class="faq-item" id="faq-discount">
+    <summary>Will there be discounts later?</summary>
+    <div class="faq-a">No. Out of fairness to everyone who has already paid, MeMemo does not run limited time discounts.</div>
+  </details>
+  <details class="faq-item" id="faq-restore">
+    <summary>Do I need to pay again on a new phone or after reinstalling?</summary>
+    <div class="faq-a">No. Your purchase is tied to your Apple ID. Just tap Restore purchase in Settings. The same Apple ID works across iPhone, iPad and Mac.</div>
+  </details>
+</section>
+
+<section id="sec-privacy">
+  <h2>Data &amp; privacy</h2>
+  <details class="faq-item" id="faq-where">
+    <summary>Where is my data stored?</summary>
+    <div class="faq-a">Entirely on your own device and in your personal iCloud. MeMemo has no server and requires no account, so we cannot see anything you write.</div>
+  </details>
+  <details class="faq-item" id="faq-icloud">
+    <summary>Should I turn on iCloud sync?</summary>
+    <div class="faq-a">We recommend it. With sync on, your data comes back automatically when you switch phones, lose a device or delete the app by mistake, and it stays in sync across your devices. With sync off, your data lives only on this one device.</div>
+  </details>
+  <details class="faq-item" id="faq-migrate">
+    <summary>How do I move my data to a new phone?</summary>
+    <div class="faq-a">As long as iCloud sync is on, install MeMemo on the new phone and sign in with the same Apple ID. Your data syncs back on its own, with nothing to do manually.</div>
+  </details>
+  <details class="faq-item" id="faq-ads-ai">
+    <summary>Will my writing be used for ads or to train AI?</summary>
+    <div class="faq-a">No. MeMemo has no ads, no third party analytics and no tracking of any kind. Your writing is never sent to us, because there is no server for it to be sent to.</div>
+  </details>
+  <details class="faq-item" id="faq-export">
+    <summary>Can I export my data?</summary>
+    <div class="faq-a">Yes. Markdown, TXT and PDF are all supported, and PDF can be laid out as a book. You can export everything, or filter by year, month, week or a custom date range.</div>
+  </details>
+  <details class="faq-item" id="faq-import">
+    <summary>Can I import data?</summary>
+    <div class="faq-a">Not yet. Import is planned alongside the Android version.</div>
+  </details>
+  <details class="faq-item" id="faq-delete">
+    <summary>How do I permanently delete all of my data?</summary>
+    <div class="faq-a">Delete the app and the local data is gone. Then open Settings, tap your Apple ID, go to iCloud and Manage Account Storage, and remove MeMemo's backup. That erases everything for good. Deleted data cannot be recovered, so consider exporting a copy first.</div>
+  </details>
+</section>
+
+<section id="sec-platform">
+  <h2>Devices &amp; platforms</h2>
+  <details class="faq-item" id="faq-ios-version">
+    <summary>Which iOS versions are supported?</summary>
+    <div class="faq-a">iOS 17 and later.</div>
+  </details>
+  <details class="faq-item" id="faq-ipad">
+    <summary>Does it work on iPad?</summary>
+    <div class="faq-a">Yes, fully supported.</div>
+  </details>
+  <details class="faq-item" id="faq-mac">
+    <summary>Does it work on Mac?</summary>
+    <div class="faq-a">Yes, on Macs with Apple silicon (M series chips).</div>
+  </details>
+  <details class="faq-item" id="faq-android">
+    <summary>Is there an Android version?</summary>
+    <div class="faq-a">It is in development and well past the halfway point. We will announce the release date on this site and on our social channels as soon as it is confirmed.</div>
+  </details>
+  <details class="faq-item" id="faq-harmony">
+    <summary>Is there a HarmonyOS version?</summary>
+    <div class="faq-a">Not at the moment.</div>
+  </details>
+  <details class="faq-item" id="faq-cross-platform">
+    <summary>Will iOS and Android share data?</summary>
+    <div class="faq-a">The plan is to export on one side and import on the other, with import arriving alongside the Android version. There will be no live sync between the two platforms, because that would require us to run a server holding your writing, which goes against the principle of never touching your data.</div>
+  </details>
+  <details class="faq-item" id="faq-languages">
+    <summary>Which languages are supported?</summary>
+    <div class="faq-a">Simplified Chinese, Traditional Chinese, English, Japanese and Korean. The app follows your system language.</div>
+  </details>
+</section>
+
+<section id="sec-features">
+  <h2>Features</h2>
+  <details class="faq-item" id="faq-widgets">
+    <summary>Are there home screen widgets?</summary>
+    <div class="faq-a">Yes. Five widgets in nine size variants: Today, This week, This week's plans, Week overview and Recent days.</div>
+  </details>
+  <details class="faq-item" id="faq-backfill">
+    <summary>Can I write entries for past dates?</summary>
+    <div class="faq-a">Yes. You can go back to any day, week, month or year and write at any time, with no cutoff.</div>
+  </details>
+  <details class="faq-item" id="faq-reminder">
+    <summary>Can I set a reminder?</summary>
+    <div class="faq-a">Yes. Turn on the daily reminder in Settings and pick the time you usually write.</div>
+  </details>
+  <details class="faq-item" id="faq-images">
+    <summary>Can I add photos?</summary>
+    <div class="faq-a">Not at the moment. MeMemo is built around plain text from the ground up, which is what keeps it fast and restrained.</div>
+  </details>
+  <details class="faq-item" id="faq-calendar">
+    <summary>Does it connect to Calendar or Reminders?</summary>
+    <div class="faq-a">No. MeMemo is a separate space for writing, deliberately kept apart from scheduling apps.</div>
+  </details>
+  <details class="faq-item" id="faq-size">
+    <summary>How much space does it take?</summary>
+    <div class="faq-a">Very little. The iOS 1.6.0 download is around 12 MB, about the size of one song. Even a hundred years of writing would only add a few more songs' worth.</div>
+  </details>
+</section>
+
+<section id="sec-about">
+  <h2>About MeMemo</h2>
+  <details class="faq-item" id="faq-longevity">
+    <summary>What if the app is discontinued one day?</summary>
+    <div class="faq-a">First, the developer uses MeMemo every day and intends to keep maintaining it. Second, export is already complete, so your data can leave with you at any time and does not depend on us. And if that day ever came, there would be plenty of notice.</div>
+  </details>
+  <details class="faq-item" id="faq-contact">
+    <summary>How do I get in touch?</summary>
+    <div class="faq-a">Email aaron@mememo.life. You can also find us through the social links at the bottom of this page.</div>
+  </details>
+</section>
+
+</main>
+
+<footer class="page-foot">
+  <div class="foot-links">
+    <a href="index.html">← Back to home</a>
+    <a href="mailto:aaron@mememo.life">aaron@mememo.life</a>
+  </div>
+  <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>
+
+</footer>
+
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

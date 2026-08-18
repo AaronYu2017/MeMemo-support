@@ -43,6 +43,7 @@ OPERATOR = "上海于马科技有限公司"
 
 # 简体单语站的干净 URL：privacy-zh.html -> privacy.html
 PAGE_RENAME = {
+    "faq-zh.html": "faq.html",
     "privacy-zh.html": "privacy.html",
     "terms-zh.html": "terms.html",
     "support-zh.html": "support.html",
