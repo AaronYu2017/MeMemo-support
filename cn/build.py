@@ -332,9 +332,12 @@ def verify() -> list[str]:
         html = (DIST / page).read_text(encoding="utf-8")
         if ICP_WEBSITE not in html:
             problems.append(f"{page} 缺少网站备案号")
-        if COPYRIGHT not in html:
+        # 查渲染后的文本而不是原始 HTML：soup.decode() 会把 © 编码成 &copy;，
+        # 按字符串找字面的 © 永远找不到——查错对象会让替换成功的页面报成失败。
+        page_text = BeautifulSoup(html, "html.parser").get_text()
+        if COPYRIGHT not in page_text:
             problems.append(f"{page} 版权行未写单位名称")
-        if "All rights reserved" in html:
+        if "All rights reserved" in page_text:
             problems.append(f"{page} 残留商标署名的版权行")
     if "2026017841" in index:
         problems.append("残留 iOS App 备案号（不应出现在本站）")
