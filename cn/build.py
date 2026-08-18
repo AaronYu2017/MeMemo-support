@@ -34,12 +34,16 @@ KEEP_LANG = "zh"
 ICP_WEBSITE = "沪ICP备2026035044号-2"
 ICP_URL = "https://beian.miit.gov.cn/"
 
-# 单位性质备案的网站，页脚标明运营单位是通行做法，也让网站自身的主体陈述与
-# 网站备案（主体＝上海于马科技）保持一致。与备案号排在同一处：主体和备案号
-# 本来就是一组信息，另起一项会把页脚的四个元素挤在一行里。
+# 内地站页脚的版权行写【单位名称】，不写商标名。
+# 依据工信部备案后处理要求：部分省份管局（文档点名江苏）要求网站底部的
+# 版权所有与单位名称保持一致。上海未被点名，但备案主体是公司、版权却署
+# 商标名本身就不自洽，且这类口径会变——先做到位比收到整改通知再改便宜。
+# 文档还说明版权所有一般显示在 ICP 备案号上方，故公司名归版权行、
+# 备案号那格只留号，不重复出现。
 # 刻意只注入内地站：mememo.life 面向海外，且其隐私政策以 Aaron Yu 个人作为
 # GDPR 数据控制者，挂中文公司全称会与那句话打架。
 OPERATOR = "上海于马科技有限公司"
+COPYRIGHT = f"© 2026 {OPERATOR} 版权所有"
 
 # 简体单语站的干净 URL：privacy-zh.html -> privacy.html
 PAGE_RENAME = {
@@ -185,20 +189,32 @@ def simplify_lang_css(soup: BeautifulSoup) -> None:
 
 
 def set_icp_footer(soup: BeautifulSoup) -> None:
-    """把页脚换成「运营单位 · 网站备案号」，备案号链到工信部。"""
+    """页脚挂【网站】备案号并链到工信部。
+
+    上海不是广东，按工信部备案后处理要求应挂网站备案号（带 -N 后缀），
+    而不是主体备案号。target="_blank" 是文档给的通用代码写法。
+    """
     replaced = False
     for a in soup.find_all("a", href=re.compile("beian.miit.gov.cn")):
         a.attrs = {"href": ICP_URL, "target": "_blank", "rel": "noopener"}
         a.string = ICP_WEBSITE
-        wrapper = soup.new_tag("span")
-        a.insert_before(wrapper)
-        wrapper.append(f"{OPERATOR} · ")
-        wrapper.append(a.extract())
         replaced = True
     if replaced:
-        note(f"页脚 -> {OPERATOR} · {ICP_WEBSITE}")
+        note(f"页脚备案号 -> {ICP_WEBSITE}")
     else:
         note("⚠️ 页脚未找到备案号链接")
+
+
+def set_copyright(soup: BeautifulSoup) -> None:
+    """版权行改写成单位名称（理由见 COPYRIGHT 常量上方注释）。"""
+    hit = False
+    for text in list(soup.find_all(string=re.compile("All rights reserved"))):
+        text.replace_with(COPYRIGHT)
+        hit = True
+    if hit:
+        note(f"版权行 -> {COPYRIGHT}")
+    else:
+        note("⚠️ 未找到版权行")
 
 
 def rewrite_links(soup: BeautifulSoup) -> None:
@@ -223,6 +239,7 @@ def build_page(src: Path, dest_name: str) -> None:
         pin_language_to_zh(soup)
     set_icons(soup)
     set_icp_footer(soup)
+    set_copyright(soup)
     rewrite_links(soup)
 
     html = soup.decode(formatter="html5")
@@ -315,8 +332,10 @@ def verify() -> list[str]:
         html = (DIST / page).read_text(encoding="utf-8")
         if ICP_WEBSITE not in html:
             problems.append(f"{page} 缺少网站备案号")
-        if OPERATOR not in html:
-            problems.append(f"{page} 缺少运营单位署名")
+        if COPYRIGHT not in html:
+            problems.append(f"{page} 版权行未写单位名称")
+        if "All rights reserved" in html:
+            problems.append(f"{page} 残留商标署名的版权行")
     if "2026017841" in index:
         problems.append("残留 iOS App 备案号（不应出现在本站）")
     for page in ["index.html", *PAGE_RENAME.values()]:
