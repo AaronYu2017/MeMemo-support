@@ -1,4 +1,0 @@
-# 固定版本：这台机器锚着两个备案，不能"某天自动升级把它升坏了"。
-# 升级时手动改版本号 + 跑一次 `asn.py heartbeat` 验证端到端。
-app-store-server-library==3.1.2
-gunicorn==23.0.0

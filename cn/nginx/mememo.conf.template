@@ -79,7 +79,10 @@ server {
         expires 30d;
     }
 
-    # App Store Server Notifications 的接收端点（见 cn/asn/）。
+    # App Store Server Notifications 的接收端点。
+    # 那个服务住在**另一个（私有）仓库** appstore-asn —— 它跟官网没关系、
+    # 生命周期不同、且带密钥，2026-08-28 从本仓库的 cn/asn/ 迁出。
+    # 这里只留一行 include，因为它属于站点配置且没有任何秘密。
     # 通配 include：那个服务没部署时匹配不到任何文件，nginx 照常启动 ——
     # 网站不会因为一个附属服务没装而下线。片段由 cn/asn/deploy-asn.sh 独立部署。
     include /etc/nginx/snippets/mememo-asn*.conf;
