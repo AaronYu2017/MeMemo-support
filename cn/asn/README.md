@@ -115,5 +115,13 @@ ssh root@<server> 'cd /opt/mememo-asn && venv/bin/python test_asn.py'   # 测试
 `-wal` / `-shm` 文件，之后服务就写不进去了 —— 而且是**静默**失败：端点照收、验签照过，
 只是写不下去。`asn.py` 现在会在你用错身份时当场警告。
 
+ℹ️ 日志里定期出现的 `验签失败：VERIFICATION_FAILURE` **通常不是故障** ——
+`deploy-asn.sh` 每次部署都会拿垃圾签名打一次端点，确认验签真的在跑。
+看时间戳：跟部署对得上就是它。
+
+✅ **2026-08-28 已实测：Apple 能投递到中国大陆的 ECS。** 这条不是推断，是心跳
+真的收到了（`prod` 端点、Production verifier + appAppleId 校验通过）。
+在此之前它是整个方案最大的未验证前提。
+
 `asn.py tail` 里每条都标了「已推送 / ⚠️ 未推送」。**出现「未推送」就是要看的信号** ——
 说明 Bark 那条路断了，而 `drain` 每 5 分钟还在重试。全是「已推送」= 一切正常。
