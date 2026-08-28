@@ -91,6 +91,21 @@ systemctl daemon-reload
 systemctl enable --now mememo-asn.service >/dev/null
 systemctl restart mememo-asn.service
 systemctl enable --now mememo-asn-drain.timer >/dev/null
+
+# 心跳要 In-App Purchase API 密钥（独立于 App Store Connect API 密钥）。
+# 三样齐了才启用 timer —— 少一样就跑不起来，与其让 systemd 每周失败一次，
+# 不如干脆不启用并说清楚缺什么。
+KEY_PATH=$(grep -E '^ASN_IAP_KEY_PATH=' /etc/mememo-asn.env | cut -d= -f2-)
+if grep -qE '^ASN_IAP_KEY_ID=.+' /etc/mememo-asn.env \
+   && grep -qE '^ASN_IAP_ISSUER_ID=.+' /etc/mememo-asn.env \
+   && [[ -s "${KEY_PATH:-/nonexistent}" ]]; then
+  chown root:mememo-asn "$KEY_PATH" && chmod 0640 "$KEY_PATH"
+  systemctl enable --now mememo-asn-heartbeat.timer >/dev/null
+  echo "   心跳已启用（每周一 10:00）"
+else
+  systemctl disable --now mememo-asn-heartbeat.timer >/dev/null 2>&1 || true
+  echo "   心跳未启用：还缺 ASN_IAP_KEY_ID / ASN_IAP_ISSUER_ID / 密钥文件 其中之一"
+fi
 REMOTE
 
 echo "→ 6/7 自检（服务是否真的起来了）"
