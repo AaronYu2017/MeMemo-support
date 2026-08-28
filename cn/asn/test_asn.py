@@ -104,8 +104,36 @@ try:
 finally:
     asn.push_bark = _orig_push
 
+print("代码里不能出现真实密钥")
+# 2026-08-28 真的泄漏过一次：我把 Aaron 的 Bark device key 当成 docstring 里的
+# 示例和测试常量写进了代码，而 MeMemo-support 是**公开**仓库。
+# 教训不是"下次注意"——是拿真值当示例这件事本身太自然了，必须自动查。
+_here = os.path.dirname(os.path.abspath(__file__))
+_real_env = "/etc/mememo-asn.env"
+_secrets = []
+if os.path.exists(_real_env):
+    for line in open(_real_env, encoding="utf-8"):
+        k, _, v = line.strip().partition("=")
+        if k in ("ASN_BARK_KEY", "ASN_PATH_TOKEN") and len(v) >= 12:
+            # Bark 那个可能是整条 URL，取出 key 再比
+            _secrets.append((k, asn._bark_key(v) if k == "ASN_BARK_KEY" else v))
+if not _secrets:
+    print("  · 跳过（这台机器上没有 /etc/mememo-asn.env，无真值可比）")
+for _name, _val in _secrets:
+    _leaked = []
+    for _f in sorted(os.listdir(_here)):
+        _fp = os.path.join(_here, _f)
+        if not os.path.isfile(_fp) or _f == "asn.env":      # asn.env 本就该有，且已 gitignore
+            continue
+        try:
+            if _val in open(_fp, encoding="utf-8", errors="ignore").read():
+                _leaked.append(_f)
+        except OSError:
+            pass
+    check(not _leaked, f"{_name} 的真实值没出现在代码里" + (f"（泄漏在：{', '.join(_leaked)}）" if _leaked else ""))
+
 print("Bark key 归一化")
-K = "3SzVSuitrd4NPLmAtvDdAo"
+K = "EXAMPLEkeyNOTreal1234"
 for raw, what in [
     (K,                                        "裸 key"),
     (f"https://api.day.app/{K}",               "URL 无路径"),
@@ -126,7 +154,6 @@ print("shell 脚本：变量名后面不能紧跟多字节字符")
 # 靠"记得加花括号"是靠不住的，因为写的人看不到失败。
 import re
 _multibyte_after_var = re.compile(r"\$[A-Za-z_][A-Za-z0-9_]*(?=[^\x00-\x7f])")
-_here = os.path.dirname(os.path.abspath(__file__))
 for sh in sorted(f for f in os.listdir(_here) if f.endswith(".sh")):
     body = open(os.path.join(_here, sh), encoding="utf-8").read()
     bad = [f"行{body[:m.start()].count(chr(10))+1} {m.group(0)}"

@@ -81,8 +81,8 @@ BARK_BASE     = _env("ASN_BARK_BASE", "https://api.day.app").rstrip("/")
 def _bark_key(raw):
     """Bark App 里给的是整条测试 URL，不是裸 key。与其让人手工截取（`l`/`1`、`O`/`0`
     抄错一个就静默失败），不如两种形态都收下：
-        3SzVSuitrd4NPLmAtvDdAo
-        https://api.day.app/3SzVSuitrd4NPLmAtvDdAo/这里改成你自己的推送内容
+        EXAMPLEkeyNOTreal1234
+        https://api.day.app/EXAMPLEkeyNOTreal1234/这里改成你自己的推送内容
     """
     raw = (raw or "").strip()
     if "/" not in raw:
