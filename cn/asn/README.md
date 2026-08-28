@@ -82,6 +82,10 @@ App Store Server Notifications，版本选 **Version 2**。
 
 改了 `ASN_PATH_TOKEN` 就必须同步改 ASC 里的两个 URL，否则通知全部 404。
 
+⚠️ **本地 `cn/asn/asn.env` 是唯一真源。** 每次部署都会用它覆盖服务器上的
+`/etc/mememo-asn.env` —— 直接改服务器那份，下次部署就被清掉，而且外观上一切正常
+（服务照跑、通知照收，只是不再推送）。密钥一律填本地那份再部署。
+
 ## 排查
 
 ```bash

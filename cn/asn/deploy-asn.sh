@@ -68,6 +68,18 @@ fi
 openssl x509 -inform DER -in AppleRootCA-G3.cer -noout -subject | grep -q "Apple Root CA - G3"
 REMOTE
 
+# 本地 asn.env 是唯一真源，每次部署都覆盖服务器上的 /etc/mememo-asn.env。
+# 所以本地这份要是空的，会**静默**把服务器上填好的值清掉，提醒从此不再发出，
+# 而且外观上一切正常。宁可在这里吵一声。
+if ! grep -qE '^ASN_BARK_KEY=.+' "$ASN_CONF"; then
+  echo "⚠️  $ASN_CONF 里 ASN_BARK_KEY 是空的 —— 部署后不会推送任何提醒（只落盘）。" >&2
+  if ssh "$SERVER" "grep -qE '^ASN_BARK_KEY=.+' /etc/mememo-asn.env" 2>/dev/null; then
+    echo "🔴 服务器上那份**已经填了**，继续部署会把它清掉。" >&2
+    echo "   先把 key 补进 $ASN_CONF 再重跑；确实要清空就 ALLOW_EMPTY_BARK=1 再跑。" >&2
+    [[ "${ALLOW_EMPTY_BARK:-}" == "1" ]] || exit 1
+  fi
+fi
+
 echo "→ 5/7 装配置与 systemd 单元"
 scp -q "$ASN_CONF" "$SERVER:/etc/mememo-asn.env"
 scp -q cn/asn/systemd/*.service cn/asn/systemd/*.timer "$SERVER:/etc/systemd/system/"
