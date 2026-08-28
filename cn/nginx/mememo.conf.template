@@ -85,5 +85,7 @@ server {
     # 这里只留一行 include，因为它属于站点配置且没有任何秘密。
     # 通配 include：那个服务没部署时匹配不到任何文件，nginx 照常启动 ——
     # 网站不会因为一个附属服务没装而下线。片段由 cn/asn/deploy-asn.sh 独立部署。
-    include /etc/nginx/snippets/mememo-asn*.conf;
+    # 通配写得宽，是为了**改名时端点不断**：ASN 那边换文件名（2026-08-28
+    # mememo-asn -> appstore-asn）时，新旧任一存在都能被引到，不用两边卡时序。
+    include /etc/nginx/snippets/*asn*.conf;
 }
