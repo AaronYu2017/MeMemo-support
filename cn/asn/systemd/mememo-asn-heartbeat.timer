@@ -1,0 +1,13 @@
+[Unit]
+Description=每周一次 MeMemo 购买提醒管线心跳
+
+# 沉默是有歧义的：没有购买通知 = 没人买，**或者** 端点挂了。
+# 每周一条「✅ 管线正常」就是把这个歧义消掉的东西 —— 哪周没收到，就说明该去看了。
+
+[Timer]
+OnCalendar=Mon *-*-* 10:00:00
+Persistent=true
+RandomizedDelaySec=5min
+
+[Install]
+WantedBy=timers.target

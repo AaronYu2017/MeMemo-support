@@ -9,3 +9,6 @@ __pycache__/
 
 # 部署目标（服务器地址 / 网站根路径）。本仓库公开，不进 git。
 cn/deploy.env
+
+# ASN 接收端的密钥与端点 token。本仓库公开，绝对不进 git。
+cn/asn/asn.env

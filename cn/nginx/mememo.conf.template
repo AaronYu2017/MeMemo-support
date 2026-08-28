@@ -78,4 +78,9 @@ server {
     location ~* \.(webp|png|jpg|jpeg|gif|ico|svg|css|js|woff2)$ {
         expires 30d;
     }
+
+    # App Store Server Notifications 的接收端点（见 cn/asn/）。
+    # 通配 include：那个服务没部署时匹配不到任何文件，nginx 照常启动 ——
+    # 网站不会因为一个附属服务没装而下线。片段由 cn/asn/deploy-asn.sh 独立部署。
+    include /etc/nginx/snippets/mememo-asn*.conf;
 }

@@ -1,0 +1,46 @@
+[Unit]
+Description=MeMemo App Store Server Notifications 接收端
+Documentation=https://github.com/AaronYu2017/MeMemo-support/tree/main/cn/asn
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=exec
+User=mememo-asn
+Group=mememo-asn
+EnvironmentFile=/etc/mememo-asn.env
+WorkingDirectory=/opt/mememo-asn
+StateDirectory=mememo-asn
+StateDirectoryMode=0750
+
+# 绑 127.0.0.1 而不是 unix socket：socket 的属主/属组要同时让 nginx 能连，
+# 是个额外的、会悄悄坏掉的耦合面。回环端口没有这个问题，而真正的防线
+# （路径 token + JWS 验签）在应用层，不在传输层。
+ExecStart=/opt/mememo-asn/venv/bin/gunicorn \
+    --bind 127.0.0.1:8787 \
+    --workers 2 \
+    --timeout 30 \
+    --graceful-timeout 30 \
+    --access-logfile - \
+    --error-logfile - \
+    asn:application
+
+Restart=always
+RestartSec=5
+
+# 加固：代码与 venv 只读，只有 /var/lib/mememo-asn 可写
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=true
+ProtectKernelTunables=true
+ProtectKernelModules=true
+ProtectControlGroups=true
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+RestrictNamespaces=true
+LockPersonality=true
+MemoryDenyWriteExecute=true
+
+[Install]
+WantedBy=multi-user.target

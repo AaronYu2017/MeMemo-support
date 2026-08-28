@@ -1,0 +1,10 @@
+[Unit]
+Description=每 5 分钟补推一次 MeMemo 购买提醒
+
+[Timer]
+OnBootSec=2min
+OnUnitActiveSec=5min
+AccuracySec=30s
+
+[Install]
+WantedBy=timers.target
