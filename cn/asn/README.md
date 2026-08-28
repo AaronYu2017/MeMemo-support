@@ -85,9 +85,13 @@ Apple 自己给了解法：`TEST` 通知类型 + Request a Test Notification 接
 ```bash
 cp cn/asn/asn.env.example cn/asn/asn.env
 openssl rand -hex 16              # 填进 ASN_PATH_TOKEN
-# 填 ASN_BARK_KEY（Bark App 首页那串）
+# ASN_BARK_KEY 直接粘 Bark 里复制的整条 URL，代码会取出 key
 bash cn/asn/deploy-asn.sh
+sudo -u mememo-asn venv/bin/python asn.py testpush   # 在服务器上验 Bark 这一段
 ```
+
+管线是两段：**Apple → 我们**（验签落盘）和 **我们 → Bark**（推送）。
+`testpush` 只测后一段，`heartbeat` 测整条。出问题时能分别测，比整条一起猜快得多。
 
 脚本跑完会打印两个 URL，填进 App Store Connect → App → App 信息 →
 App Store Server Notifications，版本选 **Version 2**。

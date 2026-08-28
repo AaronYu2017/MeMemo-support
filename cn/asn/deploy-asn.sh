@@ -135,11 +135,15 @@ fi
 
 echo "→ 端到端检查（走公网 HTTPS，不是本地回环）"
 BASE="https://www.mememo.com.cn/asn/${ASN_PATH_TOKEN}"
+# ⚠️ 下面这个函数里的 ${what} / ${got} **必须带花括号**，别"简化"掉。
+# macOS 自带的 bash 3.2 在 UTF-8 locale 下会把紧跟其后的多字节字符（这里是全角括号）
+# 的第一个字节吞进变量名，set -u 下当场报 unbound variable。2026-08-28 真炸过一次。
+# test_asn.py 里有一条自动检查守着这个 —— 开发机 locale 是 C，人工是测不出来的。
 check() {  # 期望码 描述 curl参数...
   local want=$1 what=$2; shift 2
   local got; got=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$@")
-  if [[ "$got" != "$want" ]]; then echo "   ✗ $what：期望 $want，实际 $got" >&2; return 1; fi
-  echo "   ✓ $what（$got）"
+  if [[ "$got" != "$want" ]]; then echo "   ✗ ${what}：期望 ${want}，实际 $got" >&2; return 1; fi
+  echo "   ✓ ${what}（${got}）"
 }
 fail=0
 # 垃圾签名必须被拒 —— 这条要是过了，说明验签根本没在跑

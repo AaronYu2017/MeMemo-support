@@ -81,6 +81,35 @@ check("退款" in t, f"退款通知的文案：{t}")
 t, _ = asn.describe({**rec("E"), "environment": "Sandbox"})
 check(t.startswith("[Sandbox]"), f"沙盒通知带环境前缀：{t}")
 
+print("Bark key 归一化")
+K = "3SzVSuitrd4NPLmAtvDdAo"
+for raw, what in [
+    (K,                                        "裸 key"),
+    (f"https://api.day.app/{K}",               "URL 无路径"),
+    (f"https://api.day.app/{K}/这里改成你自己的推送内容", "Bark 里复制的整条测试 URL"),
+    (f"https://api.day.app/{K}/标题/正文?sound=minuet", "带标题正文和参数的 URL"),
+    (f"  {K}  ",                               "前后有空格"),
+]:
+    check(asn._bark_key(raw) == K, f"{what} -> 取出 key")
+check(asn._bark_key("") == "", "空值仍是空值（未配置时要能识别）")
+
+print("shell 脚本：变量名后面不能紧跟多字节字符")
+# macOS 自带的 bash 3.2 在 **UTF-8 locale** 下，会把多字节字符的第一个字节吞进
+# 变量名：`echo "$what（$got）"` 变成去找一个叫 what\xef 的变量，set -u 下直接
+# 报 unbound variable，脚本当场死。
+#
+# 这个坑 2026-08-28 真的炸过一次（deploy-asn.sh 的端到端检查）。之所以必须自动查：
+# **开发机的 locale 是 C，测不出来；Aaron 的 Terminal 是 en_US.UTF-8，必炸。**
+# 靠"记得加花括号"是靠不住的，因为写的人看不到失败。
+import re
+_multibyte_after_var = re.compile(r"\$[A-Za-z_][A-Za-z0-9_]*(?=[^\x00-\x7f])")
+_here = os.path.dirname(os.path.abspath(__file__))
+for sh in sorted(f for f in os.listdir(_here) if f.endswith(".sh")):
+    body = open(os.path.join(_here, sh), encoding="utf-8").read()
+    bad = [f"行{body[:m.start()].count(chr(10))+1} {m.group(0)}"
+           for m in _multibyte_after_var.finditer(body)]
+    check(not bad, f"{sh} 里没有 $var 紧跟多字节字符" + (f"（发现：{'; '.join(bad)}，改成 ${{var}}）" if bad else ""))
+
 shutil.rmtree(TMP, ignore_errors=True)
 print()
 if FAILED:

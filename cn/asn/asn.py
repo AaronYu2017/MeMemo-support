@@ -78,7 +78,21 @@ PATH_TOKEN    = _env("ASN_PATH_TOKEN", required=True)
 CERTS_DIR     = Path(_env("ASN_CERTS_DIR", "/opt/mememo-asn/certs"))
 DATA_DIR      = Path(_env("ASN_DATA_DIR", "/var/lib/mememo-asn"))
 BARK_BASE     = _env("ASN_BARK_BASE", "https://api.day.app").rstrip("/")
-BARK_KEY      = _env("ASN_BARK_KEY", "")
+def _bark_key(raw):
+    """Bark App 里给的是整条测试 URL，不是裸 key。与其让人手工截取（`l`/`1`、`O`/`0`
+    抄错一个就静默失败），不如两种形态都收下：
+        3SzVSuitrd4NPLmAtvDdAo
+        https://api.day.app/3SzVSuitrd4NPLmAtvDdAo/这里改成你自己的推送内容
+    """
+    raw = (raw or "").strip()
+    if "/" not in raw:
+        return raw
+    tail = raw.split("://", 1)[-1]                  # 去掉 scheme
+    parts = [p for p in tail.split("/") if p]
+    return parts[1] if len(parts) > 1 and "." in parts[0] else parts[0]
+
+
+BARK_KEY      = _bark_key(_env("ASN_BARK_KEY", ""))
 # 在线吊销检查（OCSP）默认关：这台机器在国内，OCSP 抖一下就会把**真实购买通知**
 # 判成验签失败丢掉；而它防的是"Apple 叶子证书被盗且已吊销"——对一条私人购买提醒
 # 来说，可用性风险远大于那个。离线链校验（签名 + 有效期 + 链到 Apple 根）照做。
@@ -465,6 +479,13 @@ def main():
         return 0 if drain() == 0 else 1
     if cmd == "heartbeat":
         return heartbeat()
+    if cmd == "testpush":
+        # 单独验证 Bark 这一条腿，不牵扯 Apple。管线是两段：
+        # Apple -> 我们（验签落盘） 和 我们 -> Bark（推送）。
+        # 出问题时能分别测，比整条一起猜快得多。
+        ok = push_bark("🔔 测试推送", "如果你看到这条，说明 Bark 这一段是通的", level="active")
+        print("✅ 推送成功，去看手机" if ok else "❌ 推送失败，看上面的日志")
+        return 0 if ok else 1
     if cmd == "tail":
         n = int(sys.argv[2]) if len(sys.argv) > 2 else 20
         with db() as conn:
