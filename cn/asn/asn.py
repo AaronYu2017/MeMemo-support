@@ -6,22 +6,28 @@ Apple 的**报表管线**里，任何 API 轮询都继承同样的延迟。Serve
 交易事件管线，是 Apple 唯一的实时通路。2026-06 曾因「改价后连续 3 天零付费」动用
 代码审查 + ASC 核查 + 借真机三重验证才排除虚惊 —— 一条活着的通知管线几秒就能回答。
 
-三个入口，同一个文件：
-  application            WSGI 可调用对象，gunicorn 跑它（接收 + 验签 + 落盘 + 推送）
-  python3 asn.py drain   把没推成功的补推一遍（systemd timer 每 5 分钟）
+四个入口，同一个文件：
+  application               WSGI 可调用对象，gunicorn 跑它（接收 + 验签 + 落盘 + 推送）
+  python3 asn.py drain      补推没推成功的 + 清过期（systemd timer 每 5 分钟）
   python3 asn.py heartbeat  主动让 Apple 发一条 TEST 通知，验证整条管线活着
+  python3 asn.py tail       人看的最近若干条
 
 设计要点（都是有代价换来的，改之前先读）：
   1. **先落盘再回 200，推送失败不影响回 200。** 反过来做的话，推送一失败 Apple 就
      不再重试，那条购买永久丢失。落盘成功即视为我们已接管，Bark 随时可以补发。
   2. 落盘失败才回 500 —— 那是唯一该让 Apple 重试的情况。
-  3. 生产与沙盒**分成两个路径**，各自一个 verifier。SignedDataVerifier 会校验
+  3. **按 notificationUUID 去重。** 我们在回 200 **之前**同步推 Bark（最多 8 秒），
+     Apple 等不到 200 就会重试 —— 不去重的话同一笔购买会推两次。见过的 UUID
+     直接回 200，不再推。
+  4. 生产与沙盒**分成两个路径**，各自一个 verifier。SignedDataVerifier 会校验
      payload 里的 environment 与自己构造时的是否一致，混在一个路径上必然有一边报错。
-  4. 路径带一段不可猜的 token，把扫描器挡在 Python 之外（nginx 层就 404）。
+  5. 路径带一段不可猜的 token，把扫描器挡在 Python 之外（nginx 层就 404）。
      真正的防线是验签，token 只是省掉噪音。
+  6. 存储用 sqlite，**一个文件**同时承担流水、去重、待推送队列。早先的
+     「只追加 jsonl + spool 目录」做不了前两件事：去重要另建索引，按时间清理要
+     原地重写文件，而重写会跟多个 gunicorn worker 抢写。sqlite 一次全解决。
 """
 
-import base64
 import hmac
 import json
 import logging
@@ -78,8 +84,9 @@ BARK_KEY      = _env("ASN_BARK_KEY", "")
 # 来说，可用性风险远大于那个。离线链校验（签名 + 有效期 + 链到 Apple 根）照做。
 ONLINE_CHECKS = _env("ASN_ONLINE_CHECKS", "0") == "1"
 
-SPOOL_DIR = DATA_DIR / "spool"
-LEDGER    = DATA_DIR / "notifications.jsonl"
+DB_PATH        = DATA_DIR / "notifications.db"
+# 保留期。对账用不到更久，而留着的是交易号/金额/地区这类数据 —— 没有理由永久存。
+RETENTION_DAYS = int(_env("ASN_RETENTION_DAYS", "90"))
 
 # 我们关心的通知类型。用字符串比而不是枚举成员，是为了库里还没有的新类型不会 AttributeError。
 ALERT_TYPES = {"ONE_TIME_CHARGE", "REFUND", "REFUND_REVERSED", "REVOKE", "CONSUMPTION_REQUEST"}
@@ -110,41 +117,89 @@ def _s(v):
     return getattr(v, "value", v)
 
 
-# ---------------------------------------------------------------- 落盘
+# ---------------------------------------------------------------- 存储
 
-def _fsync_write(path, data):
-    """写完 fsync 再原子改名 —— 断电/OOM 时不会留下半条记录。"""
-    tmp = path.with_suffix(path.suffix + ".tmp")
-    with open(tmp, "wb") as f:
-        f.write(data)
-        f.flush()
-        os.fsync(f.fileno())
-    os.replace(tmp, path)
-    dirfd = os.open(path.parent, os.O_RDONLY)
-    try:
-        os.fsync(dirfd)
-    finally:
-        os.close(dirfd)
+SCHEMA = """
+CREATE TABLE IF NOT EXISTS notifications (
+    uuid        TEXT PRIMARY KEY,          -- notificationUUID，去重就靠它
+    received_at INTEGER NOT NULL,
+    endpoint    TEXT    NOT NULL,          -- prod | sandbox
+    kind        TEXT,                      -- notificationType
+    subtype     TEXT,
+    environment TEXT,
+    payload     TEXT    NOT NULL,          -- 完整记录的 JSON
+    pushed_at   INTEGER                    -- NULL = 还没推成功
+);
+CREATE INDEX IF NOT EXISTS idx_pending  ON notifications(pushed_at);
+CREATE INDEX IF NOT EXISTS idx_received ON notifications(received_at);
+"""
 
 
-def persist(record):
-    """写 spool（待推送）+ 追加 ledger（永久流水）。任一失败都往上抛。"""
-    SPOOL_DIR.mkdir(parents=True, exist_ok=True)
-    LEDGER.parent.mkdir(parents=True, exist_ok=True)
-    blob = json.dumps(record, ensure_ascii=False, sort_keys=True).encode()
+def db():
+    """每次调用开一个连接。WAL + busy_timeout 是为了多个 gunicorn worker 并发写
+    不会 'database is locked'；synchronous=FULL 保证回 200 时数据真的落到磁盘了 ——
+    这条端点的全部承诺就建立在这个 fsync 上。"""
+    import sqlite3
+    DATA_DIR.mkdir(parents=True, exist_ok=True)
+    conn = sqlite3.connect(DB_PATH, timeout=15, isolation_level=None)
+    conn.row_factory = sqlite3.Row
+    conn.execute("PRAGMA journal_mode=WAL")
+    conn.execute("PRAGMA synchronous=FULL")
+    conn.execute("PRAGMA busy_timeout=15000")
+    conn.executescript(SCHEMA)
+    return conn
 
-    _fsync_write(SPOOL_DIR / f"{record['received_at']}-{record['id']}.json", blob)
 
-    with open(LEDGER, "ab") as f:
-        f.write(blob + b"\n")
-        f.flush()
-        os.fsync(f.fileno())
+def store(record):
+    """写入一条。返回 True=新的，False=之前见过（Apple 重试）。写失败往上抛。"""
+    with db() as conn:
+        cur = conn.execute(
+            "INSERT OR IGNORE INTO notifications"
+            " (uuid, received_at, endpoint, kind, subtype, environment, payload)"
+            " VALUES (?,?,?,?,?,?,?)",
+            (record["id"], record["received_at"], record["endpoint"],
+             record["notification_type"], record["subtype"], record["environment"],
+             json.dumps(record, ensure_ascii=False, sort_keys=True)),
+        )
+        return cur.rowcount == 1
+
+
+def mark_pushed(uuid_):
+    with db() as conn:
+        conn.execute("UPDATE notifications SET pushed_at=? WHERE uuid=?", (int(time.time()), uuid_))
+
+
+def pending():
+    with db() as conn:
+        return [json.loads(r["payload"]) for r in
+                conn.execute("SELECT payload FROM notifications WHERE pushed_at IS NULL"
+                             " ORDER BY received_at")]
+
+
+def recent(seconds):
+    cutoff = int(time.time()) - seconds
+    with db() as conn:
+        return [json.loads(r["payload"]) for r in
+                conn.execute("SELECT payload FROM notifications WHERE received_at >= ?"
+                             " ORDER BY received_at", (cutoff,))]
+
+
+def purge():
+    """清掉过了保留期的记录。**只清已推送的** —— 没推出去的留着，它会一直出现在
+    drain 里，那本身就是个看得见的信号；悄悄删掉才是坏事。"""
+    cutoff = int(time.time()) - RETENTION_DAYS * 86400
+    with db() as conn:
+        n = conn.execute("DELETE FROM notifications WHERE received_at < ?"
+                         " AND pushed_at IS NOT NULL", (cutoff,)).rowcount
+    if n:
+        log.info("清掉 %d 条超过 %d 天的记录", n, RETENTION_DAYS)
+    return n
 
 
 # ---------------------------------------------------------------- 推送
 
 def push_bark(title, body, level="timeSensitive"):
-    """成功返回 True。任何失败都只记日志、不抛 —— 调用方靠 spool 补推，不靠异常。"""
+    """成功返回 True。任何失败都只记日志、不抛 —— 调用方靠 drain 补推，不靠异常。"""
     if not BARK_KEY:
         log.warning("未配置 ASN_BARK_KEY，跳过推送：%s / %s", title, body)
         return False
@@ -195,11 +250,10 @@ def describe(record):
 
 
 def deliver(record):
-    """推送成功就删掉 spool 文件；失败留着，交给 drain。"""
+    """推送成功就记 pushed_at；失败就留着 pushed_at=NULL，交给 drain 补。"""
     title, body = describe(record)
     if push_bark(title, body):
-        for p in SPOOL_DIR.glob(f"*-{record['id']}.json"):
-            p.unlink(missing_ok=True)
+        mark_pushed(record["id"])
         return True
     return False
 
@@ -296,67 +350,44 @@ def application(environ, start_response):
         return _reply(start_response, "400 Bad Request", "decode failed")
 
     try:
-        persist(record)
+        is_new = store(record)
     except Exception as e:                                   # noqa: BLE001
         # 唯一该让 Apple 重试的分支：我们没能接管这条通知。
         log.exception("落盘失败，回 500 让 Apple 重试：%s", e)
         return _reply(start_response, "500 Internal Server Error", "persist failed")
 
+    if not is_new:
+        # Apple 的重试。八成是因为我们上一次回 200 回慢了（推 Bark 最多 8 秒）。
+        # 已经收下了，也已经提醒过了，直接确认，别再推一遍。
+        log.info("[%s] 重复通知，已忽略 uuid=%s", env_name, record["id"])
+        return _reply(start_response, "200 OK", "ok (duplicate)")
+
     log.info("[%s] %s %s tx=%s", env_name, record["notification_type"], record.get("subtype") or "",
              (record.get("transaction") or {}).get("transactionId"))
 
     if record["notification_type"] in ALERT_TYPES or record["notification_type"] == "TEST":
-        deliver(record)          # 失败不影响回 200 —— spool 里还留着，drain 会补
+        deliver(record)          # 失败不影响回 200 —— 库里 pushed_at 还是 NULL，drain 会补
 
     return _reply(start_response, "200 OK", "ok")
 
 
-# ---------------------------------------------------------------- 补推
+# ---------------------------------------------------------------- 补推与清理
 
 def drain():
-    """把 spool 里没推成功的补推一遍。systemd timer 每 5 分钟跑一次。"""
-    if not SPOOL_DIR.exists():
-        return 0
+    """补推没推成功的，顺便清过期。systemd timer 每 5 分钟跑一次。"""
     sent = failed = 0
-    for p in sorted(SPOOL_DIR.glob("*.json")):
-        try:
-            record = json.loads(p.read_text())
-        except Exception as e:                               # noqa: BLE001
-            log.error("spool 文件坏了，跳过 %s：%s", p.name, e)
-            continue
+    for record in pending():
         if deliver(record):
             sent += 1
         else:
             failed += 1
     if sent or failed:
         log.info("补推完成：成功 %d，仍失败 %d", sent, failed)
+    purge()
     return failed
 
 
 # ---------------------------------------------------------------- 心跳
-
-def _recent_ledger(seconds):
-    """读流水尾部，返回最近 N 秒内的记录。"""
-    if not LEDGER.exists():
-        return []
-    cutoff = time.time() - seconds
-    out = []
-    with open(LEDGER, "rb") as f:
-        # 只读尾部 256KB，流水再长也不用整file读进来
-        try:
-            f.seek(-262_144, os.SEEK_END)
-            f.readline()
-        except OSError:
-            f.seek(0)
-        for line in f:
-            try:
-                r = json.loads(line)
-            except Exception:                                # noqa: BLE001
-                continue
-            if r.get("received_at", 0) >= cutoff:
-                out.append(r)
-    return out
-
 
 def heartbeat():
     """让 Apple 主动发一条 TEST 通知，端到端验证整条管线还活着。
@@ -399,7 +430,7 @@ def heartbeat():
 
     # 我们自己这侧（补充）：验签过了、落盘了吗。Apple 说送到、我们却没记，
     # 说明 200 是 nginx 或别的东西回的，不是这个服务。
-    ours = [r for r in _recent_ledger(300) if r.get("notification_type") == "TEST"]
+    ours = [r for r in recent(300) if r.get("notification_type") == "TEST"]
 
     if verdict == "SUCCESS" and ours:
         log.info("心跳正常：Apple 已投递且本机已验签落盘")
@@ -413,12 +444,41 @@ def heartbeat():
 
 # ---------------------------------------------------------------- 入口
 
+def _warn_if_wrong_user():
+    """以 root 跑 CLI 会在库旁边留下 root 属主的 -wal/-shm 文件，之后服务（以
+    mememo-asn 身份跑）就写不进去了 —— 而且是**静默**失败：端点照收、验签照过，
+    只是写不下去。用 `sudo -u mememo-asn` 跑。"""
+    try:
+        if os.geteuid() == 0 and DB_PATH.exists() and DB_PATH.stat().st_uid != 0:
+            import pwd
+            owner = pwd.getpwuid(DB_PATH.stat().st_uid).pw_name
+            log.warning("你在用 root 跑，但数据库属于 %s。改用："
+                        " sudo -u %s venv/bin/python asn.py ...", owner, owner)
+    except Exception:                                        # noqa: BLE001
+        pass
+
+
 def main():
+    _warn_if_wrong_user()
     cmd = sys.argv[1] if len(sys.argv) > 1 else ""
     if cmd == "drain":
         return 0 if drain() == 0 else 1
     if cmd == "heartbeat":
         return heartbeat()
+    if cmd == "tail":
+        n = int(sys.argv[2]) if len(sys.argv) > 2 else 20
+        with db() as conn:
+            rows = conn.execute("SELECT * FROM notifications ORDER BY received_at DESC LIMIT ?",
+                                (n,)).fetchall()
+        if not rows:
+            print("（还没收到过任何通知）")
+        for r in reversed(rows):
+            when = time.strftime("%Y-%m-%d %H:%M:%S", time.localtime(r["received_at"]))
+            tx = (json.loads(r["payload"]).get("transaction") or {})
+            state = "已推送" if r["pushed_at"] else "⚠️ 未推送"
+            print(f"{when}  {r['endpoint']:<7} {r['kind'] or '?':<20} {state:<8} "
+                  f"{tx.get('productId') or ''} {tx.get('transactionId') or ''}")
+        return 0
     if cmd == "selftest":
         # 不碰网络：只证明配置读得到、根证书装得上、verifier 造得出来。
         for e in ("prod", "sandbox"):

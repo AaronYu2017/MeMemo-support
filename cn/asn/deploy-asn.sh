@@ -102,6 +102,8 @@ $APP_DIR/venv/bin/python -c "
 import os,sys; sys.path.insert(0,'$APP_DIR'); os.chdir('$APP_DIR')
 os.environ['ASN_ENV_FILE']='/etc/mememo-asn.env'
 sys.argv=['asn.py','selftest']; import asn; raise SystemExit(asn.main())"
+# 存储层回归测试（去重 / 保留期 / 待推送队列）。用临时目录，不碰真实数据。
+$APP_DIR/venv/bin/python $APP_DIR/test_asn.py | tail -3
 # 直接打回环端口：错的路径必须是 404，证明 token 校验在生效
 code=\$(curl -s -o /dev/null -w '%{http_code}' -X POST -d '{}' http://127.0.0.1:8787/asn/wrong-token/prod)
 [[ "\$code" == "404" ]] || { echo "错路径应回 404，实际 \$code" >&2; exit 1; }
@@ -160,5 +162,5 @@ cat <<DONE
    Sandbox Server URL:     https://www.mememo.com.cn/asn/${ASN_PATH_TOKEN}/sandbox
 
    排查：ssh $SERVER 'journalctl -u mememo-asn -f'
-   流水：ssh $SERVER 'tail -5 /var/lib/mememo-asn/notifications.jsonl'
+   流水：ssh $SERVER 'cd /opt/mememo-asn && sudo -u mememo-asn venv/bin/python asn.py tail 20'
 DONE

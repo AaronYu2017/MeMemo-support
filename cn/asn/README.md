@@ -34,25 +34,37 @@ HTTPS 端点，不是面向用户的服务。也不触碰号-2 向管局承诺�
 
 | 文件 | 作用 |
 |---|---|
-| `asn.py` | 全部逻辑。`application` 是 WSGI 入口；`drain` / `heartbeat` / `selftest` 是子命令 |
+| `asn.py` | 全部逻辑。`application` 是 WSGI 入口；`drain` / `heartbeat` / `tail` / `selftest` 是子命令 |
+| `test_asn.py` | 存储层回归测试（去重 / 保留期 / 待推送队列）。每次部署自动跑，不过就中止 |
 | `requirements.txt` | 固定版本。这台机器不能"某天自动升级把它升坏了" |
 | `asn.env.example` | 配置模板。真实值放 `asn.env`（**不进 git，本仓库公开**） |
 | `systemd/` | 服务 + 补推 timer（5 分钟）+ 心跳 timer（每周一 10:00） |
 | `nginx/asn.conf.template` | 端点的 location 片段，token 部署时填入 |
 | `deploy-asn.sh` | 一键部署，幂等，失败自动回滚 |
 
-## 三个不显然的设计决定
+## 四个不显然的设计决定
 
 **1. 先落盘再回 200，推送失败不影响回 200。**
 反过来做的话（推送成功才回 200），推送一失败 Apple 就不再重试，那条购买永久丢失。
 落盘成功即视为我们已接管；Bark 随时可以补发。**只有落盘失败才回 500** —— 那是唯一
 该让 Apple 重试的情况。
 
+**1b. 按 `notificationUUID` 去重。**
+上面那条有个直接后果：我们在回 200 **之前**同步推 Bark（最多 8 秒）。Apple 等不到
+200 就会重试 —— 不去重的话同一笔购买会推两次。见过的 UUID 直接回 200，不再推。
+
 **2. 生产与沙盒是两个路径。**
 `SignedDataVerifier` 会校验 payload 里的 environment 与自己构造时的是否一致，
 混在一个路径上必然有一边报错。ASC 本来也是分开填两个 URL。
 
-**3. 在线吊销检查（OCSP）默认关。**
+**3. 存储是一个 sqlite 文件，不是"只追加的 jsonl + spool 目录"。**
+后者写起来更简单，但做不了去重（要另建索引）和按时间清理（要原地重写文件，而重写会跟
+多个 gunicorn worker 抢写）。sqlite 一个文件同时是流水、去重表和待推送队列，
+并发也由它负责。记录保留 `ASN_RETENTION_DAYS` 天（默认 90）——
+对账用不到更久，而留着的是交易号/金额/地区这类数据，没有理由永久存。
+**只清已推送的**：没推出去的一直留着，它会持续出现在 `drain` 里，那本身就是信号。
+
+**4. 在线吊销检查（OCSP）默认关。**
 它防的是"Apple 叶子证书被盗且已吊销"；代价是这台国内机器 OCSP 抖一下就会把**真实购买通知**
 判成验签失败丢掉。对一条私人购买提醒来说，可用性风险远大于那个。离线链校验
 （签名 + 有效期 + 链到 Apple 根）照做，那才是真正的防线。想开就把 `ASN_ONLINE_CHECKS=1`。
@@ -89,11 +101,15 @@ App Store Server Notifications，版本选 **Version 2**。
 ## 排查
 
 ```bash
-ssh root@<server> 'journalctl -u mememo-asn -f'                    # 实时日志
-ssh root@<server> 'tail -5 /var/lib/mememo-asn/notifications.jsonl' # 永久流水
-ssh root@<server> 'ls /var/lib/mememo-asn/spool/'                   # 有文件=有提醒没推出去
-ssh root@<server> 'cd /opt/mememo-asn && venv/bin/python asn.py heartbeat'  # 手动端到端验证
+ssh root@<server> 'journalctl -u mememo-asn -f'    # 实时日志
+ssh root@<server> 'cd /opt/mememo-asn && sudo -u mememo-asn venv/bin/python asn.py tail 20'
+ssh root@<server> 'cd /opt/mememo-asn && sudo -u mememo-asn venv/bin/python asn.py heartbeat'
+ssh root@<server> 'cd /opt/mememo-asn && venv/bin/python test_asn.py'   # 测试用临时目录，身份无所谓
 ```
 
-`notifications.jsonl` 是永久流水，只追加不改写；`spool/` 里是**还没推送成功**的，
-推成功就删。所以 `spool/` 空 = 一切正常。
+⚠️ **碰数据库的命令要加 `sudo -u mememo-asn`。** 以 root 跑会在库旁边留下 root 属主的
+`-wal` / `-shm` 文件，之后服务就写不进去了 —— 而且是**静默**失败：端点照收、验签照过，
+只是写不下去。`asn.py` 现在会在你用错身份时当场警告。
+
+`asn.py tail` 里每条都标了「已推送 / ⚠️ 未推送」。**出现「未推送」就是要看的信号** ——
+说明 Bark 那条路断了，而 `drain` 每 5 分钟还在重试。全是「已推送」= 一切正常。

@@ -1,5 +1,5 @@
 [Unit]
-Description=每 5 分钟补推一次 MeMemo 购买提醒
+Description=每 5 分钟补推一次 MeMemo 购买提醒并清理过期记录
 
 [Timer]
 OnBootSec=2min
