@@ -81,6 +81,29 @@ check("退款" in t, f"退款通知的文案：{t}")
 t, _ = asn.describe({**rec("E"), "environment": "Sandbox"})
 check(t.startswith("[Sandbox]"), f"沙盒通知带环境前缀：{t}")
 
+print("坏数据不能吃掉提醒")
+# 真实交易第一次流经 describe() 时，字段形态可能跟合成数据不一样。deliver() 要是
+# 因此抛异常：WSGI 那边回 500 -> Apple 重试 -> 被去重挡下 -> **提醒永远发不出**；
+# drain 那边整个循环挂掉。所以 deliver() 必须是全函数（total），坏数据也得推出去。
+_pushed = []
+_orig_push = asn.push_bark
+asn.push_bark = lambda t, b, level="timeSensitive": (_pushed.append((t, b)), True)[1]
+try:
+    broken = rec("BROKEN")
+    broken["transaction"] = "这不是个 dict"        # 让 describe() 里的 tx.get 炸掉
+    asn.store(broken)
+    raised = None
+    try:
+        ok = asn.deliver(broken)
+    except Exception as e:                                   # noqa: BLE001
+        raised = e
+    check(raised is None, f"describe 炸了也不往外抛（实际：{raised!r}）")
+    check(_pushed and "购买或退款" in _pushed[-1][0], "退回了最简文案，提醒仍然发出去了")
+    check(not asn.pending() or all(r["id"] != "BROKEN" for r in asn.pending()),
+          "推成功后仍然正确标记了已推送")
+finally:
+    asn.push_bark = _orig_push
+
 print("Bark key 归一化")
 K = "3SzVSuitrd4NPLmAtvDdAo"
 for raw, what in [

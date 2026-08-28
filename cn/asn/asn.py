@@ -264,11 +264,27 @@ def describe(record):
 
 
 def deliver(record):
-    """推送成功就记 pushed_at；失败就留着 pushed_at=NULL，交给 drain 补。"""
-    title, body = describe(record)
-    if push_bark(title, body):
-        mark_pushed(record["id"])
-        return True
+    """推送成功就记 pushed_at；失败就留着 pushed_at=NULL，交给 drain 补。
+
+    ⚠️ **这个函数绝不抛异常**，这一点是刻意的。调用方有两个：WSGI 请求路径和
+    drain。它要是抛了：
+      - WSGI 那边回 500 -> Apple 重试 -> 第二次被去重挡下回 200 -> **提醒永远发不出**
+      - drain 那边整个循环挂掉 -> 后面排队的也一起卡住
+    而最可能抛的地方恰恰是 describe()：真实交易第一次流经这里时，字段形态可能
+    跟合成测试数据不一样。宁可推一条粗糙的，也不能因为文案渲染失败就不推。
+    """
+    try:
+        title, body = describe(record)
+    except Exception as e:                                   # noqa: BLE001
+        log.exception("文案渲染失败，退回最简形态：%s", e)
+        title = "💰 有购买或退款事件"
+        body = f"{record.get('notification_type') or '?'} · 文案渲染失败，详情看 asn.py tail"
+    try:
+        if push_bark(title, body):
+            mark_pushed(record["id"])
+            return True
+    except Exception as e:                                   # noqa: BLE001
+        log.exception("推送环节异常：%s", e)
     return False
 
 
@@ -479,6 +495,45 @@ def main():
         return 0 if drain() == 0 else 1
     if cmd == "heartbeat":
         return heartbeat()
+    if cmd == "verify-order":
+        # 用一笔**真实**订单验证交易解码路径 —— 这是心跳验不到的那一段。
+        # TEST 通知里没有交易信息，所以 verify_and_decode_signed_transaction
+        # 和那 12 个字段的读取，在真实数据上一次都没跑过。
+        # 订单号在 Apple 的购买收据邮件里（形如 MLxxxxxxxx）。
+        # 只打印不推送。
+        from appstoreserverlibrary.api_client import AppStoreServerAPIClient, APIException
+        if len(sys.argv) < 3:
+            print("用法：asn.py verify-order <订单号>  （Apple 购买收据邮件里那个）")
+            return 2
+        client = AppStoreServerAPIClient(
+            Path(_env("ASN_IAP_KEY_PATH", required=True)).read_bytes(),
+            _env("ASN_IAP_KEY_ID", required=True), _env("ASN_IAP_ISSUER_ID", required=True),
+            BUNDLE_ID, Environment.PRODUCTION,
+        )
+        try:
+            txs = client.look_up_order_id(sys.argv[2]).signedTransactions or []
+        except APIException as e:
+            print(f"❌ 查不到这个订单：{e}")
+            return 1
+        if not txs:
+            print("查到了订单，但里面没有交易（可能不是本 App 的订单）")
+            return 1
+        v = verifier_for("prod")
+        for i, signed in enumerate(txs, 1):
+            t = v.verify_and_decode_signed_transaction(signed)   # ← 待验的那一步
+            fake = {"id": f"verify-{i}", "received_at": int(time.time()), "endpoint": "prod",
+                    "notification_type": "ONE_TIME_CHARGE", "subtype": None,
+                    "environment": "Production",
+                    "transaction": {"productId": t.productId, "transactionId": t.transactionId,
+                                    "price": t.price, "currency": t.currency,
+                                    "storefront": t.storefront,
+                                    "inAppOwnershipType": _s(t.inAppOwnershipType)}}
+            title, body = describe(fake)
+            print(f"[{i}/{len(txs)}] 验签通过 ✅")
+            print(f"      真实购买时收到的提醒会长这样：")
+            print(f"      {title}")
+            print(f"      {body}")
+        return 0
     if cmd == "testpush":
         # 单独验证 Bark 这一条腿，不牵扯 Apple。管线是两段：
         # Apple -> 我们（验签落盘） 和 我们 -> Bark（推送）。

@@ -123,5 +123,13 @@ ssh root@<server> 'cd /opt/mememo-asn && venv/bin/python test_asn.py'   # 测试
 真的收到了（`prod` 端点、Production verifier + appAppleId 校验通过）。
 在此之前它是整个方案最大的未验证前提。
 
+⚠️ **心跳验不到交易解码那一段。** TEST 通知里没有交易信息，所以
+`verify_and_decode_signed_transaction` 和那 12 个字段的读取，在真实数据上没跑过。
+两种补法：
+- `asn.py verify-order <订单号>` —— 订单号在 Apple 的购买收据邮件里（形如 `ML…`），
+  拉一笔真实的已签名交易跑完整条解码链，只打印不推送。**不用碰设备。**
+- 等一笔真实购买。安全，因为 `deliver()` 是全函数：文案渲染炸了也会退回最简形态
+  推出去，原始记录完整留在库里。
+
 `asn.py tail` 里每条都标了「已推送 / ⚠️ 未推送」。**出现「未推送」就是要看的信号** ——
 说明 Bark 那条路断了，而 `drain` 每 5 分钟还在重试。全是「已推送」= 一切正常。
