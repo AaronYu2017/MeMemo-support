@@ -14,6 +14,7 @@
 用法：python3 cn/build.py
 """
 
+import hashlib
 import re
 import shutil
 import sys
@@ -327,6 +328,7 @@ def build_page(src: Path, dest_name: str) -> None:
     set_gongan_footer(soup)
     set_copyright(soup)
     rewrite_links(soup)
+    bust_asset_cache(soup)
 
     html = soup.decode(formatter="html5")
     (DIST / dest_name).write_text(html, encoding="utf-8")
@@ -377,6 +379,34 @@ def set_icons(soup: BeautifulSoup) -> None:
         icon_links[0].insert_after(tag)
 
 
+def asset_version(name: str) -> str:
+    """按文件内容算的短哈希，用作缓存击穿参数。
+
+    nginx 给 css/图片发 `expires 30d`、给 HTML 发 `no-cache`，这个组合本身
+    是对的——但前提是资源 URL 会随内容改变。否则就是 2026-09-02 那次的形态：
+    HTML 更新了、CSS 还是旧的，页面拿新结构配旧样式，看起来就是「改了但没
+    生效」。而且**只有内地站会这样**：GitHub Pages 给 mememo.life 发的是
+    max-age=600，十分钟自愈，于是同一次改动在两个站上表现不同，很容易被
+    误判成代码问题。这次就是 Aaron 报「com.cn 怎么没居中」，而我第一次验证
+    时手动加了 cache-busting 参数，验的是文件不是用户看到的东西，没发现。
+
+    刻意不复用上面 ICON_VERSION 那种手写常量：手写要求人记得改，而忘了改
+    不会报错、不会构建失败，只会让线上悄悄停在旧版本——和 feature flag 忘了
+    翻回去是同一类问题。按内容算就没有「记得」这一步。
+    """
+    return hashlib.sha1((ROOT / name).read_bytes()).hexdigest()[:8]
+
+
+def bust_asset_cache(soup: BeautifulSoup) -> None:
+    """给 30 天长缓存的静态资源挂上内容版本号。"""
+    for link in soup.find_all("link", href=True):
+        if link["href"] == "legal-style.css":
+            link["href"] = f"legal-style.css?v={asset_version('legal-style.css')}"
+    for img in soup.find_all("img", src=True):
+        if img["src"] == GONGAN_ICON:
+            img["src"] = f"{GONGAN_ICON}?v={asset_version('cn/extras/' + GONGAN_ICON)}"
+
+
 def copy_assets() -> None:
     shutil.copy2(ROOT / "icon.png", DIST / "icon.png")
     shutil.copy2(ROOT / "legal-style.css", DIST / "legal-style.css")
@@ -424,6 +454,10 @@ def verify() -> list[str]:
             problems.append(f"{page} 缺少公安备案号")
         if GONGAN_URL not in html:
             problems.append(f"{page} 公安备案号未链到查询页")
+        # 没有版本参数的样式表引用会被 nginx 的 expires 30d 冻住：HTML 是
+        # no-cache 会立刻更新，CSS 不会，于是线上是新结构配旧样式。
+        if 'href="legal-style.css"' in html:
+            problems.append(f"{page} 样式表引用缺少内容版本号（会被 30 天缓存冻住）")
         # 查渲染后的文本而不是原始 HTML：soup.decode() 会把 © 编码成 &copy;，
         # 按字符串找字面的 © 永远找不到——查错对象会让替换成功的页面报成失败。
         page_text = BeautifulSoup(html, "html.parser").get_text()
