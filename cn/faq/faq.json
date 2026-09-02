@@ -335,8 +335,8 @@
             "ko": "Android 버전이 있나요?"
           },
           "a": {
-            "zh": "正在做，开发已完成大半，目前在等软件著作权审批。上线时间会在官网和小红书第一时间公布。",
-            "zh-Hant": "正在做，開發已完成大半，目前在等軟體著作權審批。上線時間會在官網與小紅書第一時間公布。",
+            "zh": "正在做，开发已完成大半。上线时间会在官网和小红书第一时间公布。",
+            "zh-Hant": "正在做，開發已完成大半。上線時間會在官網與小紅書第一時間公布。",
             "en": "It is in development and well past the halfway point. We will announce the release date on this site and on our social channels as soon as it is confirmed.",
             "ja": "開発中で、すでに大半が完成しています。公開時期が決まり次第、本サイトと各 SNS でお知らせします。",
             "ko": "개발 중이며 이미 상당 부분 완성되었습니다. 출시 시점이 정해지면 이 사이트와 SNS를 통해 바로 알려 드리겠습니다."
@@ -500,11 +500,11 @@
             "ko": "용량은 얼마나 차지하나요?"
           },
           "a": {
-            "zh": "很小。iOS 1.6.0 安装包约 12 MB，差不多是一首歌。就算写满一百年的笔记，也只会再多出几首歌的体积。",
-            "zh-Hant": "很小。iOS 1.6.0 安裝檔約 12 MB，差不多是一首歌。就算寫滿一百年的筆記，也只會再多出幾首歌的體積。",
-            "en": "Very little. The iOS 1.6.0 download is around 12 MB, about the size of one song. Even a hundred years of writing would only add a few more songs' worth.",
-            "ja": "ごくわずかです。iOS 1.6.0 のダウンロードサイズは約 12 MB、曲 1 曲分ほどです。100 年分書き続けても、増えるのは数曲分程度です。",
-            "ko": "아주 작습니다. iOS 1.6.0 설치 용량은 약 12 MB로 노래 한 곡 정도입니다. 100년치를 기록해도 노래 몇 곡 분량만 늘어납니다."
+            "zh": "很小。iOS 安装包约 12 MB，差不多是一首歌。就算写满一百年的笔记，也只会再多出几首歌的体积。",
+            "zh-Hant": "很小。iOS 安裝檔約 12 MB，差不多是一首歌。就算寫滿一百年的筆記，也只會再多出幾首歌的體積。",
+            "en": "Very little. The iOS download is around 12 MB, about the size of one song. Even a hundred years of writing would only add a few more songs' worth.",
+            "ja": "ごくわずかです。iOS のダウンロードサイズは約 12 MB、曲 1 曲分ほどです。100 年分書き続けても、増えるのは数曲分程度です。",
+            "ko": "아주 작습니다. iOS 설치 용량은 약 12 MB로 노래 한 곡 정도입니다. 100년치를 기록해도 노래 몇 곡 분량만 늘어납니다."
           }
         }
       ]
@@ -548,9 +548,9 @@
           "a": {
             "zh": "发邮件到 aaron@mememo.life，也可以在小红书、抖音找到我们。",
             "zh-Hant": "寄信到 aaron@mememo.life，也可以在小紅書、抖音找到我們。",
-            "en": "Email aaron@mememo.life. You can also find us through the social links at the bottom of this page.",
-            "ja": "aaron@mememo.life までメールでご連絡ください。ページ下部の各 SNS からもご連絡いただけます。",
-            "ko": "aaron@mememo.life 로 메일 주세요. 페이지 하단의 SNS 링크로도 연락하실 수 있습니다."
+            "en": "Email aaron@mememo.life. You can also reach us on X (@aaronyu2018).",
+            "ja": "aaron@mememo.life までメールでご連絡ください。X（@aaronyu2018）からもご連絡いただけます。",
+            "ko": "aaron@mememo.life 로 메일 주세요. X(@aaronyu2018)로도 연락하실 수 있습니다."
           }
         }
       ]

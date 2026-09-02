@@ -34,6 +34,19 @@ LANGS = {
 
 SUFFIX = {"zh": "-zh", "zh-Hant": "-zh-Hant", "en": "", "ja": "-ja", "ko": "-ko"}
 
+# <title> 里的品牌名。跟 1.7.0 定稿的五语言 App 名称一致：EN/日/韩一律 MeMemo
+# 打头，繁体是「我記」不是「我记」。此前这里写死成「我记」，于是英文页成了
+# 「我记 · FAQ」、韩文页「我记 · 자주 묻는 질문」、繁体页用了简体字形 ——
+# 而手写的 privacy / terms / support 五语言一直是对的，只有这个生成器错。
+# 对照标准就是那些手写页：MeMemo · Privacy Policy / 我記 · 隱私政策。
+BRAND = {
+    "zh": "我记",
+    "zh-Hant": "我記",
+    "en": "MeMemo",
+    "ja": "MeMemo",
+    "ko": "MeMemo",
+}
+
 # 只有简体版挂备案号，与现有 privacy-zh / terms-zh / support-zh 一致。
 # 内地站那份由 cn/build.py 把它换成网站备案号。
 ICP = ('<div><a href="https://beian.miit.gov.cn/" target="_blank" rel="noopener">'
@@ -127,7 +140,7 @@ def build(lang: str) -> str:
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>我记 · {esc(t('title'))}</title>
+<title>{BRAND[lang]} · {esc(t('title'))}</title>
 <meta name="description" content="{esc(t('sub'))}" />
 <link rel="icon" href="icon.png" />
 <link rel="stylesheet" href="legal-style.css" />
