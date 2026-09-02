@@ -34,6 +34,17 @@ KEEP_LANG = "zh"
 ICP_WEBSITE = "沪ICP备2026035044号-2"
 ICP_URL = "https://beian.miit.gov.cn/"
 
+# 公安联网备案（2026-09-02 过审，普陀网安）。与 ICP 是两套独立备案：ICP 归
+# 工信部管、查工信部；这条归公安管、查全国互联网安全管理服务平台。
+# 平台原文要求「备案编号图标在前，备案编号在右」，所以图标不是装饰，是格式
+# 的一部分；并要求 30 个工作日内挂上。
+# 号码、链接、rel 全部照抄平台「点击复制备案编号HTML代码」给的片段：code 参数
+# 取的是**不带**「沪公网安备」前缀与「号」后缀的纯数字，rel 是 noreferrer
+# （本站别处用 noopener）。不按本仓库的习惯改写，避免查询链接对不上。
+GONGAN_NUMBER = "沪公网安备31010702010665号"
+GONGAN_URL = "https://beian.mps.gov.cn/#/query/webSearch?code=31010702010665"
+GONGAN_ICON = "beian-gongan.png"
+
 # 内地站页脚的版权行写【单位名称】，不写商标名。
 # 依据工信部备案后处理要求：部分省份管局（文档点名江苏）要求网站底部的
 # 版权所有与单位名称保持一致。上海未被点名，但备案主体是公司、版权却署
@@ -205,6 +216,43 @@ def set_icp_footer(soup: BeautifulSoup) -> None:
         note("⚠️ 页脚未找到备案号链接")
 
 
+def set_gongan_footer(soup: BeautifulSoup) -> None:
+    """在 ICP 备案号后面挂公安联网备案号（警徽在前，号在右）。
+
+    必须在 set_icp_footer 之后跑：靠 ICP 那个 <a> 定位插入点。这样做而不是
+    按类名或位置找，是因为两种页脚的结构不同 —— 首页是 .foot-bottom 下三个
+    并列元素，子页是 <footer> 下若干 <div>，各含一个 <a>。插到「ICP 的 a
+    后面」在两种结构里都落在同一个视觉位置，不用分支，也不会随版式微调漂走。
+
+    图标用 <img> 而不是背景图：页脚没有可挂样式的钩子，而平台要求图标必须
+    可见；行内 style 保证它不依赖 legal-style.css 里是否恰好有合适的规则。
+    """
+    anchor = soup.find("a", href=ICP_URL)
+    if anchor is None:
+        note("⚠️ 未找到 ICP 链接，公安备案号无处可插")
+        return
+    if soup.find("a", href=GONGAN_URL):  # 幂等：重复跑不会插两遍
+        return
+
+    link = soup.new_tag("a", href=GONGAN_URL, target="_blank", rel="noreferrer")
+    icon = soup.new_tag(
+        "img",
+        src=GONGAN_ICON,
+        alt="",
+        width="18",
+        height="20",
+        style="vertical-align:text-bottom;margin-right:4px;",
+    )
+    link.append(icon)
+    link.append(GONGAN_NUMBER)
+
+    # 与 ICP 号同级并列。子页那种 <div><a>…</a></div> 结构里，这会让两个号
+    # 落在同一行，中间靠 wrapper 加一个空格分开。
+    anchor.insert_after(link)
+    anchor.insert_after(" ")
+    note(f"页脚公安备案号 -> {GONGAN_NUMBER}")
+
+
 def set_copyright(soup: BeautifulSoup) -> None:
     """版权行改写成单位名称（理由见 COPYRIGHT 常量上方注释）。"""
     hit = False
@@ -239,6 +287,7 @@ def build_page(src: Path, dest_name: str) -> None:
         pin_language_to_zh(soup)
     set_icons(soup)
     set_icp_footer(soup)
+    set_gongan_footer(soup)
     set_copyright(soup)
     rewrite_links(soup)
 
@@ -294,6 +343,7 @@ def set_icons(soup: BeautifulSoup) -> None:
 def copy_assets() -> None:
     shutil.copy2(ROOT / "icon.png", DIST / "icon.png")
     shutil.copy2(ROOT / "legal-style.css", DIST / "legal-style.css")
+    shutil.copy2(ROOT / "cn" / "extras" / GONGAN_ICON, DIST / GONGAN_ICON)
     make_favicon()
 
     opt = DIST / "screens" / "opt"
@@ -301,7 +351,7 @@ def copy_assets() -> None:
     for name in SHOWCASE:
         img = ROOT / "screens" / "opt" / f"{name}-zh.webp"
         shutil.copy2(img, opt / img.name)
-    note(f"复制资源：icon + legal-style.css + {len(SHOWCASE)} 张简体截图")
+    note(f"复制资源：icon + legal-style.css + 警徽 + {len(SHOWCASE)} 张简体截图")
 
 
 def verify() -> list[str]:
@@ -332,6 +382,11 @@ def verify() -> list[str]:
         html = (DIST / page).read_text(encoding="utf-8")
         if ICP_WEBSITE not in html:
             problems.append(f"{page} 缺少网站备案号")
+        # 公安要求 30 个工作日内挂上，漏一页就是漏一页——与 ICP 同样逐页查。
+        if GONGAN_NUMBER not in html:
+            problems.append(f"{page} 缺少公安备案号")
+        if GONGAN_URL not in html:
+            problems.append(f"{page} 公安备案号未链到查询页")
         # 查渲染后的文本而不是原始 HTML：soup.decode() 会把 © 编码成 &copy;，
         # 按字符串找字面的 © 永远找不到——查错对象会让替换成功的页面报成失败。
         page_text = BeautifulSoup(html, "html.parser").get_text()
