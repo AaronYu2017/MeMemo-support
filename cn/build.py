@@ -226,6 +226,19 @@ def set_gongan_footer(soup: BeautifulSoup) -> None:
 
     图标用 <img> 而不是背景图：页脚没有可挂样式的钩子，而平台要求图标必须
     可见；行内 style 保证它不依赖 legal-style.css 里是否恰好有合适的规则。
+
+    ⚠️ **`display:inline-block` 是这里唯一起作用的一条，不能删。** 本站 CSS
+    有一条全局 `img{display:block}`，块级图片独占一行 —— 首版部署后线上就是
+    警徽在上、编号在下（Aaron 2026-09-02 发现），恰好违反平台「图标在前、
+    编号在右」的格式要求。对块级盒子而言 `vertical-align` 无效、
+    `white-space:nowrap` 也拦不住换行，**只有把它改回行内级才有用**；这一条
+    是量出来的（浏览器里读 computed style 找到那条全局规则），不是推出来的。
+    行内 style 的优先级高于样式表选择器，所以写在这里就够，不必改 CSS。
+
+    另两条是配套：`vertical-align:middle` 让警徽与 12px 的页脚文字居中对齐；
+    链接上的 `white-space:nowrap` 防的是另一回事 —— 首页页脚是
+    `display:flex; flex-wrap:wrap`，这条链接是其中一个 flex item，被挤窄时
+    中文可在任意字之间断行，nowrap 让整条一起换行而不是从中间劈开。
     """
     anchor = soup.find("a", href=ICP_URL)
     if anchor is None:
@@ -234,14 +247,20 @@ def set_gongan_footer(soup: BeautifulSoup) -> None:
     if soup.find("a", href=GONGAN_URL):  # 幂等：重复跑不会插两遍
         return
 
-    link = soup.new_tag("a", href=GONGAN_URL, target="_blank", rel="noreferrer")
+    link = soup.new_tag(
+        "a",
+        href=GONGAN_URL,
+        target="_blank",
+        rel="noreferrer",
+        style="white-space:nowrap;",
+    )
     icon = soup.new_tag(
         "img",
         src=GONGAN_ICON,
         alt="",
         width="18",
         height="20",
-        style="vertical-align:text-bottom;margin-right:4px;",
+        style="display:inline-block;vertical-align:middle;margin-right:4px;",
     )
     link.append(icon)
     link.append(GONGAN_NUMBER)
