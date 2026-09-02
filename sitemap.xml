@@ -1,0 +1,229 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+  <url>
+    <loc>https://mememo.life/</loc>
+    <changefreq>weekly</changefreq>
+    <priority>1.0</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/faq.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/faq-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/faq-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/faq-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/faq-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/faq.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/faq-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/faq-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/faq-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/faq-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/faq-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/faq.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/faq-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/faq-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/faq-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/faq-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/faq-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/faq.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/faq-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/faq-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/faq-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/faq-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/faq-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/faq.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/faq-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/faq.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/faq-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/faq-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/faq-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/faq-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/faq.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/support.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/support.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/support-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/support-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/support-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/support-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/support.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/support-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/support.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/support-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/support-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/support-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/support-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/support.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/support-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/support.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/support-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/support-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/support-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/support-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/support.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/support-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/support.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/support-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/support-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/support-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/support-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/support.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/support-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/support.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/support-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/support-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/support-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/support-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/support.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+</urlset>

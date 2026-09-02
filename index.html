@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>我记 MeMemo · 我的极简人生笔记</title>
-<meta name="description" content="我记 MeMemo — 用五个时间维度记录自己的人生。本地优先，隐私安全，无需注册。" />
+<title>我记 MeMemo · 日记、手帐、计划</title>
+<meta name="description" content="我记 MeMemo：一句话日记、手帐与计划。从一生、一年、一月、一周到一天，五个时间维度整理自己。本地优先，隐私安全，无需注册。" />
 <link rel="icon" href="icon.png" />
 <style>
   :root{
@@ -815,11 +815,11 @@
 <section class="showcase">
   <div class="wrap">
     <h2 class="reveal">
-      <span data-i18n="zh">也许你好奇，它长什么样。</span>
-      <span data-i18n="zh-Hant">也許你好奇，它長什麼樣。</span>
-      <span data-i18n="en">Maybe you're wondering what it looks like.</span>
-      <span data-i18n="ja">どんな見た目か、気になるかもしれません。</span>
-      <span data-i18n="ko">어떤 모습일지 궁금할지도 모릅니다.</span>
+      <span data-i18n="zh">日记、手帐、计划，长什么样。</span>
+      <span data-i18n="zh-Hant">日記、手帳、計劃，長什麼樣。</span>
+      <span data-i18n="en">Journal, diary, plans. Here's what it looks like.</span>
+      <span data-i18n="ja">日記・手帳・予定は、こんな見た目です。</span>
+      <span data-i18n="ko">일기, 다이어리, 계획. 이렇게 생겼습니다.</span>
     </h2>
     <p class="lede reveal">
       <span data-i18n="zh">五个维度，一个你。</span>
@@ -1154,13 +1154,25 @@
     });
     try { localStorage.setItem('mememo-lang', lang); } catch(e){}
     const titles = {
-      'zh':'我记 MeMemo · 我的极简人生笔记',
-      'zh-Hant':'我記 MeMemo · 我的極簡人生筆記',
-      'ja':'MeMemo · ミニマルな人生の記録',
-      'ko':'MeMemo · 미니멀한 인생 기록',
-      'en':'MeMemo · My minimalist life journal'
+      'zh':'我记 MeMemo · 日记、手帐、计划',
+      'zh-Hant':'我記 MeMemo · 日記、手帳、計劃',
+      'ja':'MeMemo · 日記・手帳・予定',
+      'ko':'MeMemo · 일기·다이어리·계획',
+      'en':'MeMemo · Journal, Diary, Plans'
     };
     document.title = titles[lang];
+    /* 摘要也要跟着换语言。此前只有 title 会换，description 写死中文，
+       于是英/日/韩页面在搜索结果里显示的是中文摘要——摘要不算排名，
+       但它决定点击率，一个英文用户看到一段中文基本不会点。 */
+    const descs = {
+      'zh':'我记 MeMemo：一句话日记、手帐与计划。从一生、一年、一月、一周到一天，五个时间维度整理自己。本地优先，隐私安全，无需注册。',
+      'zh-Hant':'我記 MeMemo：一句話日記、手帳與計劃。從一生、一年、一月、一週到一天，五個時間維度整理自己。本地優先，隱私安全，無需註冊。',
+      'ja':'MeMemo：一行で書く日記・手帳・予定。一生・年・月・週・日という5つの時間軸で自分を整理。ローカル優先、プライバシー重視、登録不要。',
+      'ko':'MeMemo: 한 줄로 쓰는 일기·다이어리·계획. 일생·연·월·주·일 다섯 가지 시간 축으로 나를 정리합니다. 로컬 우선, 개인정보 보호, 가입 불필요.',
+      'en':'MeMemo: a one-line journal, diary and planner. Five time scales, from your whole life down to a single day. Local-first, private, no account needed.'
+    };
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute('content', descs[lang]);
     loadShowcaseForLang(lang);
   };
   document.querySelectorAll('[data-lang-btn]').forEach(b => {

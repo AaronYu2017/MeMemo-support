@@ -491,6 +491,23 @@
           }
         },
         {
+          "id": "planner",
+          "q": {
+            "zh": "可以当手帐用吗？",
+            "zh-Hant": "可以當手帳用嗎？",
+            "en": "Can I use it as a planner?",
+            "ja": "手帳として使えますか？",
+            "ko": "다이어리처럼 쓸 수 있나요?"
+          },
+          "a": {
+            "zh": "可以。我记本来就是按手帐的思路做的：日、周、月、年四层，每一层都有一句话、计划和备注。不同的是它不需要贴纸和排版，一句话就够，所以更容易长期坚持下来。",
+            "zh-Hant": "可以。我記本來就是按手帳的思路做的：日、週、月、年四層，每一層都有一句話、計劃和備註。不同的是它不需要貼紙和排版，一句話就夠，所以更容易長期堅持下來。",
+            "en": "Yes. MeMemo is built around the same idea as a paper planner: four levels — day, week, month and year — each with one line, a plan list and notes. The difference is that it needs no stickers and no layout work. One line is enough, which is what makes it easy to keep up over years.",
+            "ja": "はい。我記は手帳と同じ考え方で作られています。日・週・月・年の4つの階層があり、それぞれに一行、予定、メモを書けます。違うのはシールもレイアウトも要らないこと。一行で足りるので、長く続けやすくなっています。",
+            "ko": "네. MeMemo는 종이 다이어리와 같은 발상으로 만들었습니다. 일·주·월·년 네 개의 층이 있고, 각 층마다 한 줄, 계획, 메모를 적을 수 있습니다. 다른 점은 스티커도 꾸미기도 필요 없다는 것입니다. 한 줄이면 충분하니 오래 이어가기 쉽습니다."
+          }
+        },
+        {
           "id": "size",
           "q": {
             "zh": "App 占多少空间？",

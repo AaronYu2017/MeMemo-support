@@ -379,6 +379,43 @@ def set_icons(soup: BeautifulSoup) -> None:
         icon_links[0].insert_after(tag)
 
 
+SITE_CN = "https://www.mememo.com.cn"
+
+
+def write_sitemap() -> None:
+    """内地站的 sitemap.xml 与 robots.txt。
+
+    2026-09-02 查到两个站的这两个文件都是 404，而外链几乎为零。搜索引擎发现
+    新站主要靠外链、sitemap 提交、robots 指引三条路，三条同时不通，所以百度
+    至今未收录——那不是排名问题，是入口没开，在这之前调关键词的回报是零。
+
+    随构建自动重算，页面增减不会漏；国际站那份没有构建步骤，由仓库根目录的
+    build_sitemap.py 手动生成，兜底见 verify()。
+
+    内地站是简体单语，不需要 hreflang。
+    """
+    pages = ["index.html", *PAGE_RENAME.values()]
+    urls = "\n".join(
+        f"  <url>\n"
+        f"    <loc>{SITE_CN}/{'' if p == 'index.html' else p}</loc>\n"
+        f"    <changefreq>{'weekly' if p == 'index.html' else 'monthly'}</changefreq>\n"
+        f"    <priority>{'1.0' if p == 'index.html' else '0.8'}</priority>\n"
+        f"  </url>"
+        for p in pages
+    )
+    (DIST / "sitemap.xml").write_text(
+        '<?xml version="1.0" encoding="UTF-8"?>\n'
+        '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
+        f"{urls}\n</urlset>\n",
+        encoding="utf-8",
+    )
+    (DIST / "robots.txt").write_text(
+        f"User-agent: *\nAllow: /\n\nSitemap: {SITE_CN}/sitemap.xml\n",
+        encoding="utf-8",
+    )
+    note(f"生成 sitemap.xml（{len(pages)} 个 URL）+ robots.txt")
+
+
 def asset_version(name: str) -> str:
     """按文件内容算的短哈希，用作缓存击穿参数。
 
@@ -467,6 +504,28 @@ def verify() -> list[str]:
             problems.append(f"{page} 残留商标署名的版权行")
     if "2026017841" in index:
         problems.append("残留 iOS App 备案号（不应出现在本站）")
+
+    # sitemap 漏页是静默的：搜索引擎只是少抓一页，没有任何报错。
+    sitemap = (DIST / "sitemap.xml").read_text(encoding="utf-8")
+    for page in ["index.html", *PAGE_RENAME.values()]:
+        loc = f"{SITE_CN}/" if page == "index.html" else f"{SITE_CN}/{page}"
+        if f"<loc>{loc}</loc>" not in sitemap:
+            problems.append(f"{page} 不在 sitemap 里")
+
+    # 兜底国际站：那份 sitemap 要手动跑 build_sitemap.py 生成，有忘记的风险。
+    # 内地站每次部署都会跑到这里，正好替它把关。
+    life_sitemap = ROOT / "sitemap.xml"
+    if not life_sitemap.exists():
+        problems.append("仓库根目录缺 sitemap.xml（跑 python3 build_sitemap.py）")
+    else:
+        listed = set(re.findall(r"<loc>[^<]*/([^/<]+\.html)</loc>",
+                                life_sitemap.read_text(encoding="utf-8")))
+        listed.add("index.html")  # 首页以 / 收录
+        stale = sorted({p.name for p in ROOT.glob("*.html")} - listed)
+        if stale:
+            problems.append(
+                f"国际站 sitemap 已过期，缺 {stale}（跑 python3 build_sitemap.py）"
+            )
     for page in ["index.html", *PAGE_RENAME.values()]:
         html = (DIST / page).read_text(encoding="utf-8")
         for domain in BLOCKED_IN_CN:
@@ -515,6 +574,7 @@ def main() -> int:
     for src_name, dest_name in PAGE_RENAME.items():
         build_page(ROOT / src_name, dest_name)
     copy_assets()
+    write_sitemap()
 
     print("\n".join(f"  · {line}" for line in log))
 
