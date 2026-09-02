@@ -217,12 +217,21 @@ def set_icp_footer(soup: BeautifulSoup) -> None:
 
 
 def set_gongan_footer(soup: BeautifulSoup) -> None:
-    """在 ICP 备案号后面挂公安联网备案号（警徽在前，号在右）。
+    """在 ICP 备案号**前面**挂公安联网备案号（警徽在前，号在右）。
 
     必须在 set_icp_footer 之后跑：靠 ICP 那个 <a> 定位插入点。这样做而不是
-    按类名或位置找，是因为两种页脚的结构不同 —— 首页是 .foot-bottom 下三个
-    并列元素，子页是 <footer> 下若干 <div>，各含一个 <a>。插到「ICP 的 a
-    后面」在两种结构里都落在同一个视觉位置，不用分支，也不会随版式微调漂走。
+    按类名或位置找，是因为两种页脚的结构不同 —— 首页是 .foot-bottom 下几个
+    并列元素，子页是 <footer> 下若干 <div>，各含一个 <a>。跟着 ICP 走在两种
+    结构里都落在同一个视觉位置，不用分支，也不会随版式微调漂走。
+
+    公安号在前、ICP 在后，与公安部平台自己的页脚一致（Aaron 2026-09-02 指定，
+    对照 beian.mps.gov.cn 底部的「京公网安备… 京ICP备…」）。
+
+    两个号会被包进同一个 <span>，这不是装饰：首页页脚是
+    `display:flex; justify-content:space-between`，两个号若各自成为一个 flex
+    item，会被推到行的两端而不是并排。包起来之后它们是一个 item，视觉上成组，
+    与参照页脚一致。子页那种 <div><a></a></div> 结构里多一层 inline span
+    没有任何影响，所以两边共用一套代码。
 
     图标用 <img> 而不是背景图：页脚没有可挂样式的钩子，而平台要求图标必须
     可见；行内 style 保证它不依赖 legal-style.css 里是否恰好有合适的规则。
@@ -235,10 +244,16 @@ def set_gongan_footer(soup: BeautifulSoup) -> None:
     是量出来的（浏览器里读 computed style 找到那条全局规则），不是推出来的。
     行内 style 的优先级高于样式表选择器，所以写在这里就够，不必改 CSS。
 
-    另两条是配套：`vertical-align:middle` 让警徽与 12px 的页脚文字居中对齐；
-    链接上的 `white-space:nowrap` 防的是另一回事 —— 首页页脚是
-    `display:flex; flex-wrap:wrap`，这条链接是其中一个 flex item，被挤窄时
-    中文可在任意字之间断行，nowrap 让整条一起换行而不是从中间劈开。
+    另两条是配套：
+    * `vertical-align:middle` + `top:-2px` 的垂直对齐。middle 把图标中心对到
+      「基线 + 半个 x-height」，而汉字的墨迹几乎占满 em 框、视觉重心比拉丁
+      小写字母高，所以纯 middle 会显得偏低 —— 线上量到图标中心比文字行盒
+      中心低 1.05px（Aaron 肉眼先发现的，量完确认属实）。上移 2px 同时补掉
+      这 1px 和汉字墨迹偏高的那部分。要再微调改这个数即可。
+    * 链接上的 `white-space:nowrap` 防的是另一回事 —— 首页页脚是
+      `display:flex; flex-wrap:wrap`，被挤窄时中文可在任意字之间断行，
+      nowrap 让整条一起换行而不是把警徽和号码劈开。两个号之间留了一个空格
+      作为断行机会，所以窄屏上是「两个号分两行」而不是横向溢出。
     """
     anchor = soup.find("a", href=ICP_URL)
     if anchor is None:
@@ -252,7 +267,7 @@ def set_gongan_footer(soup: BeautifulSoup) -> None:
         href=GONGAN_URL,
         target="_blank",
         rel="noreferrer",
-        style="white-space:nowrap;",
+        style="white-space:nowrap;margin-right:8px;",
     )
     icon = soup.new_tag(
         "img",
@@ -260,16 +275,19 @@ def set_gongan_footer(soup: BeautifulSoup) -> None:
         alt="",
         width="18",
         height="20",
-        style="display:inline-block;vertical-align:middle;margin-right:4px;",
+        style=(
+            "display:inline-block;vertical-align:middle;"
+            "position:relative;top:-2px;margin-right:4px;"
+        ),
     )
     link.append(icon)
     link.append(GONGAN_NUMBER)
 
-    # 与 ICP 号同级并列。子页那种 <div><a>…</a></div> 结构里，这会让两个号
-    # 落在同一行，中间靠 wrapper 加一个空格分开。
-    anchor.insert_after(link)
-    anchor.insert_after(" ")
-    note(f"页脚公安备案号 -> {GONGAN_NUMBER}")
+    # 把两个号包成一组：公安在前、ICP 在后，中间一个空格既是间距也是断行机会。
+    group = anchor.wrap(soup.new_tag("span"))
+    group.insert(0, " ")
+    group.insert(0, link)
+    note(f"页脚公安备案号 -> {GONGAN_NUMBER}（置于 ICP 之前）")
 
 
 def set_copyright(soup: BeautifulSoup) -> None:
