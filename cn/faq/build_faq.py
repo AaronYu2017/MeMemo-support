@@ -224,7 +224,6 @@ def build(lang: str) -> str:
 <footer class="page-foot">
   <div class="foot-links">
     <a href="index.html">{esc(t('back'))}</a>
-    <a href="mailto:aaron@mememo.life">aaron@mememo.life</a>
   </div>
   {social_markup()}
   <div class="foot-legal">

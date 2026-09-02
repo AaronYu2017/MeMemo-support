@@ -180,31 +180,40 @@ html[lang="zh-TW"] .page-head .dates{ font-family:var(--font-zh);}
 .content .callout p:last-child{ margin-bottom:0;}
 
 /* FOOTER */
-/* 两行结构：第一行是功能区（返回/邮箱在左，社交图标在右），第二行是法律区
-   （版权 + 备案号）。刻意不用「一排 flex item 靠 space-between 自己找位置」——
-   那个写法在 2026-09-02 给 FAQ 页加社交块时当场崩了：它按恰好三项设计，加进
-   第四项、而且是个 34px 高的图标行混在 12.5px 文字里，wrap 就把它甩到了中间。
-   现在位置由结构决定，再加东西也只会落进这两行里的某一行。 */
+/* 居中堆叠。子页页脚的内容本来就少（一个返回链接 + 版权 + 备案号，FAQ 页多
+   一排社交图标），把它摆成「左一坨右一坨」的两端对齐，中间那段空白会让它看起来
+   不是设计过的，而是剩下的东西凑在一起 —— 2026-09-02 Aaron 的原话是「太乱太丑」。
+   内容稀疏时居中才读得出「有意为之」。
+   同时这个写法不会重演上一版的事故：那版是 justify-content:space-between 的单行
+   flex，按恰好三项设计，加进第四项就被 wrap 甩到了行中间。现在每一项自成一行，
+   再加东西也只是多一行。
+
+   页脚刻意不再放邮箱文字链（Aaron 2026-09-02 提）：同一个地址此前在站上出现四处
+   —— 支持页正文的卡片、FAQ「怎么联系你们」的答案、页脚文字链，以及 FAQ 页脚那个
+   ✉ 图标（同一个页脚里就重复了两次）。留图标，去文字。 */
 .page-foot{
   max-width:760px;
   margin:0 auto;
-  padding:40px 24px 56px;
+  padding:44px 24px 60px;
   border-top:1px solid var(--line);
-  display:flex; flex-wrap:wrap; align-items:center; gap:16px 24px;
+  display:flex; flex-direction:column; align-items:center; gap:18px;
   font-size:12.5px;
   color:var(--muted);
+  text-align:center;
 }
-.page-foot .foot-links{ display:flex; gap:24px; flex-wrap:wrap;}
-/* 顶到第一行右端。没有社交块的 15 个手写页不受影响（选择器不命中）。 */
-.page-foot .foot-social{ margin-left:auto; }
-/* flex-basis:100% 让法律区独占第二行，不跟功能区抢位置。 */
-.page-foot .foot-legal{
-  flex-basis:100%;
-  display:flex; flex-wrap:wrap; gap:6px 20px; align-items:center;
-  padding-top:6px;
-}
+.page-foot .foot-links{ display:flex; gap:24px; flex-wrap:wrap; justify-content:center;}
 .page-foot a{color:var(--muted);}
 .page-foot a:hover{color:var(--ink); opacity:1;}
+/* 覆盖 index.html 里的 margin-top:20px —— 这里的间距由父级的 gap 统一管。 */
+.page-foot .foot-social{ margin:0; }
+/* 细则区：与上面的导航/社交拉开一档间距并降一号字，让页脚读起来是「两组」而不是
+   「四行等重的东西」。法律行本来就比上面两行长，不做层次会显得整个页脚往下坠。 */
+.page-foot .foot-legal{
+  display:flex; flex-wrap:wrap; justify-content:center; align-items:center; gap:6px 18px;
+  margin-top:10px;
+  font-size:11.5px;
+  opacity:.9;
+}
 
 @media (max-width:640px){
   .nav{padding:0 18px;}

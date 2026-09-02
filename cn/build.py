@@ -273,11 +273,11 @@ def set_gongan_footer(soup: BeautifulSoup) -> None:
         "img",
         src=GONGAN_ICON,
         alt="",
-        width="18",
-        height="20",
+        width="16",
+        height="18",
         style=(
             "display:inline-block;vertical-align:middle;"
-            "position:relative;top:-2px;margin-right:4px;"
+            "position:relative;top:-1px;margin-right:4px;"
         ),
     )
     link.append(icon)
