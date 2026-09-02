@@ -227,8 +227,10 @@ def build(lang: str) -> str:
     <a href="mailto:aaron@mememo.life">aaron@mememo.life</a>
   </div>
   {social_markup()}
-  <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>
-{ICP if lang == 'zh' else ''}
+  <div class="foot-legal">
+    <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>
+{('  ' + ICP) if lang == 'zh' else ''}
+  </div>
 </footer>
 
 {CF}
