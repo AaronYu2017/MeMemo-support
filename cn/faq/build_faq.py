@@ -57,6 +57,43 @@ CF = ('<!-- Cloudflare Web Analytics --><script defer '
       'data-cf-beacon=\'{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}\'></script>'
       '<!-- End Cloudflare Web Analytics -->')
 
+def _pull_from_index(pattern: str, what: str) -> str:
+    """把首页里的一段现场抠出来用，而不是复制一份到这里。
+
+    FAQ 页需要页脚社交块，而它的 markup（5 个 SVG）与 CSS 都只存在于
+    index.html。复制过来就成了第二份真源：以后换一个图标、或者小红书那个
+    xhslink 分享链接失效，要记得改两处 —— 而漏掉的那一处不会报错，只会
+    静默地和另一处不一致。这正是本轮 ⑤ 在处理的那种形态，不该自己再造一个。
+
+    Aaron 2026-09-02 定：社交块只给 FAQ 页加，不给手写的 privacy/terms/
+    support 加。理由是 1.7.0 之后 FAQ 是 App 设置页直接进的落地页，很多用户
+    唯一会看到的一页，必须独立成立；那三类是从 FAQ 点进去的次级页，页脚已有
+    邮箱。若将来改主意要全站都有，正确做法仍是从这里取，不是复制。
+
+    找不到就直接失败，不静默降级 —— 页脚少一块在生成物里不显眼，等发现时
+    往往已经上线很久了。
+    """
+    html = (ROOT / "index.html").read_text(encoding="utf-8")
+    m = re.search(pattern, html, re.S)
+    if m is None:
+        raise SystemExit(
+            f"✗ index.html 里找不到{what}：首页结构变了，请更新 build_faq.py 的提取规则"
+        )
+    return m.group(0)
+
+
+def social_markup() -> str:
+    return _pull_from_index(r'<div class="foot-social">.*?\n\s*</div>', "页脚社交块")
+
+
+def social_css() -> str:
+    # 四条规则连在一起，取第一条到最后一条。用到的 --line / --muted / --ink
+    # 都由 legal-style.css 定义，FAQ 页已引它，所以搬过来即可用。
+    return _pull_from_index(
+        r'\.foot-social \{.*?\.foot-social svg \{[^}]*\}', "页脚社交块的 CSS"
+    )
+
+
 STYLE = """
   .faq-jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;}
   .faq-jump a{
@@ -144,7 +181,7 @@ def build(lang: str) -> str:
 <meta name="description" content="{esc(t('sub'))}" />
 <link rel="icon" href="icon.png" />
 <link rel="stylesheet" href="legal-style.css" />
-<style>{STYLE}</style>
+<style>{STYLE}\n  {social_css()}</style>
 <script type="application/ld+json">
 {json.dumps(ld, ensure_ascii=False, indent=1)}
 </script>
@@ -189,6 +226,7 @@ def build(lang: str) -> str:
     <a href="index.html">{esc(t('back'))}</a>
     <a href="mailto:aaron@mememo.life">aaron@mememo.life</a>
   </div>
+  {social_markup()}
   <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>
 {ICP if lang == 'zh' else ''}
 </footer>
