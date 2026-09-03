@@ -18,6 +18,7 @@ import hashlib
 import re
 import shutil
 import sys
+import pathlib
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -444,10 +445,27 @@ def bust_asset_cache(soup: BeautifulSoup) -> None:
             img["src"] = f"{GONGAN_ICON}?v={asset_version('cn/extras/' + GONGAN_ICON)}"
 
 
+# 搜索引擎的站点验证文件（百度 / 将来可能有 Bing、360 等）。
+#
+# 必须放在仓库里由构建拷贝，**不能手工往服务器上传**：cn/deploy.sh 是
+# `rsync --delete`，而 dist-cn/ 每次构建整个重建，手放的文件会在下一次部署时
+# 被删掉。届时搜索平台复验失败、站点悄悄掉出验证状态，而且不会有任何报错
+# ——与 2026-09-02 那次 30 天缓存是同一类静默失效。
+#
+# 用目录而不是写死文件名：以后再加一个平台，把文件丢进来即可，不用改代码。
+VERIFY_DIR = ROOT / "cn" / "extras" / "site-verification"
+
+
+def verification_files() -> list[pathlib.Path]:
+    return sorted(f for f in VERIFY_DIR.iterdir() if f.is_file() and not f.name.startswith("."))
+
+
 def copy_assets() -> None:
     shutil.copy2(ROOT / "icon.png", DIST / "icon.png")
     shutil.copy2(ROOT / "legal-style.css", DIST / "legal-style.css")
     shutil.copy2(ROOT / "cn" / "extras" / GONGAN_ICON, DIST / GONGAN_ICON)
+    for f in verification_files():
+        shutil.copy2(f, DIST / f.name)
     make_favicon()
 
     opt = DIST / "screens" / "opt"
@@ -455,7 +473,8 @@ def copy_assets() -> None:
     for name in SHOWCASE:
         img = ROOT / "screens" / "opt" / f"{name}-zh.webp"
         shutil.copy2(img, opt / img.name)
-    note(f"复制资源：icon + legal-style.css + 警徽 + {len(SHOWCASE)} 张简体截图")
+    note(f"复制资源：icon + legal-style.css + 警徽 + {len(verification_files())} 个站点验证文件"
+         f" + {len(SHOWCASE)} 张简体截图")
 
 
 def verify() -> list[str]:
@@ -511,6 +530,17 @@ def verify() -> list[str]:
         loc = f"{SITE_CN}/" if page == "index.html" else f"{SITE_CN}/{page}"
         if f"<loc>{loc}</loc>" not in sitemap:
             problems.append(f"{page} 不在 sitemap 里")
+
+    # 站点验证文件掉了是完全静默的：搜索平台过一阵复验失败、站点掉出验证状态，
+    # 而网站本身一切正常。所以逐个查存在 + 查内容一致。
+    if not verification_files():
+        problems.append("cn/extras/site-verification/ 是空的（百度/Google 的验证文件应放在这里）")
+    for f in verification_files():
+        out = DIST / f.name
+        if not out.exists():
+            problems.append(f"站点验证文件未落地：{f.name}")
+        elif out.read_bytes() != f.read_bytes():
+            problems.append(f"站点验证文件内容不一致：{f.name}")
 
     # 兜底国际站：那份 sitemap 要手动跑 build_sitemap.py 生成，有忘记的风险。
     # 内地站每次部署都会跑到这里，正好替它把关。
