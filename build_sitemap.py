@@ -38,6 +38,28 @@ LANGS = {
 
 FAMILIES = ["faq", "privacy", "terms", "support"]
 
+# 站点验证文件不是内容页。搜索平台要求它们以固定文件名躺在网站根目录，
+# 但它们不该进 sitemap，也不该被要求带 description / canonical。
+# 2026-09-04 加 googleb18e0224b4b10b76.html 当天就把下面那条"每个 *.html
+# 都要在 sitemap 里"的自检打成了误报——守卫本身也会因为环境变化而失准。
+VERIFY_FILE = re.compile(
+    r"^(google[0-9a-f]+|baidu_verify_[\w-]+|BingSiteAuth)\.(html|xml)$"
+)
+
+
+def site_pages() -> set[str]:
+    """仓库根目录里算作「内容页」的 *.html。
+
+    cn/build.py 也 import 这个函数。两处必须对「什么算一页」有同一个定义，
+    各写一份迟早会分叉，而分叉的表现是某一边静默漏检。
+    """
+    return {p.name for p in ROOT.glob("*.html") if not VERIFY_FILE.match(p.name)}
+
+
+def page_canonical(name: str) -> str:
+    """该页应有的自指 canonical。首页是 SITE + "/"，不是 index.html。"""
+    return f"{SITE}/" if name == "index.html" else f"{SITE}/{name}"
+
 
 def build() -> tuple[str, str]:
     urls: list[str] = []
@@ -98,16 +120,43 @@ def main() -> int:
     (ROOT / "sitemap.xml").write_text(sitemap, encoding="utf-8")
     (ROOT / "robots.txt").write_text(robots, encoding="utf-8")
 
-    # 自检：仓库根目录下每个 *.html 都必须在 sitemap 里
-    pages = {p.name for p in ROOT.glob("*.html")}
+    problems: list[str] = []
+
+    # 自检 1：仓库根目录下每个内容页都必须在 sitemap 里
+    pages = site_pages()
     listed = set(re.findall(r"<loc>[^<]*/([^/<]+\.html)</loc>", sitemap))
     listed |= {"index.html"}  # 首页以 / 收录
-    missing = sorted(pages - listed)
-    if missing:
-        print(f"✗ 这些页面没进 sitemap：{missing}", file=sys.stderr)
+    for name in sorted(pages - listed):
+        problems.append(f"{name} 没进 sitemap")
+
+    # 自检 2 与 3：每个内容页都要有 description，且 canonical 自指到正确地址。
+    #
+    # 为什么值得一条自检：2026-09-02 那笔 SEO 只改了 index.html 和 5 个
+    # faq*.html，privacy / terms / support 共 15 页一个 description 都没加。
+    # 没人疏忽，是**没有任何东西会报错**——最后是 Bing 的 Site Scan 替我们
+    # 发现的，隔了两天。canonical 同理：/ 与 /index.html 返回同一份内容，
+    # 内链指 index.html 而 sitemap 指 /，不自指就是让搜索引擎自己猜。
+    for name in sorted(pages):
+        html = (ROOT / name).read_text(encoding="utf-8")
+        m = re.search(r'<meta\s+name="description"\s+content="([^"]*)"', html)
+        if not m or not m.group(1).strip():
+            problems.append(f"{name} 缺 meta description")
+        c = re.search(r'<link\s+rel="canonical"\s+href="([^"]*)"', html)
+        if not c:
+            problems.append(f"{name} 缺 canonical")
+        elif c.group(1) != page_canonical(name):
+            problems.append(
+                f"{name} canonical 指错了：{c.group(1)}（应为 {page_canonical(name)}）"
+            )
+
+    if problems:
+        print("✗ 自检未通过：", file=sys.stderr)
+        for p in problems:
+            print(f"    {p}", file=sys.stderr)
         return 1
 
     print(f"✅ sitemap.xml（{sitemap.count('<url>')} 个 URL，含 hreflang）+ robots.txt")
+    print(f"   {len(pages)} 个内容页，description / canonical 齐全")
     return 0
 
 

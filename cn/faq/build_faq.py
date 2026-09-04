@@ -24,6 +24,12 @@ ROOT = Path(__file__).resolve().parent.parent.parent
 DATA = json.loads((Path(__file__).parent / "faq.json").read_text(encoding="utf-8"))
 
 # 语言 -> (输出文件名, html lang 属性, 语言切换条上的名字)
+# 自指 canonical。必须写 mememo.life 的绝对地址：/ 与 /index.html 会返回同一份
+# 内容，内链指 index.html 而 sitemap 指 /，两边说法不一致。内地站不沿用这个值 ——
+# cn/build.py 的 set_canonical() 会改写成 www.mememo.com.cn 的对应地址，
+# 否则等于告诉百度「com.cn 是 .life 的副本，别收录我」。
+SITE = "https://mememo.life"
+
 LANGS = {
     "zh":      ("faq-zh.html",      "zh-CN", "简体"),
     "zh-Hant": ("faq-zh-Hant.html", "zh-TW", "繁體"),
@@ -179,6 +185,7 @@ def build(lang: str) -> str:
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>{BRAND[lang]} · {esc(t('title'))}</title>
 <meta name="description" content="{esc(t('sub'))}" />
+<link rel="canonical" href="{SITE}/{LANGS[lang][0]}" />
 <link rel="icon" href="icon.png" />
 <link rel="stylesheet" href="legal-style.css" />
 <style>{STYLE}\n  {social_css()}</style>

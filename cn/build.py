@@ -28,6 +28,13 @@ from PIL import Image
 ROOT = Path(__file__).resolve().parent.parent
 DIST = ROOT / "dist-cn"
 
+# 「什么算一个内容页」只允许存在一处定义。这里曾经自带一份 ROOT.glob("*.html")，
+# 与 build_sitemap.py 那份是两套并行规则；2026-09-04 往根目录放 Google 站点
+# 验证文件时，两处同时把它误判成「漏进 sitemap 的页面」。规则分叉的表现
+# 不是报错，是某一边静默失准，所以改成 import 而不是再抄一遍。
+sys.path.insert(0, str(ROOT))
+from build_sitemap import site_pages  # noqa: E402
+
 KEEP_LANG = "zh"
 
 # 内地站页脚必须展示【网站】备案号并链到工信部（法定要求）。
@@ -65,6 +72,8 @@ PAGE_RENAME = {
     "terms-zh.html": "terms.html",
     "support-zh.html": "support.html",
 }
+
+SITE_CN = "https://www.mememo.com.cn"
 
 ICON_VERSION = "2"
 
@@ -201,6 +210,28 @@ def simplify_lang_css(soup: BeautifulSoup) -> None:
     note("⚠️ 未找到语言显隐 CSS 规则")
 
 
+def set_canonical(soup: BeautifulSoup, dest_name: str) -> None:
+    """把源站的自指 canonical 改写成内地站自己的地址。
+
+    🔴 **不能原样搬过来。** 源文件 privacy-zh.html 里的 canonical 指向
+    https://mememo.life/privacy-zh.html；照抄到 dist-cn/privacy.html 上，
+    等于对百度声明「本页是 mememo.life 那页的副本，去收录那一个」——
+    而这个站存在的全部理由就是被百度收录。两个站各自自指，才是正解；
+    跨站的关系用 hreflang 表达，不是用 canonical（那是待办第 12 条 ①）。
+
+    源站没有 canonical 时不静默放过：说明根目录那边漏加了，直接报错。
+    """
+    link = soup.find("link", rel="canonical")
+    if link is None:
+        raise SystemExit(
+            f"✗ {dest_name}: 源文件没有 <link rel=\"canonical\">。"
+            f"根目录的页面必须先自指，内地站才有东西可改写。"
+        )
+    href = f"{SITE_CN}/{'' if dest_name == 'index.html' else dest_name}"
+    link["href"] = href
+    note(f"{dest_name}: canonical -> {href}")
+
+
 def set_icp_footer(soup: BeautifulSoup) -> None:
     """页脚挂【网站】备案号并链到工信部。
 
@@ -325,6 +356,7 @@ def build_page(src: Path, dest_name: str) -> None:
         simplify_lang_css(soup)
         pin_language_to_zh(soup)
     set_icons(soup)
+    set_canonical(soup, dest_name)
     set_icp_footer(soup)
     set_gongan_footer(soup)
     set_copyright(soup)
@@ -380,7 +412,6 @@ def set_icons(soup: BeautifulSoup) -> None:
         icon_links[0].insert_after(tag)
 
 
-SITE_CN = "https://www.mememo.com.cn"
 
 
 def write_sitemap() -> None:
@@ -542,6 +573,19 @@ def verify() -> list[str]:
         elif out.read_bytes() != f.read_bytes():
             problems.append(f"站点验证文件内容不一致：{f.name}")
 
+    # canonical 指错域是最贵的一种静默失败：它不是"少收录一页"，是主动
+    # 告诉搜索引擎"本页是别人的副本，别收录我"——而这个站存在的全部理由
+    # 就是被百度收录。源文件的 canonical 指向 mememo.life，靠 set_canonical()
+    # 改写；漏改一页不会有任何症状，只会在几周后表现为该页从索引里消失。
+    for page in ["index.html", *PAGE_RENAME.values()]:
+        page_soup = BeautifulSoup((DIST / page).read_text(encoding="utf-8"), "html.parser")
+        link = page_soup.find("link", rel="canonical")
+        want = f"{SITE_CN}/" if page == "index.html" else f"{SITE_CN}/{page}"
+        if link is None:
+            problems.append(f"{page} 缺 canonical")
+        elif link.get("href") != want:
+            problems.append(f"{page} canonical 指错了：{link.get('href')}（应为 {want}）")
+
     # 兜底国际站：那份 sitemap 要手动跑 build_sitemap.py 生成，有忘记的风险。
     # 内地站每次部署都会跑到这里，正好替它把关。
     life_sitemap = ROOT / "sitemap.xml"
@@ -551,7 +595,7 @@ def verify() -> list[str]:
         listed = set(re.findall(r"<loc>[^<]*/([^/<]+\.html)</loc>",
                                 life_sitemap.read_text(encoding="utf-8")))
         listed.add("index.html")  # 首页以 / 收录
-        stale = sorted({p.name for p in ROOT.glob("*.html")} - listed)
+        stale = sorted(site_pages() - listed)
         if stale:
             problems.append(
                 f"国际站 sitemap 已过期，缺 {stale}（跑 python3 build_sitemap.py）"
