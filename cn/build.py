@@ -232,6 +232,39 @@ def set_canonical(soup: BeautifulSoup, dest_name: str) -> None:
     note(f"{dest_name}: canonical -> {href}")
 
 
+def set_googlebot_noindex(soup: BeautifulSoup, dest_name: str) -> None:
+    """只对 Googlebot 声明 noindex，把这个站从 Google 索引里摘出去。
+
+    🔴 **必须是 name="googlebot"，绝不能写成 name="robots"。** 通用的
+    robots meta 百度同样认，写错一个词就等于把这个站从百度也摘了——
+    而被百度收录是它存在的全部理由。这是本文件里最贵的一处静默失败：
+    改错不会报错、不会少一个文件，只会在几周后表现为百度流量归零。
+
+    **为什么要摘（2026-09-10 Aaron 定）**：Google Search Console 报
+    mememo.life 有页面因 "Duplicate without user-selected canonical" 未被
+    索引。实测两站的简体正文 81–96% 雷同（privacy 95.6% / faq 95.5% /
+    terms 91.5% / support 81.0%），而两边各自自指 canonical、谁都没声明
+    跨域关系 ⇒ Google 只能自己挑一个、把另一个丢出索引。
+
+    **为什么是摘 .com.cn 而不是摘 .life**：Google 在大陆不可用，所以这个站
+    的 Google 收录对真实用户的价值≈0；它的职责是备案合规 + 百度收录。而
+    mememo.life 是五语言站、简体也在里面，理应独占 Google 的全部权重。
+    ⇒ 每个站只被它受众真正在用的搜索引擎收录。
+
+    没选跨域 canonical（.com.cn → .life）的原因：百度也认 canonical，
+    那样会连带压掉这个站在百度的收录，正好打在唯一的价值点上。
+    """
+    head = soup.find("head")
+    if head is None:
+        raise SystemExit(f"✗ {dest_name}: 没有 <head>，无法挂 googlebot noindex。")
+    if head.find("meta", attrs={"name": "googlebot"}) is None:
+        tag = soup.new_tag("meta")
+        tag["name"] = "googlebot"
+        tag["content"] = "noindex"
+        head.insert(0, tag)
+    note(f"{dest_name}: googlebot noindex")
+
+
 def set_icp_footer(soup: BeautifulSoup) -> None:
     """页脚挂【网站】备案号并链到工信部。
 
@@ -357,6 +390,7 @@ def build_page(src: Path, dest_name: str) -> None:
         pin_language_to_zh(soup)
     set_icons(soup)
     set_canonical(soup, dest_name)
+    set_googlebot_noindex(soup, dest_name)
     set_icp_footer(soup)
     set_gongan_footer(soup)
     set_copyright(soup)
@@ -585,6 +619,21 @@ def verify() -> list[str]:
             problems.append(f"{page} 缺 canonical")
         elif link.get("href") != want:
             problems.append(f"{page} canonical 指错了：{link.get('href')}（应为 {want}）")
+
+        # googlebot noindex 与 canonical 同属"改错了没有任何症状"的一类：
+        # 漏挂 → 跨域重复回来，Google 继续丢页；写成 name="robots" → 百度
+        # 也把它摘了。两个方向都要钉死，只查"存在"是不够的。
+        gb = page_soup.find("meta", attrs={"name": "googlebot"})
+        if gb is None:
+            problems.append(f"{page} 缺 <meta name=\"googlebot\" content=\"noindex\">")
+        elif "noindex" not in (gb.get("content") or ""):
+            problems.append(f"{page} googlebot meta 的 content 不是 noindex：{gb.get('content')}")
+        generic = page_soup.find("meta", attrs={"name": "robots"})
+        if generic is not None and "noindex" in (generic.get("content") or ""):
+            problems.append(
+                f"{page} 出现了通用 <meta name=\"robots\" content=\"noindex\">——"
+                f"百度同样认，会把这个站从百度摘掉。必须只对 googlebot 声明。"
+            )
 
     # 兜底国际站：那份 sitemap 要手动跑 build_sitemap.py 生成，有忘记的风险。
     # 内地站每次部署都会跑到这里，正好替它把关。
