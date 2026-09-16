@@ -15,9 +15,21 @@ GitHub Pages 直接发布仓库根目录。
 目录下所有 *.html，漏了就构建失败。也就是说只要还部署内地站，就不会静默过期。
 
 hreflang：faq / privacy / terms / support 四组各有 5 个语言 URL，不声明的话
-Google 可能把它们判成互相重复的内容，或者给英语用户推中文页。首页是单 URL
-靠 JS 切语言，没有语言变体，所以只出现一次。
+Google 可能把它们判成互相重复的内容，或者给英语用户推中文页。
+
+⚠️ **首页那段 2026-09-16 改了**（iOS todo 76）。此前这里写着「首页是单 URL 靠 JS
+切语言，没有语言变体，所以只出现一次」——那句描述是准确的，但那个状态是缺陷：
+首页是全站唯一没有语言变体的页面，而它恰好是 priority 1.0 的那一个。
+人这一侧一直是好的（JS 会按 navigator.language 自动切），坏的是搜索引擎：
+Google 索引的是 URL，没有日语地址就不存在一个能参与日语搜索排名的页面。
+现在 /zh-Hant/ /en/ /ja/ /ko/ 由 build_langs.py 生成，与 / 组成一个 hreflang 簇。
+**简体不单独建目录**：/ 本身首屏就是简体，另建 /zh/ 会和它成为近重复，
+还要把已有的排名分一半出去 ⇒ / 同时担任 zh-Hans 与 x-default。
 """
+
+# 本机 python3 是 Xcode 自带的 3.9，而下面用到了 `str | None`（PEP 604，3.10+）。
+# 延迟求值让注解不在运行时被解析，脚本因此在 3.9 上也能跑。
+from __future__ import annotations
 
 import re
 import sys
@@ -38,6 +50,17 @@ LANGS = {
 
 FAMILIES = ["faq", "privacy", "terms", "support"]
 
+# 首页语言簇。值是 URL 路径，不是文件名——/ja/ 背后是 ja/index.html，
+# 由 build_langs.py 生成。改这里就要同步改那边的 LANG_HOMES。
+HOME_LANGS = {
+    "zh-Hans": "/",
+    "zh-Hant": "/zh-Hant/",
+    "en": "/en/",
+    "ja": "/ja/",
+    "ko": "/ko/",
+}
+HOME_X_DEFAULT = "/"  # / 会按浏览器语言自动切，天然适合当「没有匹配语言时给谁看」
+
 # 站点验证文件不是内容页。搜索平台要求它们以固定文件名躺在网站根目录，
 # 但它们不该进 sitemap，也不该被要求带 description / canonical。
 # 2026-09-04 加 googleb18e0224b4b10b76.html 当天就把下面那条"每个 *.html
@@ -45,6 +68,31 @@ FAMILIES = ["faq", "privacy", "terms", "support"]
 VERIFY_FILE = re.compile(
     r"^(google[0-9a-f]+|baidu_verify_[\w-]+|BingSiteAuth)\.(html|xml)$"
 )
+
+
+def _attr(html: str, tag: str, match_attr: str, match_val: str, want: str) -> str | None:
+    """从 html 里找 <tag ... match_attr="match_val" ...>，返回它的 want 属性。
+
+    ⚠️ **与属性顺序无关**，这是本函数存在的全部理由。根目录那些页是手写的
+    （`<link rel="canonical" href=...>`），而 build_langs.py 生成的语言首页经过
+    BeautifulSoup，属性被按字母重排成 `<link href=... rel="canonical">`。
+    各写一份顺序敏感的正则 = 两套规则，而本仓已经因为规则分叉栽过一次
+    （2026-09-04，站点验证文件被两处同时误判）。分叉的表现不是报错，
+    是某一边静默失准。
+    """
+    for m in re.finditer(r"<" + tag + r"\b([^>]*)>", html, re.I):
+        attrs = dict(re.findall(r'([\w:-]+)\s*=\s*"([^"]*)"', m.group(1)))
+        if attrs.get(match_attr, "").lower() == match_val.lower():
+            return attrs.get(want)
+    return None
+
+
+def page_description(html: str) -> str | None:
+    return _attr(html, "meta", "name", "description", "content")
+
+
+def page_canonical_of(html: str) -> str | None:
+    return _attr(html, "link", "rel", "canonical", "href")
 
 
 def site_pages() -> set[str]:
@@ -64,14 +112,31 @@ def page_canonical(name: str) -> str:
 def build() -> tuple[str, str]:
     urls: list[str] = []
 
-    # 首页：单 URL，JS 切语言，没有语言变体
-    urls.append(
-        f"  <url>\n"
-        f"    <loc>{SITE}/</loc>\n"
-        f"    <changefreq>weekly</changefreq>\n"
-        f"    <priority>1.0</priority>\n"
-        f"  </url>"
+    # 首页语言簇：/ 与四个语言首页互相声明 hreflang
+    missing_homes = [
+        path for path in HOME_LANGS.values()
+        if path != "/" and not (ROOT / path.strip("/") / "index.html").exists()
+    ]
+    if missing_homes:
+        sys.exit(f"✗ 缺少语言首页：{missing_homes} —— 先跑 python3 build_langs.py")
+
+    home_alts = "".join(
+        f'    <xhtml:link rel="alternate" hreflang="{code}" href="{SITE}{path}"/>\n'
+        for code, path in HOME_LANGS.items()
     )
+    home_alts += (
+        f'    <xhtml:link rel="alternate" hreflang="x-default" '
+        f'href="{SITE}{HOME_X_DEFAULT}"/>\n'
+    )
+    for path in HOME_LANGS.values():
+        urls.append(
+            f"  <url>\n"
+            f"    <loc>{SITE}{path}</loc>\n"
+            f"{home_alts}"
+            f"    <changefreq>weekly</changefreq>\n"
+            f"    <priority>1.0</priority>\n"
+            f"  </url>"
+        )
 
     for fam in FAMILIES:
         variants = {sfx: f"{fam}{sfx}.html" for sfx in LANGS}
@@ -138,16 +203,36 @@ def main() -> int:
     # 内链指 index.html 而 sitemap 指 /，不自指就是让搜索引擎自己猜。
     for name in sorted(pages):
         html = (ROOT / name).read_text(encoding="utf-8")
-        m = re.search(r'<meta\s+name="description"\s+content="([^"]*)"', html)
-        if not m or not m.group(1).strip():
+        desc = page_description(html)
+        if not desc or not desc.strip():
             problems.append(f"{name} 缺 meta description")
-        c = re.search(r'<link\s+rel="canonical"\s+href="([^"]*)"', html)
+        c = page_canonical_of(html)
         if not c:
             problems.append(f"{name} 缺 canonical")
-        elif c.group(1) != page_canonical(name):
+        elif c != page_canonical(name):
             problems.append(
-                f"{name} canonical 指错了：{c.group(1)}（应为 {page_canonical(name)}）"
+                f"{name} canonical 指错了：{c}（应为 {page_canonical(name)}）"
             )
+
+    # 自检 4：语言首页也要有 description 与自指 canonical。
+    # 根目录那套 glob 是非递归的（刻意如此：cn/build.py 共用它，
+    # 递归会把语言首页吃进内地站，而内地站已向管局承诺简体单语），
+    # 所以子目录必须单列一条，否则这四页没有任何守卫。
+    for code, path in HOME_LANGS.items():
+        if path == "/":
+            continue
+        f = ROOT / path.strip("/") / "index.html"
+        html = f.read_text(encoding="utf-8")
+        desc = page_description(html)
+        if not desc or not desc.strip():
+            problems.append(f"{path} 缺 meta description")
+        c = page_canonical_of(html)
+        if not c:
+            problems.append(f"{path} 缺 canonical")
+        elif c != f"{SITE}{path}":
+            problems.append(f"{path} canonical 指错了：{c}（应为 {SITE}{path}）")
+        if "navigator.language" in html:
+            problems.append(f"{path} 还留着语言自动检测 —— 其余语言已剥掉，会白屏")
 
     if problems:
         print("✗ 自检未通过：", file=sys.stderr)
