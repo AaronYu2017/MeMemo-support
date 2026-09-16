@@ -33,7 +33,7 @@ DIST = ROOT / "dist-cn"
 # 验证文件时，两处同时把它误判成「漏进 sitemap 的页面」。规则分叉的表现
 # 不是报错，是某一边静默失准，所以改成 import 而不是再抄一遍。
 sys.path.insert(0, str(ROOT))
-from build_sitemap import site_pages  # noqa: E402
+from build_sitemap import site_pages, lang_maps, lang_script_span  # noqa: E402
 
 KEEP_LANG = "zh"
 
@@ -145,6 +145,37 @@ def strip_cloudflare(soup: BeautifulSoup) -> None:
             note("移除 Cloudflare 统计脚本")
 
 
+def pin_head_to_zh(soup: BeautifulSoup, src_html: str) -> None:
+    """把首页静态 head（html lang / title / description）钉成简体。
+
+    🔴 **这个守卫此前不存在，而内地站的中文是"碰巧"不是"保证"。**
+    2026-09-16 之前 dist-cn/index.html 之所以是中文标题，纯粹因为国际站
+    `index.html` 的静态 head 恰好是中文；当天国际站首页改成英文首屏
+    （/ = 英文 + x-default，见 build_langs.py 的长注释），这里如果不补，
+    备案站会立刻发出 `<title>MeMemo · Journal, Diary, Plans</title>`。
+
+    **失败形态是静默的**：不报错、不构建失败、页面照样能打开，
+    只是百度抓到的是英文标题，而 com.cn 存在的全部意义就是让大陆用户搜得到。
+
+    文案取自 index.html 脚本里的 titles/descs 表，**不在这里另写一份** ——
+    两份措辞迟早分叉，而分叉的表现是搜索结果里显示的和页面上写的不一样。
+    """
+    maps = lang_maps(src_html)
+    titles, descs = maps["titles"], maps["descs"]
+    for name, table in (("titles", titles), ("descs", descs)):
+        if KEEP_LANG not in table:
+            sys.exit(f"✗ index.html 的 {name} 表里没有 '{KEEP_LANG}'")
+
+    soup.html["lang"] = "zh-CN"
+    soup.html["data-lang"] = KEEP_LANG
+    if soup.title:
+        soup.title.string = titles[KEEP_LANG]
+    meta = soup.select_one('meta[name="description"]')
+    if meta:
+        meta["content"] = descs[KEEP_LANG]
+    note("首页 head（lang / title / description）钉为简体")
+
+
 def pin_language_to_zh(soup: BeautifulSoup) -> None:
     """把首页脚本里的语言切换机制换成写死简体。
 
@@ -153,11 +184,14 @@ def pin_language_to_zh(soup: BeautifulSoup) -> None:
     """
     for tag in soup.find_all("script"):
         code = tag.string
-        if not code or "const setLang = (lang) =>" not in code:
+        if not code:
             continue
-        start = code.index("const setLang = (lang) => {")
-        end_anchor = "} catch(e){ setLang('zh'); }"
-        end = code.index(end_anchor) + len(end_anchor)
+        # 起止由 build_sitemap 统一定义。此前这里把 `setLang('zh')` 写死成锚点，
+        # 2026-09-16 兜底语言改成 'en' 时当场炸（build_langs.py 里的同一份也炸）。
+        span = lang_script_span(code)
+        if not span:
+            continue
+        start, end = span
         replacement = (
             "/* 内地站为简体单语：语言切换机制已在构建时移除。\n"
             "     原逻辑会按浏览器语言自动切换，在单语站上会导致白屏。 */\n"
@@ -388,6 +422,7 @@ def build_page(src: Path, dest_name: str) -> None:
     if src.name == "index.html":
         simplify_lang_css(soup)
         pin_language_to_zh(soup)
+        pin_head_to_zh(soup, src.read_text(encoding="utf-8"))
     set_icons(soup)
     set_canonical(soup, dest_name)
     set_googlebot_noindex(soup, dest_name)

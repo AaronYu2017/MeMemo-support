@@ -22,9 +22,14 @@ Google 可能把它们判成互相重复的内容，或者给英语用户推中�
 首页是全站唯一没有语言变体的页面，而它恰好是 priority 1.0 的那一个。
 人这一侧一直是好的（JS 会按 navigator.language 自动切），坏的是搜索引擎：
 Google 索引的是 URL，没有日语地址就不存在一个能参与日语搜索排名的页面。
-现在 /zh-Hant/ /en/ /ja/ /ko/ 由 build_langs.py 生成，与 / 组成一个 hreflang 簇。
-**简体不单独建目录**：/ 本身首屏就是简体，另建 /zh/ 会和它成为近重复，
-还要把已有的排名分一半出去 ⇒ / 同时担任 zh-Hans 与 x-default。
+现在 /zh/ /zh-Hant/ /ja/ /ko/ 由 build_langs.py 生成，与 / 组成一个 hreflang 簇。
+
+**/ 是英文页，兼作 x-default** —— 与 faq.html 完全同构（裸地址 = 英文 = x-default）。
+x-default 的语义是「来客语言一个都没匹配上」，而那批人要的就是英文 ⇒ 受众重合，
+合成一页是消掉重复而不是制造双重身份。
+⚠️ 同日第一版曾把简体放在 /，那是**继承现状而非决定**。三条证据推翻它：内页裸文件名
+全是 `<html lang="en">`；ASC 主语言是 en-US；GSC 三个月实测 8 次点击全部来自
+韩/日/美/丹麦/越南，前十国家无中国大陆（大陆走 mememo.com.cn）⇒ 没有中文排名可失去。
 """
 
 # 本机 python3 是 Xcode 自带的 3.9，而下面用到了 `str | None`（PEP 604，3.10+）。
@@ -53,13 +58,13 @@ FAMILIES = ["faq", "privacy", "terms", "support"]
 # 首页语言簇。值是 URL 路径，不是文件名——/ja/ 背后是 ja/index.html，
 # 由 build_langs.py 生成。改这里就要同步改那边的 LANG_HOMES。
 HOME_LANGS = {
-    "zh-Hans": "/",
+    "en": "/",
+    "zh-Hans": "/zh/",
     "zh-Hant": "/zh-Hant/",
-    "en": "/en/",
     "ja": "/ja/",
     "ko": "/ko/",
 }
-HOME_X_DEFAULT = "/"  # / 会按浏览器语言自动切，天然适合当「没有匹配语言时给谁看」
+HOME_X_DEFAULT = "/"  # 与 en 同址，和内页 faq.html 的做法一致
 
 # 站点验证文件不是内容页。搜索平台要求它们以固定文件名躺在网站根目录，
 # 但它们不该进 sitemap，也不该被要求带 description / canonical。
@@ -93,6 +98,48 @@ def page_description(html: str) -> str | None:
 
 def page_canonical_of(html: str) -> str | None:
     return _attr(html, "link", "rel", "canonical", "href")
+
+
+# ── 关于 index.html 那段语言脚本的事实，只允许存在一处定义 ──────────────
+#
+# 有三个消费方：build_langs.py（生成语言首页时把语言钉死）、cn/build.py
+# （内地站钉简体 + 重写 head）、以及本文件的自检。各抄一份正则就是三套规则，
+# 而本仓 2026-09-04 已经因为规则分叉栽过一次（站点验证文件被两处同时误判）。
+# 分叉的表现不是报错，是某一边静默失准。
+#
+# 2026-09-16 实测到的第二种形态：`} catch(e){ setLang('zh'); }` 这个锚点被
+# **写死在两个文件里**，当天把兜底语言从 zh 改成 en，两处同时炸。
+# 炸是好事（比静默生成半截页面强），但不该炸两次。
+
+LANG_SCRIPT_HEAD = "const setLang = (lang) => {"
+# ⚠️ 不要写死兜底语言：它是会变的（2026-09-16 由 'zh' 改为 'en'）
+LANG_SCRIPT_TAIL = re.compile(r"\}\s*catch\(e\)\{\s*setLang\('[^']+'\);\s*\}")
+
+
+def lang_script_span(code: str) -> tuple[int, int] | None:
+    """在一段 <script> 文本里定位「语言切换机制」的起止，找不到返回 None。"""
+    if LANG_SCRIPT_HEAD not in code:
+        return None
+    m = LANG_SCRIPT_TAIL.search(code)
+    if not m:
+        return None
+    return code.index(LANG_SCRIPT_HEAD), m.end()
+
+
+def lang_maps(html: str) -> dict[str, dict[str, str]]:
+    """取 index.html 脚本里的 titles / descs 两张表。
+
+    标题与摘要**只有这一个真源**。任何地方要写某语言的 title/description，
+    都从这里取，不另写一份 —— 两份措辞迟早分叉，而分叉的表现是搜索结果里
+    显示的和页面上写的不一样。
+    """
+    out = {}
+    for var in ("titles", "descs"):
+        m = re.search(r"const " + var + r" = \{(.*?)\n    \};", html, re.S)
+        if not m:
+            sys.exit(f"✗ index.html 里找不到 const {var} —— 脚本结构变了")
+        out[var] = dict(re.findall(r"'([^']+)':'((?:[^'\\]|\\.)*)'", m.group(1)))
+    return out
 
 
 def site_pages() -> set[str]:

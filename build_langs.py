@@ -35,32 +35,40 @@ from pathlib import Path
 
 from bs4 import BeautifulSoup
 
+# 关于 index.html 那段语言脚本的事实只有一个真源，见 build_sitemap.py 里的长注释
+from build_sitemap import lang_maps, lang_script_span
+
 ROOT = Path(__file__).resolve().parent
 SRC = ROOT / "index.html"
 
-# 语言首页地址。简体不单独建目录：/ 本身首屏就是简体，
-# 另建 /zh/ 会和它成为近重复，还要把已有的排名分一半出去。
+# 语言首页地址。
+#
+# 🔄 **2026-09-16 当天改过一次，第一版把简体放在 / 是错的。**
+# 第一版的理由是「/ 本身首屏就是简体，另建 /zh/ 会成为近重复、还要分走已有排名」。
+# 那不是一个决定，是**继承** —— 保住了现状却没问现状对不对。三条证据都指向英文：
+#   · 内页 faq/privacy/terms/support 的**裸文件名全是 `<html lang="en">`**，
+#     且它们 sitemap 的 x-default 指向英文那一份 ⇒ 全站只有首页是例外
+#   · ASC 的 App 主语言是 **en-US**（面向 175 个国家，只适配了 5 种语言）
+#   · GSC 三个月实测：全站 8 次点击 / 约 207 次曝光，
+#     点击来自韩国 3 / 日本 2 / 美国 1 / 丹麦 1 / 越南 1，**简体读者零点击**；
+#     前十国家里**没有中国大陆**（Google 在那边打不开，大陆走 mememo.com.cn）
+#     ⇒ 「改 / 会打散已有中文排名」这个顾虑**不成立**，没有排名可失去
+#
+# 所以 / = 英文 + x-default，与 faq.html 完全同构：
+# x-default 的语义是「来客语言一个都没匹配上」，而那批人要的就是英文 ⇒
+# 两者受众重合，合成同一页是**消掉一个重复**，不是制造一个双重身份。
 LANG_HOMES = {
-    "zh": "/",
+    "en": "/",
+    "zh": "/zh/",
     "zh-Hant": "/zh-Hant/",
-    "en": "/en/",
     "ja": "/ja/",
     "ko": "/ko/",
 }
-# 要生成的（/ 已经是简体页，不生成）
-GENERATE = ["zh-Hant", "en", "ja", "ko"]
+# 要生成的（/ 已经是英文页，不生成）
+GENERATE = ["zh", "zh-Hant", "ja", "ko"]
 
 HTML_LANG = {"zh": "zh-CN", "zh-Hant": "zh-TW", "ja": "ja", "ko": "ko", "en": "en"}
 
-# 标题与摘要直接取自 index.html 脚本里的那两张表，不另写一份：
-# 两份措辞迟早分叉，而分叉的表现是搜索结果里显示的和页面上写的不一样。
-def extract_maps(html: str) -> tuple[dict, dict]:
-    def grab(var: str) -> dict:
-        m = re.search(r"const " + var + r" = \{(.*?)\n    \};", html, re.S)
-        if not m:
-            sys.exit(f"✗ 在 index.html 里找不到 const {var} —— 脚本结构变了")
-        return dict(re.findall(r"'([^']+)':'((?:[^'\\]|\\.)*)'", m.group(1)))
-    return grab("titles"), grab("descs")
 
 
 def rewrite_relative_urls(soup: BeautifulSoup) -> int:
@@ -104,11 +112,12 @@ def pin_language(soup: BeautifulSoup, lang: str) -> None:
     homes = ", ".join(f"'{k}':'{v}'" for k, v in LANG_HOMES.items())
     for tag in soup.find_all("script"):
         code = tag.string
-        if not code or "const setLang = (lang) =>" not in code:
+        if not code:
             continue
-        start = code.index("const setLang = (lang) => {")
-        anchor = "} catch(e){ setLang('zh'); }"
-        end = code.index(anchor) + len(anchor)
+        span = lang_script_span(code)
+        if not span:
+            continue
+        start, end = span
         repl = (
             f"/* 语言首页：本页只含 {lang} 的内容，其余语言已在构建时剥掉。\n"
             "     所以切换必须是**跳转**，不能原地切——原地切等于切到空白。\n"
@@ -153,7 +162,8 @@ def set_head(soup: BeautifulSoup, lang: str, titles: dict, descs: dict) -> None:
 
 def main() -> int:
     html = SRC.read_text(encoding="utf-8")
-    titles, descs = extract_maps(html)
+    maps = lang_maps(html)
+    titles, descs = maps["titles"], maps["descs"]
     missing = [l for l in LANG_HOMES if l not in titles or l not in descs]
     if missing:
         sys.exit(f"✗ index.html 的 titles/descs 缺语言：{missing}")
@@ -172,7 +182,7 @@ def main() -> int:
         size = out.stat().st_size / 1024
         print(f"  ✅ {LANG_HOMES[lang]:12} 剥掉 {removed:3} 个他语块 · 改写 {urls:3} 个相对引用 · {size:5.0f} KB")
 
-    print(f"\n生成 {len(GENERATE)} 个语言首页。/ 保持原样（首屏简体 + JS 自动切，兼作 x-default）。")
+    print(f"\n生成 {len(GENERATE)} 个语言首页。/ 是英文页，兼作 x-default（首屏英文 + JS 自动切）。")
     print("⚠️ 接着跑 python3 build_sitemap.py 更新 hreflang。")
     return 0
 

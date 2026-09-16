@@ -1095,9 +1095,9 @@
 <span data-i18n="ko">언어</span>
 </h4>
 <div class="foot-links">
-<a data-lang-link="zh" href="/">简体中文</a>
+<a data-lang-link="zh" href="/zh/">简体中文</a>
 <a data-lang-link="zh-Hant" href="/zh-Hant/">繁體中文</a>
-<a data-lang-link="en" href="/en/">English</a>
+<a data-lang-link="en" href="/">English</a>
 <a data-lang-link="ja" href="/ja/">日本語</a>
 <a data-lang-link="ko" href="/ko/">한국어</a>
 </div>
@@ -1126,7 +1126,7 @@
   document.documentElement.setAttribute('lang', 'ko');
   loadShowcaseForLang('ko');
   try { localStorage.setItem('mememo-lang', 'ko'); } catch(e){}
-  const LANG_HOMES = {'zh':'/', 'zh-Hant':'/zh-Hant/', 'en':'/en/', 'ja':'/ja/', 'ko':'/ko/'};
+  const LANG_HOMES = {'en':'/', 'zh':'/zh/', 'zh-Hant':'/zh-Hant/', 'ja':'/ja/', 'ko':'/ko/'};
   document.querySelectorAll('[data-lang-btn]').forEach(b => {
     b.addEventListener('click', () => {
       const t = LANG_HOMES[b.getAttribute('data-lang-btn')];

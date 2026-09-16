@@ -1,10 +1,10 @@
 <!DOCTYPE html>
-<html lang="zh-CN" data-lang="zh">
+<html lang="en" data-lang="en">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-<title>我记 MeMemo · 日记、手帐、人生整理</title>
-<meta name="description" content="我记 MeMemo：一句话日记、手帐与人生整理。从一生、一年、一月、一周到一天，五个时间维度整理自己。本地优先，隐私安全，无需注册。" />
+<title>MeMemo · Journal, Diary, Plans</title>
+<meta name="description" content="MeMemo: a one-line journal, diary and planner. Five time scales, from your whole life down to a single day. Local-first, private, no account needed." />
 <link rel="canonical" href="https://mememo.life/" />
 <link rel="icon" href="icon.png" />
 <style>
@@ -1189,15 +1189,19 @@
     } else {
       // First visit — pick default from browser locale.
       // localStorage from a previous manual switch always wins.
-      const bcp = (navigator.language || 'zh').toLowerCase();
-      let initial = 'zh';
+      // 默认英文：没匹配上任何一种适配语言时，英文比简体合理得多。
+      // ⚠️ 简体必须有**显式分支** —— 它此前是靠这行默认值兜的，
+      // 结果德/法/葡等浏览器打开看到的是简体中文（2026-09-16 修）。
+      const bcp = (navigator.language || 'en').toLowerCase();
+      let initial = 'en';
       if (bcp.startsWith('en')) initial = 'en';
       else if (bcp.startsWith('ja')) initial = 'ja';
       else if (bcp.startsWith('ko')) initial = 'ko';
-      else if (bcp.startsWith('zh-tw') || bcp.startsWith('zh-hk') || bcp.startsWith('zh-hant')) initial = 'zh-Hant';
+      else if (bcp.startsWith('zh-tw') || bcp.startsWith('zh-hk') || bcp.startsWith('zh-hant') || bcp.startsWith('zh-mo')) initial = 'zh-Hant';
+      else if (bcp.startsWith('zh')) initial = 'zh';
       setLang(initial);
     }
-  } catch(e){ setLang('zh'); }
+  } catch(e){ setLang('en'); }
 
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {
