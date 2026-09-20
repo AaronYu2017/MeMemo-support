@@ -1146,6 +1146,18 @@
     });
   };
 
+  /* 🔴 **换了 key，不是手滑。** 旧 key `mememo-lang` 的值分不清两种来源：
+     「用户在切换器上选的」和「到达 /ko/ 等语言首页时被自动写入的」
+     （后者由 build_langs.py 注入，2026-09-20 之前一直在写）。分不清就不能信 ——
+     存量用户带着一个看起来像选择、其实是路过留下的值，英语 App 送他们到 /
+     就会显示上次路过的那个语言。所以：旧 key **读到即删**，新 key 只由显式选择写。 */
+  const LANG_CHOICE_KEY = 'mememo-lang-choice';
+  try { localStorage.removeItem('mememo-lang'); } catch(e){}
+  /* ⚠️ 上面这两行**故意放在 `const setLang` 之前** —— `build_langs.py` 从那里开始替换，
+     所以它们会**原样保留到每个语言首页**，清除旧 key 的动作因此覆盖全部五个入口，
+     而不只是 `/`。（语言首页里 `LANG_CHOICE_KEY` 会成为未使用常量，无害；
+     真要挪位置，先想清楚存量用户是从哪个页面进来的。） */
+
   const setLang = (lang, persist = true) => {
     /* `persist=false`：**自动判定**出来的语言不留痕，只有用户在语言切换器上的
        **显式选择**才写 localStorage。
@@ -1160,7 +1172,7 @@
     document.querySelectorAll('[data-lang-btn]').forEach(b => {
       b.classList.toggle('active', b.getAttribute('data-lang-btn') === lang);
     });
-    if (persist) { try { localStorage.setItem('mememo-lang', lang); } catch(e){} }
+    if (persist) { try { localStorage.setItem(LANG_CHOICE_KEY, lang); } catch(e){} }
     const titles = {
       'zh':'我记 MeMemo · 日记、手帐、人生整理',
       'zh-Hant':'我記 MeMemo · 日記、手帳、人生整理',
@@ -1190,7 +1202,7 @@
     a.addEventListener('click', (e) => { e.preventDefault(); setLang(a.getAttribute('data-lang-link'));});
   });
   try {
-    const saved = localStorage.getItem('mememo-lang');
+    const saved = localStorage.getItem(LANG_CHOICE_KEY);
     if (saved) {
       setLang(saved);
     } else {
