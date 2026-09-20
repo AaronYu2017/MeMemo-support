@@ -1146,14 +1146,21 @@
     });
   };
 
-  const setLang = (lang) => {
+  const setLang = (lang, persist = true) => {
+    /* `persist=false`：**自动判定**出来的语言不留痕，只有用户在语言切换器上的
+       **显式选择**才写 localStorage。
+       🔴 否则「访问过一次就被钉死」：App 把韩语用户送到 /ko/、把英语用户送到 /，
+       而 / 读到上次留下的 ko 就显示韩语 —— 链条全自动，不需要任何手动切换
+       （第 103 条，2026-09-20 用浏览器实测复现）。
+       ⚠️ 注释必须待在函数体**内** —— `build_langs.py` 从 `const setLang` 起替换，
+       放在它前面会被留在语言首页里，而那里根本没有 persist 这回事。 */
     document.documentElement.setAttribute('data-lang', lang);
     const htmlLang = {'zh':'zh-CN','zh-Hant':'zh-TW','ja':'ja','ko':'ko','en':'en'}[lang] || 'en';
     document.documentElement.setAttribute('lang', htmlLang);
     document.querySelectorAll('[data-lang-btn]').forEach(b => {
       b.classList.toggle('active', b.getAttribute('data-lang-btn') === lang);
     });
-    try { localStorage.setItem('mememo-lang', lang); } catch(e){}
+    if (persist) { try { localStorage.setItem('mememo-lang', lang); } catch(e){} }
     const titles = {
       'zh':'我记 MeMemo · 日记、手帐、人生整理',
       'zh-Hant':'我記 MeMemo · 日記、手帳、人生整理',
@@ -1199,9 +1206,9 @@
       else if (bcp.startsWith('ko')) initial = 'ko';
       else if (bcp.startsWith('zh-tw') || bcp.startsWith('zh-hk') || bcp.startsWith('zh-hant') || bcp.startsWith('zh-mo')) initial = 'zh-Hant';
       else if (bcp.startsWith('zh')) initial = 'zh';
-      setLang(initial);
+      setLang(initial, false);   // ← 自动判定，不留痕
     }
-  } catch(e){ setLang('en'); }
+  } catch(e){ setLang('en', false); }
 
   const io = new IntersectionObserver(entries => {
     entries.forEach(en => {

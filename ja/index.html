@@ -1125,7 +1125,6 @@
   document.documentElement.setAttribute('data-lang', 'ja');
   document.documentElement.setAttribute('lang', 'ja');
   loadShowcaseForLang('ja');
-  try { localStorage.setItem('mememo-lang', 'ja'); } catch(e){}
   const LANG_HOMES = {'en':'/', 'zh':'/zh/', 'zh-Hant':'/zh-Hant/', 'ja':'/ja/', 'ko':'/ko/'};
   document.querySelectorAll('[data-lang-btn]').forEach(b => {
     b.addEventListener('click', () => {

@@ -125,7 +125,12 @@ def pin_language(soup: BeautifulSoup, lang: str) -> None:
             f"  document.documentElement.setAttribute('data-lang', '{lang}');\n"
             f"  document.documentElement.setAttribute('lang', '{HTML_LANG[lang]}');\n"
             f"  loadShowcaseForLang('{lang}');\n"
-            f"  try {{ localStorage.setItem('mememo-lang', '{lang}'); }} catch(e){{}}\n"
+            # 🔴 **这里故意不写 localStorage。** 到达 /ko/ 是「App 按自己的语言把人
+            #    送过来」，不是「用户选了韩语」。此前每个语言首页都会写，于是访问过
+            #    一次 /ko/ 之后，英语 App 送到 / 的用户会读到 ko 而看到韩语 ——
+            #    链条全自动，不需要任何手动切换（第 103 条，2026-09-20 实测复现）。
+            #    在本页点语言按钮是**跳转**到另一个语言首页，那一页同样不写；
+            #    真正的显式选择只发生在 / 的原地切换上，由 index.html 的 persist 管。
             f"  const LANG_HOMES = {{{homes}}};\n"
             "  document.querySelectorAll('[data-lang-btn]').forEach(b => {\n"
             "    b.addEventListener('click', () => {\n"

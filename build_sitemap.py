@@ -111,9 +111,10 @@ def page_canonical_of(html: str) -> str | None:
 # **写死在两个文件里**，当天把兜底语言从 zh 改成 en，两处同时炸。
 # 炸是好事（比静默生成半截页面强），但不该炸两次。
 
-LANG_SCRIPT_HEAD = "const setLang = (lang) => {"
+LANG_SCRIPT_HEAD = "const setLang = (lang, persist = true) => {"
 # ⚠️ 不要写死兜底语言：它是会变的（2026-09-16 由 'zh' 改为 'en'）
-LANG_SCRIPT_TAIL = re.compile(r"\}\s*catch\(e\)\{\s*setLang\('[^']+'\);\s*\}")
+# 兜底调用可能带第二个参数（persist），两种写法都要认
+LANG_SCRIPT_TAIL = re.compile(r"\}\s*catch\(e\)\{\s*setLang\('[^']+'(?:\s*,\s*\w+)?\);\s*\}")
 
 
 def lang_script_span(code: str) -> tuple[int, int] | None:

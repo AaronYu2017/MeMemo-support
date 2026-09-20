@@ -1125,7 +1125,6 @@
   document.documentElement.setAttribute('data-lang', 'zh-Hant');
   document.documentElement.setAttribute('lang', 'zh-TW');
   loadShowcaseForLang('zh-Hant');
-  try { localStorage.setItem('mememo-lang', 'zh-Hant'); } catch(e){}
   const LANG_HOMES = {'en':'/', 'zh':'/zh/', 'zh-Hant':'/zh-Hant/', 'ja':'/ja/', 'ko':'/ko/'};
   document.querySelectorAll('[data-lang-btn]').forEach(b => {
     b.addEventListener('click', () => {
