@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>我記 Android 版 · 隱私政策</title>
+<meta name="description" content="我記 Android 版隱私政策，說明本機儲存、可選 Google Drive 同步、Google 帳號資料、保留、刪除與使用者選擇。" />
+<link rel="canonical" href="https://mememo.life/privacy-android-zh-Hant.html" />
+<link rel="icon" href="icon.png" />
+<link rel="stylesheet" href="legal-style.css" />
+</head>
+<body>
+<nav class="nav"><a class="nav-brand" href="android-zh-Hant.html"><img src="icon.png" alt="MeMemo" /><span>MeMemo</span><span class="en">Android</span></a><div class="nav-langs">
+    <a href="privacy-android.html" class="">EN</a>
+    <a href="privacy-android-zh.html" class="">简体</a>
+    <a href="privacy-android-zh-Hant.html" class="active">繁體</a>
+    <a href="privacy-android-ja.html" class="">日本語</a>
+    <a href="privacy-android-ko.html" class="">한국어</a>
+</div></nav>
+<header class="page-head"><div class="eyebrow">Android</div><h1>Android 版隱私政策</h1><p class="sub">你的記錄，始終由你掌控。</p><div class="dates"><span>生效及更新日期：2026 年 9 月 22 日</span></div></header>
+<nav class="subnav"><a href="android-zh-Hant.html">Android 版說明</a><a href="privacy-android-zh-Hant.html" class="active">隱私政策</a><a href="terms-android-zh-Hant.html" class="">使用條款</a></nav>
+<main class="content">
+<section><h2>概述</h2><p>本政策適用於上海于马科技有限公司（Shanghai Yuma Technology Co., Ltd.，以下稱「我們」、「本應用」）發布的我記 Android 版。我記是本機優先的人生記錄應用，不註冊我記帳號、不開啟雲端同步也可使用。</p></section>
+<section><h2>本機處理的資料</h2><p>我們不營運用於接收、儲存或處理你日記內容的伺服器。本應用在你的裝置上處理日記、備註、關鍵詞、計畫、完成狀態、星標、刪除與衝突版本，以及生日、年齡算法、人生長度、主題色和固定圖示年齡。語言、外觀、提醒與應用鎖憑證只儲存於當前裝置。</p><p>開啟 Google Drive 同步後，應用會儲存你確認的 Google 電子郵件地址，以及由 Google 穩定帳號識別碼衍生的 SHA-256 脫敏帳號鍵。OAuth access token 只存在於程序記憶體，不寫入資料庫、設定、日誌或同步檔案。</p></section>
+<section><h2>可選的 Google Drive 同步</h2><p>開啟同步時，我記會要求 <code>openid</code>、<code>userinfo.email</code> 和非敏感的 <code>drive.appdata</code> 範圍。郵件地址用於讓你確認同步帳號；穩定帳號識別碼只用於防止不同 Google 帳號的資料混合。</p><p>參與同步的日記與個人資料儲存在你 Google Drive 的隱藏應用專用空間，不會出現於一般 Drive 檔案清單中，也無法分享。語言、外觀、提醒、應用鎖憑證、OAuth token 和購買憑證不會進入同步檔案。</p><p>Google API 資料只用於 Android 裝置間同步、重裝或換機復原、衝突處理與歷史復原，不用於廣告、分析、信用評估、AI 訓練或資料中介業務。我們遵守 <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a> 與 Limited Use 要求。</p></section>
+<section><h2>開發者存取與分享</h2><p>我們無法讀取你的日記或 Google Drive 同步檔案，也不會收到你的 Google access token。只有你授權裝置上的本應用能在授權期間存取自己的 Drive 隱藏空間。我們不出售資料。資料只會依你的選擇傳送至 Google Drive，用於同步與復原。應用不含第三方廣告、分析或追蹤 SDK。</p></section>
+<section><h2>Google Play 與本網站</h2><p>Google Play 處理購買，並可向本應用提供購買狀態與購買 token 以判定權益。我們不會收到你的付款卡資料。本網站使用 Cloudflare Web Analytics 進行匯總頁面與效能測量。依 Cloudflare 說明，它不使用 cookie、不跨網站追蹤個人、不收集或使用訪客個人資料，也不會得到你的我記日記。</p></section>
+<section><h2>保留、停用、撤銷與刪除</h2><ul><li><strong>在我記內刪除內容：</strong>開啟同步時，刪除狀態會被同步。冗餘歷史物件至少保留 30 天以支援復原，之後才有資格被永久清理。</li><li><strong>關閉同步：</strong>本機與已有 Drive 資料都會保留。</li><li><strong>在 Google 帳號撤銷我記存取權：</strong>同步會停止，但已有隱藏 Drive 資料不會刪除。</li><li><strong>刪除應用或清除應用資料：</strong>會刪除本機資料，不會自動刪除 Drive 隱藏資料。</li><li><strong>刪除所有 Drive 隱藏資料：</strong>開啟 Google Drive 設定，選擇「管理應用程式」，找到 MeMemo，再選擇「選項」與「刪除隱藏的應用程式資料」。此操作會刪除整個 Drive <code>appDataFolder</code>，且無法復原。請先保留本機副本或匯出。</li></ul></section>
+<section><h2>安全、跨境處理與權利</h2><p>傳送至 Google Drive 的資料使用 HTTPS 與 Google 的標準傳輸和靜態加密。我記不聲稱端對端加密，也沒有獨立同步密碼或復原碼。Google 可能在其隱私說明所載地點處理 Drive 資料。依所在地法律，你可能擁有存取、更正、刪除、可攜、限制、異議與申訴等權利。由於我們不持有你的日記，大部分操作需直接在應用或 Google Drive 設定中完成。</p></section>
+<section><h2>資料控制者與聯絡方式</h2><div class="callout"><p><strong>Shanghai Yuma Technology Co., Ltd.（上海于马科技有限公司）</strong><br />中國上海<br /><a href="mailto:aaron@mememo.life">aaron@mememo.life</a></p></div><p>應用、法律或第三方服務變更時，我們可能更新本政策，並在本頁列出更新日期。</p></section>
+</main>
+<footer class="page-foot"><div class="foot-links"><a href="android-zh-Hant.html">← 返回我記</a></div><div class="foot-legal"><div>&copy; 2026 MeMemo™ · 我记™. Shanghai Yuma Technology Co., Ltd.</div></div></footer>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>

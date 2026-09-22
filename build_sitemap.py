@@ -14,7 +14,7 @@ GitHub Pages 直接发布仓库根目录。
 兜底放在 cn/build.py 的自检里：它会核对本文件生成的 sitemap 是否覆盖了仓库根
 目录下所有 *.html，漏了就构建失败。也就是说只要还部署内地站，就不会静默过期。
 
-hreflang：faq / privacy / terms / support 四组各有 5 个语言 URL，不声明的话
+hreflang：faq / privacy / terms / support 及 Android 介绍 / privacy / terms 各有 5 个语言 URL，不声明的话
 Google 可能把它们判成互相重复的内容，或者给英语用户推中文页。
 
 ⚠️ **首页那段 2026-09-16 改了**（iOS todo 76）。此前这里写着「首页是单 URL 靠 JS
@@ -53,7 +53,7 @@ LANGS = {
     "-ko": "ko",
 }
 
-FAMILIES = ["faq", "privacy", "terms", "support"]
+FAMILIES = ["faq", "privacy", "terms", "support", "android", "privacy-android", "terms-android"]
 
 # 首页语言簇。值是 URL 路径，不是文件名——/ja/ 背后是 ja/index.html，
 # 由 build_langs.py 生成。改这里就要同步改那边的 LANG_HOMES。

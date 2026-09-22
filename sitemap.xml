@@ -276,4 +276,169 @@
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
+  <url>
+    <loc>https://mememo.life/android.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/android-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/android-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/android-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/android-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-android.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-android-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-android-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-android-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/privacy-android-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/privacy-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/privacy-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/privacy-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/privacy-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/privacy-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/privacy-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-android.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-android-zh.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-android-zh-Hant.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-android-ja.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://mememo.life/terms-android-ko.html</loc>
+    <xhtml:link rel="alternate" hreflang="en" href="https://mememo.life/terms-android.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hans" href="https://mememo.life/terms-android-zh.html"/>
+    <xhtml:link rel="alternate" hreflang="zh-Hant" href="https://mememo.life/terms-android-zh-Hant.html"/>
+    <xhtml:link rel="alternate" hreflang="ja" href="https://mememo.life/terms-android-ja.html"/>
+    <xhtml:link rel="alternate" hreflang="ko" href="https://mememo.life/terms-android-ko.html"/>
+    <xhtml:link rel="alternate" hreflang="x-default" href="https://mememo.life/terms-android.html"/>
+    <changefreq>monthly</changefreq>
+    <priority>0.8</priority>
+  </url>
 </urlset>

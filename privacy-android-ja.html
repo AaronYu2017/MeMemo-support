@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>MeMemo Android 版 · プライバシーポリシー</title>
+<meta name="description" content="MeMemo Android 版のプライバシーポリシー。端末保存、任意の Google Drive 同期、Google アカウント情報、保持、削除、選択肢を説明します。" />
+<link rel="canonical" href="https://mememo.life/privacy-android-ja.html" />
+<link rel="icon" href="icon.png" />
+<link rel="stylesheet" href="legal-style.css" />
+</head>
+<body>
+<nav class="nav"><a class="nav-brand" href="android-ja.html"><img src="icon.png" alt="MeMemo" /><span>MeMemo</span><span class="en">Android</span></a><div class="nav-langs">
+    <a href="privacy-android.html" class="">EN</a>
+    <a href="privacy-android-zh.html" class="">简体</a>
+    <a href="privacy-android-zh-Hant.html" class="">繁體</a>
+    <a href="privacy-android-ja.html" class="active">日本語</a>
+    <a href="privacy-android-ko.html" class="">한국어</a>
+</div></nav>
+<header class="page-head"><div class="eyebrow">Android</div><h1>Android 版プライバシーポリシー</h1><p class="sub">あなたの記録は、あなたの管理下にあります。</p><div class="dates"><span>施行・更新日：2026年9月22日</span></div></header>
+<nav class="subnav"><a href="android-ja.html">Android 版について</a><a href="privacy-android-ja.html" class="active">プライバシーポリシー</a><a href="terms-android-ja.html" class="">利用規約</a></nav>
+<main class="content">
+<section><h2>概要</h2><p>本ポリシーは、Shanghai Yuma Technology Co., Ltd.（上海于马科技有限公司。以下「当社」、「本アプリ」）が提供する MeMemo Android 版に適用されます。MeMemo はローカル優先のライフジャーナルです。MeMemo アカウントの登録やクラウド同期なしで利用できます。</p></section>
+<section><h2>端末で処理するデータ</h2><p>当社は、日記内容を受信、保存、処理するサーバーを運営していません。本アプリは端末上で、日記、メモ、キーワード、予定、完了状態、お気に入り、削除状態、競合バージョン、生年月日、年齢計算、人生の長さ、テーマ色、固定アイコン年齢を処理します。言語、外観、リマインダー、アプリロックの認証情報は端末のみに保存されます。</p><p>Google Drive 同期を有効にすると、確認済みの Google メールアドレスと、Google の安定したアカウント識別子から導出した SHA-256 アカウントキーを保存します。OAuth access token はプロセス内メモリにのみ保持し、データベース、設定、ログ、同期ファイルには書き込みません。</p></section>
+<section><h2>任意の Google Drive 同期</h2><p>同期を有効にすると、MeMemo は <code>openid</code>、<code>userinfo.email</code>、非機密の <code>drive.appdata</code> スコープを要求します。メールアドレスは同期先アカウントの確認に、安定した識別子は異なる Google アカウントのデータ混在防止にのみ使用します。</p><p>同期対象の日記とプロフィール選択は、あなたの Google Drive の非表示アプリ専用領域に保存されます。通常の Drive ファイル一覧には表示されず、共有できません。言語、外観、リマインダー、アプリロック認証情報、OAuth token、購入情報は同期ファイルに含まれません。</p><p>Google API データは Android 端末間の同期、再インストールや機種変更時の復元、競合解決、履歴復元のみに使用し、広告、分析、信用判定、AI 学習、データ売買には使用しません。当社は <a href="https://developers.google.com/terms/api-services-user-data-policy">Google API Services User Data Policy</a> と Limited Use 要件を遵守します。</p></section>
+<section><h2>開発者のアクセスと共有</h2><p>当社は、あなたの日記や Google Drive 同期ファイルを読み取れません。Google access token も受信しません。許可期間中、許可した端末上の本アプリのみが自分の Drive 非表示領域にアクセスできます。当社はデータを販売しません。データはあなたの選択により、同期と復元のためにのみ Google Drive へ送信されます。本アプリに第三者の広告、分析、追跡 SDK はありません。</p></section>
+<section><h2>Google Play と本ウェブサイト</h2><p>Google Play は購入を処理し、権利判定のために購入状態と購入 token を本アプリへ提供する場合があります。当社はカード情報を受け取りません。本ウェブサイトは Cloudflare Web Analytics を使用して、集計ページビューとパフォーマンスを測定します。Cloudflare の説明では、cookie を使用せず、サイト横断の個人追跡や訪問者の個人データの収集・利用を行いません。MeMemo の日記がウェブサイトに送信されることはありません。</p></section>
+<section><h2>保持、停止、許可取り消し、削除</h2><ul><li><strong>MeMemo 内で削除：</strong>同期が有効な場合、削除状態も同期されます。復元のための冗長履歴オブジェクトは少なくとも 30 日間保持され、その後に永久削除の対象になります。</li><li><strong>同期をオフ：</strong>端末データと既存の Drive データは残ります。</li><li><strong>Google アカウントで MeMemo のアクセスを取り消す：</strong>同期は停止しますが、既存の Drive 非表示データは削除されません。</li><li><strong>アプリを削除またはデータを消去：</strong>端末データは削除されますが、Drive 非表示データは自動削除されません。</li><li><strong>Drive の全非表示データを削除：</strong>Google Drive の設定で「アプリを管理」から MeMemo を選び、「オプション」の「非表示のアプリデータを削除」を選択します。Drive <code>appDataFolder</code> 全体が復元不能に削除されるため、事前に端末のコピーまたは書き出しを保持してください。</li></ul></section>
+<section><h2>セキュリティ、国際処理、あなたの権利</h2><p>Google Drive への送信には HTTPS と Google の標準的な転送中・保管時の暗号化が使われます。MeMemo は現在、エンドツーエンド暗号化を謳っておらず、別途の同期パスワードや復元コードも提供していません。Google は同社のプライバシー説明に記載された場所で Drive データを処理する場合があります。お住まいの地域により、アクセス、訂正、削除、ポータビリティ、処理制限、異議、苦情申立ての権利があります。当社は日記を保有しないため、多くの操作はアプリまたは Google Drive 設定で直接行います。</p></section>
+<section><h2>データ管理者と連絡先</h2><div class="callout"><p><strong>Shanghai Yuma Technology Co., Ltd.（上海于马科技有限公司）</strong><br />中国・上海<br /><a href="mailto:aaron@mememo.life">aaron@mememo.life</a></p></div><p>アプリ、法令、第三者サービスに変更があった場合、本ポリシーを更新し、更新日を本ページに掲載します。</p></section>
+</main>
+<footer class="page-foot"><div class="foot-links"><a href="android-ja.html">← MeMemo に戻る</a></div><div class="foot-legal"><div>&copy; 2026 MeMemo™ · 我记™. Shanghai Yuma Technology Co., Ltd.</div></div></footer>
+<!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}'></script><!-- End Cloudflare Web Analytics -->
+</body>
+</html>
