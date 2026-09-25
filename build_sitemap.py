@@ -53,7 +53,7 @@ LANGS = {
     "-ko": "ko",
 }
 
-FAMILIES = ["faq", "privacy", "terms", "support", "android", "privacy-android", "terms-android"]
+FAMILIES = ["faq", "privacy", "terms", "support", "android", "faq-android", "privacy-android", "terms-android"]
 
 # 首页语言簇。值是 URL 路径，不是文件名——/ja/ 背后是 ja/index.html，
 # 由 build_langs.py 生成。改这里就要同步改那边的 LANG_HOMES。

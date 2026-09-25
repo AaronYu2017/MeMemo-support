@@ -21,6 +21,14 @@ LANGS = {
     "-ko": {"html": "ko", "label": "한국어"},
 }
 
+FAQ_LABELS = {
+    "": "FAQ",
+    "-zh": "常见问题",
+    "-zh-Hant": "常見問題",
+    "-ja": "よくある質問",
+    "-ko": "자주 묻는 질문",
+}
+
 COPY = {
     "": {
         "privacy_title": "MeMemo for Android · Privacy Policy",
@@ -297,7 +305,7 @@ def legal_page(family: str, suffix: str) -> str:
 {language_links(family, suffix)}
 </div></nav>
 <header class="page-head"><div class="eyebrow">Android</div><h1>{h1}</h1><p class="sub">{sub}</p><div class="dates"><span>{c['effective']}</span></div></header>
-<nav class="subnav"><a href="android{suffix}.html">{c['overview']}</a><a href="privacy-android{suffix}.html" class="{'active' if is_privacy else ''}">{c['privacy']}</a><a href="terms-android{suffix}.html" class="{'active' if not is_privacy else ''}">{c['terms']}</a></nav>
+<nav class="subnav"><a href="android{suffix}.html">{c['overview']}</a><a href="faq-android{suffix}.html">{FAQ_LABELS[suffix]}</a><a href="privacy-android{suffix}.html" class="{'active' if is_privacy else ''}">{c['privacy']}</a><a href="terms-android{suffix}.html" class="{'active' if not is_privacy else ''}">{c['terms']}</a></nav>
 <main class="content">
 {body}
 </main>
@@ -327,10 +335,10 @@ def landing_page(suffix: str) -> str:
 {language_links("android", suffix)}
 </div></nav>
 <header class="page-head"><div class="eyebrow">MeMemo for Android</div><h1>{c['landing_h1']}</h1><p class="sub">{c['landing_sub']}</p><div class="dates"><span>{c['publisher']}</span></div></header>
-<nav class="subnav"><a href="android{suffix}.html" class="active">{c['overview']}</a><a href="privacy-android{suffix}.html">{c['privacy']}</a><a href="terms-android{suffix}.html">{c['terms']}</a></nav>
+<nav class="subnav"><a href="android{suffix}.html" class="active">{c['overview']}</a><a href="faq-android{suffix}.html">{FAQ_LABELS[suffix]}</a><a href="privacy-android{suffix}.html">{c['privacy']}</a><a href="terms-android{suffix}.html">{c['terms']}</a></nav>
 <main class="content">
 {c['landing_body'].strip()}
-<section><h2>{c['overview']}</h2><div class="callout"><p><a href="privacy-android{suffix}.html">{c['privacy']}</a><br /><a href="terms-android{suffix}.html">{c['terms']}</a><br /><a href="mailto:aaron@mememo.life">aaron@mememo.life</a></p></div></section>
+<section><h2>{c['overview']}</h2><div class="callout"><p><a href="faq-android{suffix}.html">{FAQ_LABELS[suffix]}</a><br /><a href="privacy-android{suffix}.html">{c['privacy']}</a><br /><a href="terms-android{suffix}.html">{c['terms']}</a><br /><a href="mailto:aaron@mememo.life">aaron@mememo.life</a></p></div></section>
 </main>
 <footer class="page-foot"><div class="foot-links"><a href="/">← {c['back']}</a></div><div class="foot-legal"><div>&copy; 2026 MeMemo™ · 我记™. Shanghai Yuma Technology Co., Ltd.</div></div></footer>
 <!-- Cloudflare Web Analytics --><script defer src='https://static.cloudflareinsights.com/beacon.min.js' data-cf-beacon='{{"token": "edb36f2cff1141f3bcf8ea60aab347a4"}}'></script><!-- End Cloudflare Web Analytics -->
