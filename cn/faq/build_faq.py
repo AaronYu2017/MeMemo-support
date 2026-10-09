@@ -196,7 +196,7 @@ def build(lang: str) -> str:
 <body>
 
 <nav class="nav">
-  <a class="nav-brand" href="index.html">
+  <a class="nav-brand" href="/">
     <img src="icon.png" alt="MeMemo" />
     <span>我记</span>
     <span class="en">MeMemo</span>
@@ -230,7 +230,7 @@ def build(lang: str) -> str:
 
 <footer class="page-foot">
   <div class="foot-links">
-    <a href="index.html">{esc(t('back'))}</a>
+    <a href="/">{esc(t('back'))}</a>
   </div>
   {social_markup()}
   <div class="foot-legal">
