@@ -130,6 +130,23 @@
             "ja": "必要ありません。購入は Apple ID に紐づいています。設定画面で「購入を復元」をタップしてください。同じ Apple ID なら iPhone、iPad、Mac のいずれでもご利用いただけます。",
             "ko": "필요 없습니다. 구매는 Apple ID에 연결되어 있습니다. 설정에서 「구매 복원」을 누르면 됩니다. 같은 Apple ID라면 iPhone, iPad, Mac에서 모두 사용할 수 있습니다."
           }
+        },
+        {
+          "id": "purchase-scope",
+          "q": {
+            "zh": "付费解锁可以在哪些设备上使用？",
+            "zh-Hant": "付費解鎖可以在哪些裝置上使用？",
+            "en": "Where can I use my purchase?",
+            "ja": "購入はどの端末で使えますか？",
+            "ko": "구매는 어떤 기기에서 사용할 수 있나요?"
+          },
+          "a": {
+            "zh": "我记的 iOS 版、Google Play 版和中国大陆安卓版分开购买，购买不能在它们之间转移。iOS 版的购买与 Apple ID 绑定，登录同一 Apple ID 的所有设备都可以使用；Google Play 版的购买与 Google Play 账号绑定，登录同一账号的所有安卓设备都可以使用；中国大陆安卓版的购买与购买时登录的我记账号绑定，登录同一账号的所有安卓设备都可以使用。",
+            "zh-Hant": "我記的 iOS 版、Google Play 版和中國大陸 Android 版需分別購買，購買無法在它們之間轉移。iOS 版的購買與 Apple ID 綁定，登入同一 Apple ID 的所有裝置都可以使用；Google Play 版的購買與 Google Play 帳戶綁定，登入同一帳戶的所有 Android 裝置都可以使用；中國大陸 Android 版的購買與購買時登入的我記帳號綁定，登入同一帳號的所有 Android 裝置都可以使用。",
+            "en": "The iOS version, the Google Play version, and the mainland China Android version are purchased separately, and purchases can't be transferred between them. An iOS purchase is tied to your Apple ID and works on every device signed in with that Apple ID. A Google Play purchase is tied to your Google Play account and works on every Android device signed in with that account. A purchase in the mainland China Android version is tied to the MeMemo account you were signed in to when you bought it, and works on every Android device signed in with that account.",
+            "ja": "MeMemo の iOS 版、Google Play 版、中国本土向け Android 版はそれぞれ別々の購入となり、版をまたいで購入を移すことはできません。iOS 版の購入は Apple ID に紐づき、同じ Apple ID でサインインしているすべての端末で使えます。Google Play 版の購入は Google Play アカウントに紐づき、同じアカウントでログインしているすべての Android 端末で使えます。中国本土向け Android 版の購入は、購入時にログインしていた MeMemo アカウントに紐づき、同じアカウントでログインしているすべての Android 端末で使えます。",
+            "ko": "MeMemo의 iOS 버전, Google Play 버전, 중국 본토용 Android 버전은 각각 따로 구매해야 하며, 구매를 버전 간에 옮길 수 없습니다. iOS 버전의 구매는 Apple ID에 연결되어 같은 Apple ID로 로그인한 모든 기기에서 사용할 수 있습니다. Google Play 버전의 구매는 Google Play 계정에 연결되어 같은 계정으로 로그인한 모든 Android 기기에서 사용할 수 있습니다. 중국 본토용 Android 버전의 구매는 구매할 때 로그인한 MeMemo 계정에 연결되어 같은 계정으로 로그인한 모든 Android 기기에서 사용할 수 있습니다."
+          }
         }
       ]
     },
