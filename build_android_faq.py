@@ -23,6 +23,7 @@ CONTENT = {
             ("How can I back up or export my data?", "In Settings, use Export data for a readable PDF, Markdown, or plain-text file. Use the backup export for a JSON file that MeMemo can import later. Keep exported files somewhere you control."),
             ("How do purchases work?", "The Android version offers a 7-day trial and a one-time lifetime unlock through Google Play. Purchases belong to your Google Play account. Restore the purchase with the same account after reinstalling."),
             ("Does Android sync directly with iPhone or iPad?", "No. Google Drive sync currently works between Android devices only. iOS uses its own iCloud sync. Do not expect edits on one platform to appear automatically on the other."),
+            ("Does my purchase carry over to iPhone or iPad?", "No. A purchase only applies to the platform where you made it. On Android, it works on any device signed in with the same Google Play account. To use MeMemo on iPhone or iPad, you need to buy it separately there. Purchases can't be transferred between platforms."),
             ("How do I delete synced data?", "Turning off sync or revoking access stops future syncing but keeps existing Drive data. To remove it, open Google Drive Settings, Manage apps, MeMemo, then Delete hidden app data. Keep an export first if you may need the records."),
         ],
     },
@@ -38,6 +39,7 @@ CONTENT = {
             ("怎样备份或导出数据？", "在设置中使用“导出数据”生成便于阅读的 PDF、Markdown 或纯文本文件；使用备份导出生成可供我记日后导入的 JSON 文件。请把导出文件保存在你能掌控的位置。"),
             ("购买如何生效？", "Android 版提供 7 天试用，之后可通过 Google Play 一次性买断。购买资格绑定 Google Play 账号；重装后使用同一账号恢复购买。"),
             ("安卓与 iPhone、iPad 会实时同步吗？", "不会。Google Drive 同步目前只在安卓设备之间工作，iOS 使用独立的 iCloud 同步。不要预期在一端修改的内容会自动出现在另一端。"),
+            ("在安卓买过，换到 iPhone 或 iPad 还要再买吗？", "要。购买只在购买时所在的平台有效：安卓版在登录同一 Google Play 账号的任何安卓设备上都能用；在 iPhone 或 iPad 上使用，需要在那边另行购买。购买无法在平台之间转移。"),
             ("怎样删除云端同步数据？", "关闭同步或撤销授权只会停止后续同步，已有 Drive 数据仍会保留。要删除，请在 Google Drive 设置中依次进入“管理应用” →“MeMemo”→“删除隐藏的应用数据”。如果日后可能需要记录，请先导出。"),
         ],
     },
@@ -53,6 +55,7 @@ CONTENT = {
             ("如何備份或匯出資料？", "在設定中使用「匯出資料」產生便於閱讀的 PDF、Markdown 或純文字檔；使用備份匯出產生可供我記日後匯入的 JSON 檔。請將匯出檔案存放在你能掌控的位置。"),
             ("購買如何生效？", "Android 版提供 7 天試用，之後可透過 Google Play 一次性買斷。購買資格綁定 Google Play 帳戶；重新安裝後請使用同一帳戶恢復購買。"),
             ("Android 與 iPhone、iPad 會即時同步嗎？", "不會。Google Drive 同步目前只在 Android 裝置之間運作，iOS 使用獨立的 iCloud 同步。請勿預期在一端修改的內容會自動出現在另一端。"),
+            ("在 Android 買過，換到 iPhone 或 iPad 還要再買嗎？", "要。購買只在購買時所在的平台有效：Android 版在登入同一 Google Play 帳戶的任何 Android 裝置上都能使用；在 iPhone 或 iPad 上使用，需要在那邊另行購買。購買無法在平台之間轉移。"),
             ("如何刪除雲端同步資料？", "關閉同步或撤銷授權只會停止後續同步，現有 Drive 資料仍會保留。要刪除，請在 Google Drive 設定中依序進入「管理應用程式」→「MeMemo」→「刪除隱藏的應用程式資料」。若日後可能需要記錄，請先匯出。"),
         ],
     },
@@ -68,6 +71,7 @@ CONTENT = {
             ("バックアップや書き出しの方法は？", "設定の「データを書き出す」から、閲覧用の PDF、Markdown、テキストを作成できます。バックアップの書き出しでは、後から MeMemo に読み込める JSON ファイルを作成します。ファイルはご自身で管理できる場所に保管してください。"),
             ("購入はどのように適用されますか？", "Android 版には 7 日間の体験期間があり、その後 Google Play で一度だけ購入すると永続的に利用できます。購入は Google Play アカウントに紐付きます。再インストール後は同じアカウントで購入を復元してください。"),
             ("Android と iPhone・iPad は自動で同期しますか？", "いいえ。Google Drive 同期は現在 Android 端末間のみで利用できます。iOS 版は別の iCloud 同期を使用します。一方での編集がもう一方に自動反映されることはありません。"),
+            ("Android で購入済みでも、iPhone や iPad では改めて購入が必要ですか？", "はい。購入は購入したプラットフォームでのみ有効です。Android 版は、同じ Google Play アカウントでログインしたすべての Android 端末で使えます。iPhone や iPad で使うには、そちらで別途購入が必要です。購入をプラットフォーム間で移すことはできません。"),
             ("クラウドの同期データを削除するには？", "同期をオフにしたりアクセスを取り消したりしても、既存の Drive データは残ります。削除するには Google Drive の設定から「アプリの管理」→「MeMemo」→「非表示のアプリデータを削除」を選びます。必要な記録は先に書き出してください。"),
         ],
     },
@@ -83,6 +87,7 @@ CONTENT = {
             ("백업이나 내보내기는 어떻게 하나요?", "설정의 데이터 내보내기에서 읽기용 PDF, Markdown 또는 일반 텍스트 파일을 만들 수 있습니다. 백업 내보내기에서는 나중에 MeMemo로 가져올 수 있는 JSON 파일을 만듭니다. 파일은 직접 관리할 수 있는 곳에 보관하세요."),
             ("구매는 어떻게 적용되나요?", "Android 버전에는 7일 체험 기간이 있으며, 이후 Google Play에서 한 번 구매하면 영구적으로 사용할 수 있습니다. 구매 권한은 Google Play 계정에 연결됩니다. 재설치 후 같은 계정으로 구매를 복원하세요."),
             ("Android와 iPhone·iPad가 자동으로 동기화되나요?", "아니요. Google Drive 동기화는 현재 Android 기기 사이에서만 작동합니다. iOS 버전은 별도의 iCloud 동기화를 사용합니다. 한쪽에서 수정한 내용이 다른 쪽에 자동으로 나타나지는 않습니다."),
+            ("Android에서 구매했는데 iPhone이나 iPad에서도 다시 구매해야 하나요?", "네. 구매는 구매한 플랫폼에서만 유효합니다. Android 버전은 같은 Google Play 계정으로 로그인한 모든 Android 기기에서 사용할 수 있습니다. iPhone이나 iPad에서 사용하려면 그곳에서 따로 구매해야 하며, 구매를 플랫폼 간에 옮길 수는 없습니다."),
             ("클라우드 동기화 데이터를 삭제하려면?", "동기화를 끄거나 접근 권한을 철회해도 기존 Drive 데이터는 남습니다. 삭제하려면 Google Drive 설정에서 '앱 관리' → 'MeMemo' → '숨겨진 앱 데이터 삭제'를 선택하세요. 필요한 기록은 먼저 내보내세요."),
         ],
     },
@@ -126,7 +131,7 @@ def render(suffix: str) -> str:
 
 def main() -> None:
     assert set(CONTENT) == set(LANGS)
-    assert {len(item['questions']) for item in CONTENT.values()} == {7}
+    assert {len(item['questions']) for item in CONTENT.values()} == {8}
     for suffix in LANGS:
         (ROOT / f"faq-android{suffix}.html").write_text(render(suffix), encoding="utf-8")
 
