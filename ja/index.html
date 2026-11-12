@@ -168,6 +168,14 @@
   }
 
   /* App Store badge */
+  .download-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px;}
+  .platform-notice{
+    display:inline-flex;align-items:center;justify-content:center;
+    padding:14px 20px;min-height:56px;
+    border:1px solid var(--line);border-radius:12px;
+    background:var(--bg-alt);color:var(--ink-2);font-size:14px;
+    cursor:default;
+  }
   .appstore{
     display:inline-flex; align-items:center; gap:10px;
     background:#000; color:#fff;
@@ -647,7 +655,8 @@
 <span data-i18n="ja">私の自伝は、今日から始まる。</span>
 
 </p>
-<a class="appstore reveal" href="https://apps.apple.com/us/app/%E6%88%91%E8%AE%B0/id6760353728" rel="noopener" target="_blank">
+<div class="download-options reveal">
+<a class="appstore" href="https://apps.apple.com/app/id6760353728" rel="noopener" target="_blank">
 <svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24">
 <path d="M17.5 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.6.9-.8 0-1.9-.8-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2-.1 1.7-.8 3.1-.8 1.4 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4zM15.2 5.7c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.7-1.3z"></path>
 </svg>
@@ -664,6 +673,14 @@
 
 </span>
 </a>
+<span class="platform-notice" data-platform="android">
+
+
+
+<span data-i18n="ja">Android 版は近日公開</span>
+
+</span>
+</div>
 </div>
 <div aria-hidden="true" class="hero-scroll">
 
@@ -912,7 +929,7 @@
 
 
 
-<span data-i18n="ja">すべての記録は、あなたの端末とiCloudの中だけ。何を書いたか、誰にも見えません。</span>
+<span data-i18n="ja">記録はあなたの端末に保存され、ご自身のクラウドストレージで同期することもできます。私たちが記録を見ることはできません。</span>
 
 </p>
 </div>
@@ -974,7 +991,8 @@
 <span data-i18n="ja">十年後、あなたは今日の自分に感謝する。</span>
 
 </p>
-<a class="appstore reveal" href="https://apps.apple.com/us/app/%E6%88%91%E8%AE%B0/id6760353728" rel="noopener" target="_blank">
+<div class="download-options reveal">
+<a class="appstore" href="https://apps.apple.com/app/id6760353728" rel="noopener" target="_blank">
 <svg aria-hidden="true" fill="currentColor" viewbox="0 0 24 24">
 <path d="M17.5 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.6.9-.8 0-1.9-.8-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2-.1 1.7-.8 3.1-.8 1.4 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4zM15.2 5.7c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.7-1.3z"></path>
 </svg>
@@ -987,6 +1005,14 @@
 <span class="as-big">App Store</span>
 </span>
 </a>
+<span class="platform-notice" data-platform="android">
+
+
+
+<span data-i18n="ja">Android 版は近日公開</span>
+
+</span>
+</div>
 </div>
 </section>
 <!-- =========== FOOTER =========== -->
@@ -1065,14 +1091,8 @@
 
 </div>
 </div>
-<div class="foot-col">
-<h4>
-
-
-
-<span data-i18n="ja">法的事項</span>
-
-</h4>
+<div class="foot-col" data-platform="ios">
+<h4>iOS</h4>
 <div class="foot-links">
 
 
@@ -1083,6 +1103,31 @@
 
 
 <a data-i18n="ja" href="/terms-ja.html">利用規約</a>
+
+</div>
+</div>
+<div class="foot-col" data-platform="android">
+<h4>Android</h4>
+<div class="foot-links">
+
+
+
+<a data-i18n="ja" href="/android-ja.html">Android 版について</a>
+
+
+
+
+<a data-i18n="ja" href="/faq-android-ja.html">よくある質問</a>
+
+
+
+
+<a data-i18n="ja" href="/privacy-android-ja.html">プライバシーポリシー</a>
+
+
+
+
+<a data-i18n="ja" href="/terms-android-ja.html">利用規約</a>
 
 </div>
 </div>

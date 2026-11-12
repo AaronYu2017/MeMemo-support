@@ -202,6 +202,9 @@ html[lang="zh-TW"] .page-head .dates{ font-family:var(--font-zh);}
   text-align:center;
 }
 .page-foot .foot-links{ display:flex; gap:24px; flex-wrap:wrap; justify-content:center;}
+.page-foot .foot-platforms{display:flex;flex-wrap:wrap;justify-content:center;gap:32px 48px;}
+.page-foot .foot-col h4{font-size:12px;font-weight:500;color:var(--ink);margin-bottom:10px;}
+.page-foot .foot-col .foot-links{flex-direction:column;gap:8px;}
 .page-foot a{color:var(--muted);}
 .page-foot a:hover{color:var(--ink); opacity:1;}
 /* 覆盖 index.html 里的 margin-top:20px —— 这里的间距由父级的 gap 统一管。 */

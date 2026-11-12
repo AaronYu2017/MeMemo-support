@@ -20,6 +20,8 @@ import json
 import re
 from pathlib import Path
 
+from bs4 import BeautifulSoup
+
 ROOT = Path(__file__).resolve().parent.parent.parent
 DATA = json.loads((Path(__file__).parent / "faq.json").read_text(encoding="utf-8"))
 
@@ -100,6 +102,21 @@ def social_css() -> str:
     )
 
 
+def platform_footer(lang: str) -> str:
+    """沿用首页的平台页脚，防止 FAQ 再次生成时覆盖安卓入口。"""
+    soup = BeautifulSoup((ROOT / "index.html").read_text(encoding="utf-8"), "html.parser")
+    columns = []
+    for platform in ("ios", "android"):
+        col = soup.select_one(f'footer .foot-col[data-platform="{platform}"]')
+        if col is None:
+            raise SystemExit(f"✗ 首页缺少 {platform} 页脚栏")
+        for el in list(col.select("[data-i18n]")):
+            if el["data-i18n"] != lang:
+                el.decompose()
+        columns.append(str(col))
+    return '<div class="foot-platforms">\n' + "\n".join(columns) + '\n</div>'
+
+
 STYLE = """
   .faq-jump{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 8px;}
   .faq-jump a{
@@ -156,7 +173,8 @@ def build(lang: str) -> str:
         body.append(f'<section id="sec-{s["id"]}">')
         body.append(f'  <h2>{esc(s["title"][lang])}</h2>')
         for it in s["items"]:
-            body.append(f'  <details class="faq-item" id="faq-{it["id"]}">')
+            platform = f' data-platform="{it["platform"]}"' if it.get("platform") else ""
+            body.append(f'  <details class="faq-item" id="faq-{it["id"]}"{platform}>')
             body.append(f'    <summary>{esc(it["q"][lang])}</summary>')
             body.append(f'    <div class="faq-a">{esc(it["a"][lang])}</div>')
             body.append("  </details>")
@@ -232,6 +250,7 @@ def build(lang: str) -> str:
   <div class="foot-links">
     <a href="/">{esc(t('back'))}</a>
   </div>
+  {platform_footer(lang)}
   {social_markup()}
   <div class="foot-legal">
     <div>&copy; 2026 MeMemo&trade; &middot; 我记&trade;. All rights reserved.</div>

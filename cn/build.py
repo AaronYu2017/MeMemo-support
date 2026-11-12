@@ -6,8 +6,10 @@
 * 两站共有的内容 —— 产品介绍、截图、法律条款 —— 只存在于仓库根目录的
   index.html / privacy-zh.html / terms-zh.html / support-zh.html。
   改一处，push 更新国际站，跑一次本脚本更新内地站。
-* 内地专属的东西（备案号、将来的安卓入口 / FAQ）放在 cn/extras/，
+* 内地专属的东西（备案号、站点验证文件）放在 cn/extras/，
   只在构建时注入，绝不写回真源，国际站因此永远保持干净。
+* 国际站的安卓内容统一标记 data-platform="android"，构建时整块剥掉。
+  内地站不含安卓入口、Google Play 或 Google Drive；产物自检独立兜底漏标。
 * 产物写到 dist-cn/，不进 git（仓库根目录就是 GitHub Pages 的网站根目录，
   提交产物会把内地站副本发布到未备案的 mememo.life 上）。产物随时可重新生成。
 
@@ -15,12 +17,13 @@
 """
 
 import hashlib
+import json
 import re
 import shutil
 import sys
 import pathlib
 from pathlib import Path
-from urllib.parse import urlparse
+from urllib.parse import unquote, urlparse
 
 from bs4 import BeautifulSoup
 from PIL import Image
@@ -143,6 +146,55 @@ def strip_cloudflare(soup: BeautifulSoup) -> None:
         if "cloudflareinsights" in src or "cloudflareinsights" in (tag.string or ""):
             tag.decompose()
             note("移除 Cloudflare 统计脚本")
+
+
+def strip_android(soup: BeautifulSoup) -> None:
+    """只在内地构建中删除安卓整块内容，保留国际站单一真源。"""
+    removed_questions = set()
+    for el in list(soup.select('[data-platform="android"]')):
+        if not el.decomposed:
+            removed_questions.update(q.get_text(strip=True) for q in el.select("summary"))
+            el.decompose()
+            note("移除安卓内容块")
+    # FAQ 的搜索引擎数据必须与可见问答一起删，否则仍会对外发布安卓内容。
+    if removed_questions:
+        for tag in soup.select('script[type="application/ld+json"]'):
+            data = json.loads(tag.string)
+            if data.get("@type") == "FAQPage":
+                data["mainEntity"] = [q for q in data["mainEntity"] if q["name"] not in removed_questions]
+                tag.string = json.dumps(data, ensure_ascii=False, indent=1)
+                note("同步移除 FAQ 结构化数据中的安卓问答")
+
+
+COMING_SOON_NOTICES = ("安卓版即将上线", "Android 版即將上線", "Android coming soon",
+                       "Android 版は近日公開", "Android 버전 출시 예정")
+
+
+def android_residue(page: str, html: str) -> list[str]:
+    """独立检查实际产物，漏标的文字、链接和整页也必须挡住。"""
+    problems = []
+    soup = BeautifulSoup(html, "html.parser")
+    if "android" in page.lower():
+        problems.append(f"{page} 不应生成安卓页面")
+    if soup.select('[data-platform="android"]'):
+        problems.append(f"{page} 残留安卓内容块")
+    for domain in ("play.google", "drive.google"):
+        if domain in html.lower():
+            problems.append(f"{page} 残留 Google 服务地址：{domain}")
+    text = soup.get_text(" ", strip=True) + " " + " ".join(
+        tag.get_text() for tag in soup.select('script[type="application/ld+json"]')
+    )
+    if re.search(r"google\s+drive", html, re.I) or re.search(r"google\s+drive", text, re.I):
+        problems.append(f"{page} 残留 Google Drive")
+    # 不按「安卓」「Google Play」字样一刀切：内地站原有的平台问答（有安卓版吗、
+    # 付费解锁可以在哪些设备上使用）是纯文字、不带链接，属于内地站既有内容，要保留。
+    # 挡的是国际站这次新加的「即将上线」提示（五语）与指向安卓页 / Google 服务的链接。
+    for notice in COMING_SOON_NOTICES:
+        if notice.lower() in text.lower():
+            problems.append(f"{page} 残留安卓即将上线提示：{notice}")
+    if any("android" in unquote(a["href"]).lower() for a in soup.find_all("a", href=True)):
+        problems.append(f"{page} 残留 android 链接")
+    return problems
 
 
 def pin_head_to_zh(soup: BeautifulSoup, src_html: str) -> None:
@@ -419,6 +471,7 @@ def build_page(src: Path, dest_name: str) -> None:
     strip_language_switchers(soup)
     strip_cloudflare(soup)
     strip_blocked_links(soup)
+    strip_android(soup)
     if src.name == "index.html":
         simplify_lang_css(soup)
         pin_language_to_zh(soup)
@@ -580,6 +633,9 @@ def copy_assets() -> None:
 def verify() -> list[str]:
     """构建后自检：这些错误静态读代码看不出来，必须查产物。"""
     problems = []
+    # 不依赖剥离标记，也不只查预期的五页，避免误复制安卓整页时漏检。
+    for path in sorted(DIST.rglob("*.html")):
+        problems.extend(android_residue(path.relative_to(DIST).as_posix(), path.read_text(encoding="utf-8")))
     index = (DIST / "index.html").read_text(encoding="utf-8")
     soup = BeautifulSoup(index, "html.parser")
 
