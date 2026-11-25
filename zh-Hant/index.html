@@ -183,6 +183,24 @@
   }
   .playstore img[data-i18n="en"]{width:114.54%;}
   .download-note{flex:1 0 100%;color:var(--ink-2);font-size:14px;line-height:1.5;}
+  .download-qr-options{display:none;}
+  @media (min-width:768px) and (hover:hover) and (pointer:fine){
+    .download-qr-options{
+      display:grid;grid-template-columns:repeat(2,160px);justify-content:center;align-items:start;
+      gap:14px;flex:1 0 100%;
+    }
+    .download-qr-options summary{
+      list-style:none;cursor:pointer;padding:4px 0;font-size:14px;line-height:1.5;
+      color:var(--ink-2);text-decoration:underline;text-underline-offset:3px;
+    }
+    .download-qr-options summary::-webkit-details-marker{display:none;}
+    .download-qr-store{
+      position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;
+    }
+    .download-qr-options details[open] summary{color:var(--ink);font-weight:500;}
+    .download-qr-panel{margin-top:6px;padding:10px;background:#fff;border:1px solid var(--line);border-radius:12px;}
+    .download-qr-panel img{width:100%;height:auto;image-rendering:pixelated;}
+  }
   .appstore{
     display:inline-flex; align-items:center; gap:10px;
     background:#000; color:#fff;
@@ -692,6 +710,34 @@
 
 
 </a>
+<div class="download-qr-options" data-platform="android">
+<details name="store-download-qr">
+<summary>
+<span class="download-qr-store">App Store</span>
+
+<span data-i18n="zh-Hant">掃碼下載</span>
+
+
+
+</summary>
+<div class="download-qr-panel">
+<img alt="" height="296" loading="lazy" src="/badges/app-store-qr.png" width="296"/>
+</div>
+</details>
+<details name="store-download-qr">
+<summary>
+<span class="download-qr-store">Google Play</span>
+
+<span data-i18n="zh-Hant">掃碼下載</span>
+
+
+
+</summary>
+<div class="download-qr-panel">
+<img alt="" height="328" loading="lazy" src="/badges/google-play-qr.png" width="328"/>
+</div>
+</details>
+</div>
 <div class="download-note">
 
 <span data-i18n="zh-Hant">中國大陸 Android 版即將上線</span>
