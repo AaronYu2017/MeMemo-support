@@ -8,8 +8,8 @@
   改一处，push 更新国际站，跑一次本脚本更新内地站。
 * 内地专属的东西（备案号、站点验证文件）放在 cn/extras/，
   只在构建时注入，绝不写回真源，国际站因此永远保持干净。
-* 国际站的安卓内容统一标记 data-platform="android"，构建时整块剥掉。
-  内地站不含安卓入口、Google Play 或 Google Drive；产物自检独立兜底漏标。
+* 国际站的安卓下载和平台入口标记 data-platform="android"，构建时整块剥掉。
+  内地站只发布大陆版的上线状态，产物自检查 Google 服务地址和国际版下载入口。
 * 产物写到 dist-cn/，不进 git（仓库根目录就是 GitHub Pages 的网站根目录，
   提交产物会把内地站副本发布到未备案的 mememo.life 上）。产物随时可重新生成。
 
@@ -166,6 +166,7 @@ def strip_android(soup: BeautifulSoup) -> None:
                 note("同步移除 FAQ 结构化数据中的安卓问答")
 
 
+MAINLAND_ANDROID_NOTICE = "中国大陆安卓版即将上线"
 COMING_SOON_NOTICES = ("安卓版即将上线", "Android 版即將上線", "Android coming soon",
                        "Android 版は近日公開", "Android 버전 출시 예정")
 
@@ -186,12 +187,13 @@ def android_residue(page: str, html: str) -> list[str]:
     )
     if re.search(r"google\s+drive", html, re.I) or re.search(r"google\s+drive", text, re.I):
         problems.append(f"{page} 残留 Google Drive")
-    # 不按「安卓」「Google Play」字样一刀切：内地站原有的平台问答（有安卓版吗、
-    # 付费解锁可以在哪些设备上使用）是纯文字、不带链接，属于内地站既有内容，要保留。
-    # 挡的是国际站这次新加的「即将上线」提示（五语）与指向安卓页 / Google 服务的链接。
+    # 允许大陆版上线状态和既有购买说明，拒绝国际版的上线提示和下载入口。
+    text = text.replace(MAINLAND_ANDROID_NOTICE, "")
     for notice in COMING_SOON_NOTICES:
         if notice.lower() in text.lower():
             problems.append(f"{page} 残留安卓即将上线提示：{notice}")
+    if re.search(r"google\s+play\s*版已上线", text, re.I):
+        problems.append(f"{page} 残留 Google Play 版上线提示")
     if any("android" in unquote(a["href"]).lower() for a in soup.find_all("a", href=True)):
         problems.append(f"{page} 残留 android 链接")
     return problems
@@ -462,6 +464,19 @@ def rewrite_links(soup: BeautifulSoup) -> None:
             a["href"] = target
 
 
+def set_mainland_android_faq(soup: BeautifulSoup) -> None:
+    item = soup.select_one("#faq-android")
+    answer = f"{MAINLAND_ANDROID_NOTICE}。"
+    item.select_one(".faq-a").string = answer
+
+    schema = soup.select_one('script[type="application/ld+json"]')
+    data = json.loads(schema.string)
+    question = item.summary.get_text(strip=True)
+    entry = next(entry for entry in data["mainEntity"] if entry["name"] == question)
+    entry["acceptedAnswer"]["text"] = answer
+    schema.string = json.dumps(data, ensure_ascii=False, indent=1)
+
+
 def build_page(src: Path, dest_name: str) -> None:
     soup = BeautifulSoup(src.read_text(encoding="utf-8"), "html.parser")
 
@@ -476,6 +491,8 @@ def build_page(src: Path, dest_name: str) -> None:
         simplify_lang_css(soup)
         pin_language_to_zh(soup)
         pin_head_to_zh(soup, src.read_text(encoding="utf-8"))
+    elif dest_name == "faq.html":
+        set_mainland_android_faq(soup)
     set_icons(soup)
     set_canonical(soup, dest_name)
     set_googlebot_noindex(soup, dest_name)

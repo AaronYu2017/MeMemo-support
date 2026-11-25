@@ -352,11 +352,11 @@
             "ko": "Android 버전이 있나요?"
           },
           "a": {
-            "zh": "正在做，开发已完成大半。上线时间会在官网和小红书第一时间公布。",
-            "zh-Hant": "正在做，開發已完成大半。上線時間會在官網與小紅書第一時間公布。",
-            "en": "It is in development and well past the halfway point. We will announce the release date on this site and on our social channels as soon as it is confirmed.",
-            "ja": "開発中で、すでに大半が完成しています。公開時期が決まり次第、本サイトと各 SNS でお知らせします。",
-            "ko": "개발 중이며 이미 상당 부분 완성되었습니다. 출시 시점이 정해지면 이 사이트와 SNS를 통해 바로 알려 드리겠습니다."
+            "zh": "Google Play 版已上线。中国大陆安卓版即将上线。",
+            "zh-Hant": "Google Play 版已上線。中國大陸 Android 版即將上線。",
+            "en": "The Google Play version is available now. Android for mainland China is coming soon.",
+            "ja": "Google Play 版は配信中です。中国本土向けの Android 版は近日公開予定です。",
+            "ko": "Google Play 버전을 이용할 수 있습니다. 중국 본토용 Android 버전은 출시 예정입니다."
           }
         },
         {

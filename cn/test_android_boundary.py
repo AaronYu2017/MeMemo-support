@@ -8,7 +8,7 @@ import unittest
 
 from bs4 import BeautifulSoup
 
-from cn.build import android_residue, strip_android
+from cn.build import android_residue, set_mainland_android_faq, strip_android
 
 
 class AndroidBoundaryTests(unittest.TestCase):
@@ -63,6 +63,23 @@ class AndroidBoundaryTests(unittest.TestCase):
         # 内地站原有的「有安卓版吗」等纯文字问答要保留，不能被当成残留。
         self.assertEqual(android_residue("faq.html",
                          '<details><summary>有安卓版吗？</summary>正在做。Google Play 版分开购买。</details>'), [])
+
+    def test_mainland_faq_replaces_global_status_in_both_representations(self):
+        published = "Google Play 版已上线。中国大陆安卓版即将上线。"
+        data = {"@type": "FAQPage", "mainEntity": [
+            {"name": "有安卓版吗？", "acceptedAnswer": {"text": published}},
+        ]}
+        soup = BeautifulSoup(
+            f'<details id="faq-android"><summary>有安卓版吗？</summary><div class="faq-a">{published}</div></details>'
+            '<script type="application/ld+json">' + json.dumps(data, ensure_ascii=False) + '</script>',
+            "html.parser",
+        )
+        self.assertTrue(android_residue("faq.html", str(soup)))
+        set_mainland_android_faq(soup)
+        answer = "中国大陆安卓版即将上线。"
+        self.assertEqual(soup.select_one(".faq-a").get_text(strip=True), answer)
+        self.assertEqual(json.loads(soup.script.string)["mainEntity"][0]["acceptedAnswer"]["text"], answer)
+        self.assertEqual(android_residue("faq.html", str(soup)), [])
 
     def test_strip_keeps_faq_structured_data_in_sync_with_visible_questions(self):
         data = {"@type": "FAQPage", "mainEntity": [

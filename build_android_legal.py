@@ -48,6 +48,8 @@ COPY = {
         "landing_desc": "MeMemo for Android is a local-first life journal with optional Google Drive sync for Android devices and recovery.",
         "landing_h1": "Your life, one page at a time.",
         "landing_sub": "A calm, local-first journal with optional Google Drive sync.",
+        "download_label": "Get it on Google Play",
+        "download_note": "Android for mainland China is coming soon",
         "publisher": "Published by Shanghai Yuma Technology Co., Ltd.",
         "landing_body": """
 <section><h2>About MeMemo</h2><p>MeMemo helps you record summaries, plans, keywords, and reflections across lifetime, year, month, week, and day views. Core records stay on your Android device.</p></section>
@@ -96,6 +98,8 @@ COPY = {
         "landing_desc": "我记 Android 版是本机优先的人生记录应用，可选使用 Google Drive 在 Android 设备间同步与恢复。",
         "landing_h1": "一页页，记下你的人生。",
         "landing_sub": "安静、本机优先，可选 Google Drive 同步。",
+        "download_label": "在 Google Play 下载",
+        "download_note": "中国大陆安卓版即将上线",
         "publisher": "由上海于马科技有限公司发布",
         "landing_body": """
 <section><h2>关于我记</h2><p>我记帮你在人生、年、月、周、日五层时间视图中记录总结、计划、关键词和回顾。核心记录保存在你的 Android 设备上。</p></section>
@@ -148,6 +152,8 @@ COPY.update({
         "landing_desc": "我記 Android 版是本機優先的人生記錄應用，可選使用 Google Drive 在 Android 裝置間同步與復原。",
         "landing_h1": "一頁頁，記下你的人生。",
         "landing_sub": "安靜、本機優先，可選 Google Drive 同步。",
+        "download_label": "在 Google Play 下載",
+        "download_note": "中國大陸 Android 版即將上線",
         "publisher": "由上海于马科技有限公司發布",
         "landing_body": """
 <section><h2>關於我記</h2><p>我記幫你在人生、年、月、週、日五層時間視圖中記錄摘要、計畫、關鍵詞和回顧。核心記錄儲存於你的 Android 裝置。</p></section>
@@ -193,6 +199,8 @@ COPY.update({
         "landing_desc": "MeMemo Android 版は、Android 端末間の同期と復元に任意の Google Drive 同期を利用できるローカル優先のライフジャーナルです。",
         "landing_h1": "人生を、1ページずつ。",
         "landing_sub": "穏やかなローカル優先の日記。Google Drive 同期は任意です。",
+        "download_label": "Google Play でダウンロード",
+        "download_note": "中国本土向けの Android 版は近日公開予定です",
         "publisher": "Shanghai Yuma Technology Co., Ltd.（上海于马科技有限公司）が提供",
         "landing_body": """
 <section><h2>MeMemo について</h2><p>MeMemo は、人生、年、月、週、日の各ビューでまとめ、予定、キーワード、振り返りを記録するアプリです。主な記録は Android 端末に保存されます。</p></section>
@@ -238,6 +246,8 @@ COPY.update({
         "landing_desc": "Android용 MeMemo는 Android 기기 간 동기화와 복구를 위해 선택적 Google Drive 동기화를 제공하는 로컬 우선 인생 기록 앱입니다.",
         "landing_h1": "인생을 한 페이지씩.",
         "landing_sub": "차분하고 로컬 우선인 기록. Google Drive 동기화는 선택 사항입니다.",
+        "download_label": "Google Play에서 다운로드",
+        "download_note": "중국 본토용 Android 버전 출시 예정",
         "publisher": "Shanghai Yuma Technology Co., Ltd.(上海于马科技有限公司) 제공",
         "landing_body": """
 <section><h2>MeMemo 소개</h2><p>MeMemo는 인생, 연, 월, 주, 일 보기에서 요약, 계획, 키워드, 회고를 기록하도록 돕습니다. 핵심 기록은 Android 기기에 저장됩니다.</p></section>
@@ -329,12 +339,24 @@ def landing_page(suffix: str) -> str:
 <link rel="canonical" href="{SITE}/{filename}" />
 <link rel="icon" href="icon.png" />
 <link rel="stylesheet" href="legal-style.css" />
+<style>
+.android-download{{margin-bottom:24px;}}
+.android-download a{{
+  display:inline-flex;align-items:center;justify-content:center;
+  min-height:48px;padding:10px 18px;border-radius:12px;
+  background:#000;color:#fff;font-weight:500;
+}}
+.android-download a:hover{{opacity:.88;}}
+.android-download p{{margin-top:10px;color:var(--ink-2);font-size:14px;}}
+</style>
 </head>
 <body>
 <nav class="nav"><a class="nav-brand" href="/"><img src="icon.png" alt="MeMemo" /><span>MeMemo</span><span class="en">Android</span></a><div class="nav-langs">
 {language_links("android", suffix)}
 </div></nav>
-<header class="page-head"><div class="eyebrow">MeMemo for Android</div><h1>{c['landing_h1']}</h1><p class="sub">{c['landing_sub']}</p><div class="dates"><span>{c['publisher']}</span></div></header>
+<header class="page-head"><div class="eyebrow">MeMemo for Android</div><h1>{c['landing_h1']}</h1><p class="sub">{c['landing_sub']}</p>
+<div class="android-download"><a href="https://play.google.com/store/apps/details?id=life.mememo.app">{c['download_label']}</a><p>{c['download_note']}</p></div>
+<div class="dates"><span>{c['publisher']}</span></div></header>
 <nav class="subnav"><a href="android{suffix}.html" class="active">{c['overview']}</a><a href="faq-android{suffix}.html">{FAQ_LABELS[suffix]}</a><a href="privacy-android{suffix}.html">{c['privacy']}</a><a href="terms-android{suffix}.html">{c['terms']}</a></nav>
 <main class="content">
 {c['landing_body'].strip()}

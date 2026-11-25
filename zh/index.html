@@ -169,13 +169,7 @@
 
   /* App Store badge */
   .download-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px;}
-  .platform-notice{
-    display:inline-flex;align-items:center;justify-content:center;
-    padding:14px 20px;min-height:56px;
-    border:1px solid var(--line);border-radius:12px;
-    background:var(--bg-alt);color:var(--ink-2);font-size:14px;
-    cursor:default;
-  }
+  .download-note{flex:1 0 100%;color:var(--ink-2);font-size:14px;line-height:1.5;}
   .appstore{
     display:inline-flex; align-items:center; gap:10px;
     background:#000; color:#fff;
@@ -673,13 +667,23 @@
 
 </span>
 </a>
-<span class="platform-notice" data-platform="android">
-<span data-i18n="zh">安卓版即将上线</span>
+<a class="appstore" data-platform="android" href="https://play.google.com/store/apps/details?id=life.mememo.app">
+<span class="as-lines">
+<span class="as-small" data-i18n="zh">在以下平台下载</span>
 
 
 
 
+<span class="as-big">Google Play</span>
 </span>
+</a>
+<div class="download-note">
+<span data-i18n="zh">中国大陆安卓版即将上线</span>
+
+
+
+
+</div>
 </div>
 </div>
 <div aria-hidden="true" class="hero-scroll">
@@ -1005,13 +1009,23 @@
 <span class="as-big">App Store</span>
 </span>
 </a>
-<span class="platform-notice" data-platform="android">
-<span data-i18n="zh">安卓版即将上线</span>
+<a class="appstore" data-platform="android" href="https://play.google.com/store/apps/details?id=life.mememo.app">
+<span class="as-lines">
+<span class="as-small" data-i18n="zh">在以下平台下载</span>
 
 
 
 
+<span class="as-big">Google Play</span>
 </span>
+</a>
+<div class="download-note">
+<span data-i18n="zh">中国大陆安卓版即将上线</span>
+
+
+
+
+</div>
 </div>
 </div>
 </section>
