@@ -192,8 +192,13 @@
   }
   .appstore:hover{ transform:translateY(-1px); opacity:.88; }
   .appstore svg{width:26px;height:26px;flex-shrink:0;}
+  .download-options:has(> .playstore) .appstore svg{width:36px;height:36px;margin-inline:-5px;}
   .appstore .as-lines{display:flex;flex-direction:column;align-items:flex-start;line-height:1;}
   .appstore .as-small{font-size:10px; opacity:.85; letter-spacing:.04em; margin-bottom:3px;}
+  .download-options:has(> .playstore) .appstore .as-small:is([data-i18n="zh"], [data-i18n="zh-Hant"]){
+    font-size:10.5px;font-weight:500;line-height:10px;letter-spacing:-.15px;opacity:1;
+    position:relative;top:-1.5px;
+  }
   .appstore .as-big{font-size:19px; font-weight:500; letter-spacing:-.01em;}
   html[data-lang="zh"] .appstore{ font-family:var(--font-zh);}
   html[data-lang="zh-Hant"] .appstore{ font-family:var(--font-zh);}
@@ -673,8 +678,8 @@
           <path d="M17.5 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.6.9-.8 0-1.9-.8-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2-.1 1.7-.8 3.1-.8 1.4 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4zM15.2 5.7c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.7-1.3z"/>
         </svg>
         <span class="as-lines">
-          <span class="as-small" data-i18n="zh">在以下平台下载</span>
-          <span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
+          <span class="as-small" data-i18n="zh">去商店下载</span>
+          <span class="as-small" data-i18n="zh-Hant">立即下載</span>
           <span class="as-small" data-i18n="en">Download on the</span>
           <span class="as-small" data-i18n="ja">ダウンロード</span>
           <span class="as-small" data-i18n="ko">다운로드</span>
@@ -1031,8 +1036,8 @@
           <path d="M17.5 12.6c0-2.3 1.9-3.4 2-3.5-1.1-1.6-2.8-1.8-3.4-1.8-1.4-.1-2.8.9-3.6.9-.8 0-1.9-.8-3.1-.8-1.6 0-3.1.9-3.9 2.4-1.7 2.9-.4 7.2 1.2 9.6.8 1.2 1.8 2.5 3 2.4 1.2-.1 1.7-.8 3.1-.8 1.4 0 1.9.8 3.1.8 1.3 0 2.1-1.2 2.9-2.4.9-1.4 1.3-2.7 1.3-2.8-.1 0-2.6-1-2.6-4zM15.2 5.7c.6-.8 1.1-1.9 1-3-.9 0-2.1.6-2.7 1.4-.6.7-1.1 1.8-1 2.9 1.1.1 2.1-.5 2.7-1.3z"/>
         </svg>
         <span class="as-lines">
-          <span class="as-small" data-i18n="zh">在以下平台下载</span>
-          <span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
+          <span class="as-small" data-i18n="zh">去商店下载</span>
+          <span class="as-small" data-i18n="zh-Hant">立即下載</span>
           <span class="as-small" data-i18n="en">Download on the</span>
           <span class="as-small" data-i18n="ja">ダウンロード</span>
           <span class="as-small" data-i18n="ko">다운로드</span>
