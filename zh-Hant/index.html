@@ -168,7 +168,20 @@
   }
 
   /* App Store badge */
-  .download-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px;}
+  .download-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:14px;}
+  .download-options:has(.playstore) .appstore, .playstore{
+    width:160px;height:48px;flex:0 0 auto;
+  }
+  .download-options:has(.playstore) .appstore{
+    justify-content:center;padding:0 8px;border-radius:7px;
+  }
+  .playstore{position:relative;overflow:hidden;}
+  /* Center the unmodified badge artwork inside the link. The English PNG has extra transparent side margins. */
+  .playstore img{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:100%;max-width:none;height:auto;
+  }
+  .playstore img[data-i18n="en"]{width:114.54%;}
   .download-note{flex:1 0 100%;color:var(--ink-2);font-size:14px;line-height:1.5;}
   .appstore{
     display:inline-flex; align-items:center; gap:10px;
@@ -667,15 +680,12 @@
 
 </span>
 </a>
-<a class="appstore" data-platform="android" href="https://play.google.com/store/apps/details?id=life.mememo.app">
-<span class="as-lines">
+<a class="playstore" data-platform="android" href="https://play.google.com/store/apps/details?id=life.mememo.app">
 
-<span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
-
+<img alt="在 Google Play 下載" data-i18n="zh-Hant" height="250" src="/badges/google-play-zh-Hant.png" width="646"/>
 
 
-<span class="as-big">Google Play</span>
-</span>
+
 </a>
 <div class="download-note">
 
@@ -1009,15 +1019,12 @@
 <span class="as-big">App Store</span>
 </span>
 </a>
-<a class="appstore" data-platform="android" href="https://play.google.com/store/apps/details?id=life.mememo.app">
-<span class="as-lines">
+<a class="playstore" data-platform="android" href="https://play.google.com/store/apps/details?id=life.mememo.app">
 
-<span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
-
+<img alt="在 Google Play 下載" data-i18n="zh-Hant" height="250" src="/badges/google-play-zh-Hant.png" width="646"/>
 
 
-<span class="as-big">Google Play</span>
-</span>
+
 </a>
 <div class="download-note">
 

@@ -167,7 +167,20 @@
   }
 
   /* App Store badge */
-  .download-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:12px;}
+  .download-options{display:flex;flex-wrap:wrap;justify-content:center;align-items:stretch;gap:14px;}
+  .download-options:has(.playstore) .appstore, .playstore{
+    width:160px;height:48px;flex:0 0 auto;
+  }
+  .download-options:has(.playstore) .appstore{
+    justify-content:center;padding:0 8px;border-radius:7px;
+  }
+  .playstore{position:relative;overflow:hidden;}
+  /* Center the unmodified badge artwork inside the link. The English PNG has extra transparent side margins. */
+  .playstore img{
+    position:absolute;left:50%;top:50%;transform:translate(-50%,-50%);
+    width:100%;max-width:none;height:auto;
+  }
+  .playstore img[data-i18n="en"]{width:114.54%;}
   .download-note{flex:1 0 100%;color:var(--ink-2);font-size:14px;line-height:1.5;}
   .appstore{
     display:inline-flex; align-items:center; gap:10px;
@@ -672,15 +685,12 @@
           <span class="as-big" data-i18n="ko">App Store</span>
         </span>
       </a>
-      <a href="https://play.google.com/store/apps/details?id=life.mememo.app" class="appstore" data-platform="android">
-        <span class="as-lines">
-          <span class="as-small" data-i18n="zh">在以下平台下载</span>
-          <span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
-          <span class="as-small" data-i18n="en">Get it on</span>
-          <span class="as-small" data-i18n="ja">ダウンロード</span>
-          <span class="as-small" data-i18n="ko">다운로드</span>
-          <span class="as-big">Google Play</span>
-        </span>
+      <a href="https://play.google.com/store/apps/details?id=life.mememo.app" class="playstore" data-platform="android">
+        <img src="/badges/google-play-zh.png" width="646" height="250" alt="在 Google Play 下载" data-i18n="zh">
+        <img src="/badges/google-play-zh-Hant.png" width="646" height="250" alt="在 Google Play 下載" data-i18n="zh-Hant">
+        <img src="/badges/google-play-en.png" width="646" height="250" alt="Get it on Google Play" data-i18n="en">
+        <img src="/badges/google-play-ja.png" width="646" height="250" alt="Google Play でダウンロード" data-i18n="ja">
+        <img src="/badges/google-play-ko.png" width="646" height="250" alt="Google Play에서 다운로드" data-i18n="ko">
       </a>
       <div class="download-note">
         <span data-i18n="zh">中国大陆安卓版即将上线</span>
@@ -1029,15 +1039,12 @@
           <span class="as-big">App Store</span>
         </span>
       </a>
-      <a href="https://play.google.com/store/apps/details?id=life.mememo.app" class="appstore" data-platform="android">
-        <span class="as-lines">
-          <span class="as-small" data-i18n="zh">在以下平台下载</span>
-          <span class="as-small" data-i18n="zh-Hant">在以下平台下載</span>
-          <span class="as-small" data-i18n="en">Get it on</span>
-          <span class="as-small" data-i18n="ja">ダウンロード</span>
-          <span class="as-small" data-i18n="ko">다운로드</span>
-          <span class="as-big">Google Play</span>
-        </span>
+      <a href="https://play.google.com/store/apps/details?id=life.mememo.app" class="playstore" data-platform="android">
+        <img src="/badges/google-play-zh.png" width="646" height="250" alt="在 Google Play 下载" data-i18n="zh">
+        <img src="/badges/google-play-zh-Hant.png" width="646" height="250" alt="在 Google Play 下載" data-i18n="zh-Hant">
+        <img src="/badges/google-play-en.png" width="646" height="250" alt="Get it on Google Play" data-i18n="en">
+        <img src="/badges/google-play-ja.png" width="646" height="250" alt="Google Play でダウンロード" data-i18n="ja">
+        <img src="/badges/google-play-ko.png" width="646" height="250" alt="Google Play에서 다운로드" data-i18n="ko">
       </a>
       <div class="download-note">
         <span data-i18n="zh">中国大陆安卓版即将上线</span>
